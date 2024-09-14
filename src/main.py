@@ -10,9 +10,28 @@ from sqlalchemy.orm import Relationship, base, declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from components.MainWindow import MainWindow
+
+
+# ============ Entity table must import here ==============
+from database.models.service import Service
+from database.models.service_invoice import ServiceInvoice
+from database.models.invoice import Invoice
+from database.models.booking import Booking
+from database.models.customer  import Customer
+from database.models.room import Room
+from database.models.bed_type import BedType
+from database.models.bed_room import BedRoom
+
+from database.models.floor import Floor
+from database.models.review import Review
+from database.models.hotel import Hotel
+
+# ========================================================
+
 from database.orm import Session, bootstrap
-from database.user import User
+# from database.models.user import User
 from utils.constants import APP_NAME
+from utils.settings import DATABASE_SQLITE_FILE
 
 
 
@@ -20,40 +39,10 @@ from utils.constants import APP_NAME
 
 def main():
 
-    engine = create_engine("sqlite:///database.db", echo=True)
+    engine = create_engine(f"sqlite:///{DATABASE_SQLITE_FILE}", echo=True)
     # Require to import all class inheritance with Base class (declarative_base)
     # If not explicit engine will not create table for those class
     bootstrap(engine)
-
-    print( "=" * 30)
-    try:
-        with engine.begin() as conn:
-            result = conn.execute(
-                text(
-                    "SELECT * FROM users"
-                ),
-            )
-            results = result.fetchall()
-            print(f"Selected rows: {results}")
-    except Exception as e:
-        print(f"Unexpected error while fetching records: {e}")
-    print( "=" * 30)
-
-
-    try:
-        session= Session();
-        user = User(id = 1 , firstname = "KIEN", lastname = "KAI", email = "AS")
-        session.add(user)
-        session.commit()
-        session.close()
-    except :
-        print("ERROR")
-
-
-
-
-
-
 
     app = QApplication(sys.argv)
     app.setApplicationName(APP_NAME)

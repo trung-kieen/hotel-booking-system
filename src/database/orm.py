@@ -1,16 +1,11 @@
-# class DatabaseManager:
-#     def __init__(self ):
-#         filename = 'sqlite::///hotel.sql3'
 
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-Base = declarative_base()
-
 # Require entity class inheritance Base class to make table mapping to a table
-# from database.models import *
+Base = declarative_base()
 
 
 Session = sessionmaker()
