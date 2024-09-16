@@ -9,7 +9,12 @@ Author: Hoang Le Thuy Hoa
 class Review(Base):
     __tablename__ = "reviews"
     id = Column(Integer ,  primary_key= True)
-    # TODO
+    booking_id = Column(Integer, ForeignKey("bookings.id"))
+    date = Column(DateTime)
+    cont = Column(String(255))
+    rate = Column(Integer)
+
+    booking = relationship("Booking", backref=backref("reviews", uselist=False))
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
