@@ -10,8 +10,11 @@ Author: Dang Xuan Lam
 """
 class BedType(Base):
     __tablename__ = "bed_types"
-    id = Column(Integer ,  primary_key= True)
-    # TODO
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, nullable=False)
+    capacity = Column(Integer, nullable=False)
+    rooms = relationship("Room", secondary="bed_rooms", back_populates="bed_types")
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
