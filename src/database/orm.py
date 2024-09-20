@@ -18,12 +18,17 @@ def bootstrap(engine):
     https://stackoverflow.com/questions/51106264/how-do-i-split-an-sqlalchemy-declarative-model-into-modules
     """
     bind_engine(engine)
-    create_metadata(engine)
+    recreate_metadata(engine)
 
 
 
 def bind_engine(engine):
     Base.metadata.bind = engine
     Session.configure(bind=engine)
-def create_metadata( engine):
+def recreate_metadata( engine):
+    """
+    Override DDL change in database or create new one.
+    @See sqlalchemy.MetaData
+    """
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)

@@ -13,18 +13,7 @@ from components.MainWindow import MainWindow
 
 
 # ============ Entity table must import here ==============
-from database.models.service import Service
-from database.models.service_invoice import ServiceInvoice
-from database.models.invoice import Invoice
-from database.models.booking import Booking
-from database.models.customer  import Customer
-from database.models.room import Room
-from database.models.bed_type import BedType
-from database.models.bed_room import BedRoom
-
-from database.models.floor import Floor
-from database.models.review import Review
-from database.models.hotel import Hotel
+from database.models import *
 
 # ========================================================
 
