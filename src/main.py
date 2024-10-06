@@ -7,7 +7,7 @@ from components.app import App
 # ============ Entity table must import here ==============
 from database.models import *
 from database.orm import  bootstrap
-from fake_data import fake_data
+from database.fake_data import fake_data
 
 # from database.models.user import User
 from utils.settings import DATABASE_SQLITE_FILE
@@ -22,7 +22,8 @@ def main():
     # If not explicit engine will not create table for those class
     bootstrap(engine)
 
-    fake_data.fake(engine)
+    fake_data(engine)
+
     app = App(sys.argv)
     app.run()
 

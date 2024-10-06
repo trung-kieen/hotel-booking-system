@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 
 from faker.proxy import Faker
-from sqlalchemy.orm import create_session, Bundle, Session
+from sqlalchemy.orm import create_session, Session
 
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
@@ -22,7 +22,10 @@ gender = [Gender.FEMALE, Gender.MALE]
 _faker = Faker(["vi_VN"])
 
 
-def fake(engine):
+def fake_data(engine):
+    """
+    Generate mandatory static data and dump record
+    """
     global _session
     _session = create_session(bind=engine)
     _fake_hotel()
@@ -89,8 +92,8 @@ def _fake_room():
     for floor_id in range(1, 6):
         list_room = []
         beds_room = []
-        min_price = 500  # Minimum price
-        max_price = 2000  # Maximum price
+        min_price = 500
+        max_price = 2000
         for _ in range(1, 11):
             list_room.append(
                 Room(id=room_id, floor_id=floor_id, room_type=random.choice(room_types), is_locked=False,
@@ -110,20 +113,17 @@ def _fake_room():
 
 
 def _fake_hotel():
-    h = Hotel(id=_ID_HOTEL, name="Khach san cua tui va iem", address=_faker.address(), phone=_faker.phone_number())
+    h = Hotel(id=_ID_HOTEL, name="Grand Hôtel", address=_faker.address(), phone=_faker.phone_number())
     _session.add(h)
     _session.commit()
 
 
 def _fake_bed():
-    # Add bed types data
     bed = [BedType(id=1, name="Single Bed", capacity=1),
            BedType(id=2, name="Double Bed", capacity=2),
            BedType(id=3, name="King Bed", capacity=2),
            BedType(id=4, name="Queen Bed", capacity=2)]
 
-    # Add the objects to the session
     _session.add_all(bed)
 
-    # Commit the session to save the data to the database
     _session.commit()
