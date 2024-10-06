@@ -10,7 +10,7 @@ class Hotel(Base):
     __tablename__ = "hotels"
     id = Column(Integer ,  primary_key= True)
     name = Column(String(255))
-    addr = Column(String(255))
+    address = Column(String(255))
     phone = Column(String(255))
 
     def __repr__(self):
