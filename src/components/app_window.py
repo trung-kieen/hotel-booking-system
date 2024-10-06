@@ -9,6 +9,7 @@ class AppWindow(QMainWindow):
         self.ui = Ui_MainWindow()
 
         self.ui.setupUi(self)
+        self.setCentralWidget(self.ui.qwidgetContainer)
 
         # Stack window
         # TODO: Use constant for index value

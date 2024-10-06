@@ -1,6 +1,6 @@
 from utils.constants import APP_NAME
 import sys
-from components.main_window import AppWindow
+from components.app_window import AppWindow
 from PyQt5.QtWidgets import QApplication
 class App(QApplication):
     def __init__(self, *argv) -> None:
