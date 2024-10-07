@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="images">
+    <file>home-icon.png</file>
+    <file>services-icon.png</file>
+    <file>setting-icon.png</file>
+    <file>house-icon.png</file>
+    <file>guest-icon.png</file>
+    <file>daily-schedule-icon.png</file>
+    <file>hotel-logo.png</file>
+    <file>icons8-home-30.png</file>
+  </qresource>
+</RCC>
