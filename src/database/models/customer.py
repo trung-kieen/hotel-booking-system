@@ -9,13 +9,13 @@ from database.orm import Base
 
 
 class Gender(enum):
-    FEMALE = 0
-    MALE  = 1
+    FEMALE = "Female"
+    MALE  = "Male"
 
 
 class Customer(Base, AuditCreation):
     __tablename__ = "customers"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
 
     firstname = Column(String(80), nullable= False )
