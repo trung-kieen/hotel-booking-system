@@ -15,9 +15,21 @@ class Ui_CustomerScene(object):
     def setupUi(self, CustomerScene):
         CustomerScene.setObjectName("CustomerScene")
         CustomerScene.resize(800, 600)
-        self.label = QtWidgets.QLabel(CustomerScene)
-        self.label.setGeometry(QtCore.QRect(190, 180, 261, 51))
+        self.containerQwidget = QtWidgets.QWidget(CustomerScene)
+        self.containerQwidget.setGeometry(QtCore.QRect(0, 20, 781, 561))
+        self.containerQwidget.setObjectName("containerQwidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.containerQwidget)
         self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.pushButton_2 = QtWidgets.QPushButton(self.containerQwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.pushButton = QtWidgets.QPushButton(self.containerQwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout.addWidget(self.pushButton)
 
         self.retranslateUi(CustomerScene)
         QtCore.QMetaObject.connectSlotsByName(CustomerScene)
@@ -26,6 +38,8 @@ class Ui_CustomerScene(object):
         _translate = QtCore.QCoreApplication.translate
         CustomerScene.setWindowTitle(_translate("CustomerScene", "Hotel"))
         self.label.setText(_translate("CustomerScene", "This is customer scene load from separate file ui"))
+        self.pushButton_2.setText(_translate("CustomerScene", "PushButton"))
+        self.pushButton.setText(_translate("CustomerScene", "PushButton"))
 
 
 if __name__ == "__main__":

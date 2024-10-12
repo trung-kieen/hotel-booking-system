@@ -15,9 +15,15 @@ class Ui_ReservationScene(object):
     def setupUi(self, ReservationScene):
         ReservationScene.setObjectName("ReservationScene")
         ReservationScene.resize(800, 600)
-        self.label = QtWidgets.QLabel(ReservationScene)
-        self.label.setGeometry(QtCore.QRect(190, 180, 261, 51))
+        self.containerQwidget = QtWidgets.QWidget(ReservationScene)
+        self.containerQwidget.setGeometry(QtCore.QRect(0, 10, 791, 581))
+        self.containerQwidget.setObjectName("containerQwidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.containerQwidget)
         self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
 
         self.retranslateUi(ReservationScene)
         QtCore.QMetaObject.connectSlotsByName(ReservationScene)

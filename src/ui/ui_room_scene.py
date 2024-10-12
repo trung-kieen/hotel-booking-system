@@ -15,9 +15,18 @@ class Ui_RoomScene(object):
     def setupUi(self, RoomScene):
         RoomScene.setObjectName("RoomScene")
         RoomScene.resize(800, 600)
-        self.label = QtWidgets.QLabel(RoomScene)
-        self.label.setGeometry(QtCore.QRect(190, 180, 261, 51))
+        self.containerQwidget = QtWidgets.QWidget(RoomScene)
+        self.containerQwidget.setGeometry(QtCore.QRect(0, 10, 791, 581))
+        self.containerQwidget.setObjectName("containerQwidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.pushButton = QtWidgets.QPushButton(self.containerQwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout.addWidget(self.pushButton)
+        self.label = QtWidgets.QLabel(self.containerQwidget)
         self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
 
         self.retranslateUi(RoomScene)
         QtCore.QMetaObject.connectSlotsByName(RoomScene)
@@ -25,6 +34,7 @@ class Ui_RoomScene(object):
     def retranslateUi(self, RoomScene):
         _translate = QtCore.QCoreApplication.translate
         RoomScene.setWindowTitle(_translate("RoomScene", "Hotel"))
+        self.pushButton.setText(_translate("RoomScene", "PushButton"))
         self.label.setText(_translate("RoomScene", "This is room scene load from separate file ui"))
 
 

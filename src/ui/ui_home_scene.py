@@ -15,9 +15,15 @@ class Ui_HomeScene(object):
     def setupUi(self, HomeScene):
         HomeScene.setObjectName("HomeScene")
         HomeScene.resize(800, 600)
-        self.label = QtWidgets.QLabel(HomeScene)
-        self.label.setGeometry(QtCore.QRect(190, 180, 261, 51))
+        self.containerQwidget = QtWidgets.QWidget(HomeScene)
+        self.containerQwidget.setGeometry(QtCore.QRect(0, 0, 791, 591))
+        self.containerQwidget.setObjectName("containerQwidget")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.containerQwidget)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label = QtWidgets.QLabel(self.containerQwidget)
         self.label.setObjectName("label")
+        self.horizontalLayout_2.addWidget(self.label)
 
         self.retranslateUi(HomeScene)
         QtCore.QMetaObject.connectSlotsByName(HomeScene)
