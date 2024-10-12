@@ -4,6 +4,7 @@ Use to customize component style
 """
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
+import ui.resource.resource_rc
 
 from designer.style import STYLE
 from designer.style import  set_style
