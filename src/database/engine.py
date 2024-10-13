@@ -5,7 +5,7 @@ from utils.singleton import singleton
 @singleton
 class EngineHolder:
     def __init__(self) -> None:
-        self.engine = create_engine(f"sqlite:///{DATABASE_SQLITE_FILE}", echo=True)
+        self._engine = create_engine(f"sqlite:///{DATABASE_SQLITE_FILE}", echo=True)
 
     def get_engine(self):
-        return self.engine
+        return self._engine
