@@ -8,8 +8,12 @@ Author: Dang Xuan Lam
 """
 class BedRoom(Base):
     __tablename__ = "bed_rooms"
-    id = Column(Integer ,  primary_key= True)
-    # TODO
+
+    id = Column(Integer, primary_key=True)
+    bed_type_id = Column(Integer, ForeignKey("bed_types.id"))
+    room_id = Column(Integer, ForeignKey("rooms.id"))
+    bed_amount = Column(Integer, nullable=False, default=0)
+
 
     def __repr__(self):
         return f"{self.__class__.__name__}"

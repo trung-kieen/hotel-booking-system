@@ -11,9 +11,10 @@ class Review(Base):
     id = Column(Integer ,  primary_key= True)
     booking_id = Column(Integer, ForeignKey("bookings.id"))
     date = Column(DateTime)
-    cont = Column(String(255))
-    rate = Column(Integer)
+    content = Column(String(255))
+    rate = Column(Integer) # 1 -> 5
 
+    # One to one
     booking = relationship("Booking", backref=backref("reviews", uselist=False))
 
     def __repr__(self):

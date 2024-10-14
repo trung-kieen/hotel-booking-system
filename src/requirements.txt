@@ -1,3 +1,5 @@
-pyqt5
-sqlalchemy
+pyqt5~=5.15.11
+sqlalchemy~=2.0.35
 logger
+
+Faker~=30.1.0
