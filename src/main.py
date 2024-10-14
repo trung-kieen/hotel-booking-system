@@ -31,32 +31,10 @@ from database.orm import Session, bootstrap
 from utils.constants import APP_NAME
 from utils.settings import DATABASE_SQLITE_FILE
 
-from designer.customers_view import Ui_MainWindow
-from designer.customer_dialog import Ui_Dialog as UICustomerDialog
+from ui.ui_customers_view import Ui_MainWindow
+from ui.ui_customer_dialog import Ui_Dialog as UICustomerDialog
 
 should_insert = True
-
-# def insert_customers(engine):
-#     if not should_insert:
-#         return
-
-#     # Create a session to interact with the database
-#     Session = sessionmaker(bind=engine)
-#     session = Session()
-
-#     customers = [
-#         Customer(firstname="Le Thuy Hoa", lastname="Hoang", address="addr1", birth=datetime.date(2002, 11, 16), gender="FEMALE", phone="09464646464", email="abc@gmail.com"),
-#         Customer(firstname="Le Thuy Hoa1", lastname="Hoang", address="addr2", birth=datetime.date(2002, 11, 17), gender="MALE", phone="09464646464", email="qyt@gmail.com"),
-#         Customer(firstname="Le Thuy Hoa2", lastname="Hoang", address="addr3", birth=datetime.date(2002, 11, 18), gender="MALE", phone="09464646464", email="abc@gmail.com"),
-#         Customer(firstname="Le Thuy Hoa3", lastname="Hoang", address="addr4", birth=datetime.date(2002, 11, 19), gender="FEMALE", phone="09464646464", email="xyz@gmail.com"),
-#     ]
-#     # Add the object to the session
-#     for customer in customers:
-#         session.merge(customer)
-#     # Commit the transaction (inserts the row in the database)
-#     session.commit()
-#     # Close the session
-#     session.close()
 
 
 class AddCustomerDialog(QtWidgets.QDialog, UICustomerDialog):
