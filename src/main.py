@@ -26,6 +26,7 @@ def main():
     fake_data.fake(engine)
     app = App(sys.argv)
     app.run()
+    
 
 
 
