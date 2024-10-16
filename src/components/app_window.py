@@ -29,14 +29,6 @@ class AppWindow(QMainWindow):
         self._initUi()
         self._initEvent()
 
-        # self.scene = [HomeScene(), ServiceScene()]
-        # for w in self.scene:
-        #     self.ui.stackedWidget.addWidget(w)
-
-
-        buttons = []
-        # buttons.append( (self.ui.roomButton , RoomScene() )
-        # buttons.append( , (self.ui.reservationButton , ReservationScene() ) , self.ui.customerButton))
         self.stackContext = []
         self.ui.stackedWidget.addWidget( CustomerScene())
         self.ui.stackedWidget.addWidget( RoomScene())
@@ -47,17 +39,6 @@ class AppWindow(QMainWindow):
 
     def _initUi(self):
         self.setCentralWidget(self.ui.qwidgetContainer)
-        set_style(self, STYLE.PRIMARY_CONTAINER.value)
-        set_style(self.ui.stackedWidget, STYLE.SECONDARY_CONTAINER.value)
-        set_style(self.ui.qwidgetContainer, STYLE.PRIMARY_CONTAINER.value)
-
-        set_style(self.ui.leftNavQwidget, STYLE.SECONDARY_CONTAINER.value)
-
-
-        #TODO: Fix ui for button
-        set_style(self.ui.reservationButton, STYLE.BUTTON.value)
-        set_style(self.ui.customerButton, STYLE.BUTTON.value)
-        set_style(self.ui.roomButton, STYLE.BUTTON.value)
 
 
 
