@@ -39,7 +39,7 @@ class AppWindow(QMainWindow):
 
     def _initUi(self):
         self.setCentralWidget(self.ui.qwidgetContainer)
-
+    
 
 
     def _initEvent(self):
