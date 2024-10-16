@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/ui_reservation_scene.ui'
+# Form implementation generated from reading ui file 'ui/ui_booking_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
