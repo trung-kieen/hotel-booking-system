@@ -47,7 +47,7 @@ def _fake_booking():
                     [None, _faker.date_between(start_date=s_date, end_date=datetime.now()) if s_date < datetime.now() else None]),
                 num_adults=1,
                 num_children=1,
-                room_id=random.choice(range(1, 100)),
+                room_id=random.choice(range(1, 50)),
                 is_canceled=False
             )
         )

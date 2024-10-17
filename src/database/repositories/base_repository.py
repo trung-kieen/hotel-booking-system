@@ -31,6 +31,9 @@ class Repository(IRepository[T]):
             print(f"Item with primary key {primary_key_values} not found.")
 
     def get(self, _filters: list[Any] = []) -> T:
+        """ get object of type T base on filter (optional)
+         Example: Repository()[Customer].get(filter = [Customer.name = "didy"])
+         """
         query = self.session.query(self.__orig_class__.__args__[0])
 
         if _filters:
@@ -50,6 +53,9 @@ class Repository(IRepository[T]):
             self.update(item)
 
     def get_all(self, _filters: list[Any] = []) -> Iterable[T]:
+        """ get list object of type T base on filter (optional)
+            Example: Repository()[Customer].get(filter = [Customer.name = "didy"])
+         """
         query = self.session.query(self.__orig_class__.__args__[0])
 
         if _filters:
