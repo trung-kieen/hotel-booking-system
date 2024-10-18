@@ -208,8 +208,10 @@ def main():
     # If not explicit engine will not create table for those class
     bootstrap(engine)
 
-    app = QApplication(sys.argv)
-    app.setApplicationName(APP_NAME)
+    fake_data.fake(engine)
+    app = App(sys.argv)
+    app.run()
+    
 
     win = window(engine)
     win.setGeometry(0, 0, 800, 800)
