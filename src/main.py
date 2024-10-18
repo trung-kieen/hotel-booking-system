@@ -1,19 +1,30 @@
 import sys
+from fake_data import fake_data
+from PyQt5.QtCore import QAbstractEventDispatcher, QSettings
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QPushButton, QTableWidgetItem
+from sqlalchemy import Column, ForeignKey, Integer, String, except_, text
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Relationship, base, declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-from sqlalchemy import  create_engine
 
 from components.app import App
 
 # ============ Entity table must import here ==============
 from database.engine import EngineHolder
 from database.models import *
+from database.models.customer import Customer
+
 from database.orm import  bootstrap
-from fake_data import fake_data
 
 # from database.models.user import User
 from utils.settings import DATABASE_SQLITE_FILE
 
 # ========================================================
+
+from database.orm import Session, bootstrap
+# from database.models.user import User
 
 
 def main():
@@ -26,7 +37,7 @@ def main():
     fake_data.fake(engine)
     app = App(sys.argv)
     app.run()
-    
+
 
 
 

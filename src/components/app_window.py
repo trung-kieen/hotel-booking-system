@@ -6,9 +6,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 import ui.resource.resource_rc
 
+from ui.scene.customer.customer_scene import window  as  CustomerScene
 from designer.style import STYLE
 from designer.style import  set_style
-from ui.scene.customer.customer_scene import CustomerScene
 from ui.scene.booking.booking_scene import BookingScene
 from ui.scene.room.room_scene import RoomScene
 from ui.ui_main_window import Ui_MainWindow
@@ -39,7 +39,7 @@ class AppWindow(QMainWindow):
 
     def _initUi(self):
         self.setCentralWidget(self.ui.qwidgetContainer)
-    
+
 
 
     def _initEvent(self):
