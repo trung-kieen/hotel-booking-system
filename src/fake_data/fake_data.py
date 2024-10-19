@@ -95,13 +95,18 @@ def _fake_room():
             list_room.append(
                 Room(id=room_id, floor_id=floor_id, room_type=random.choice(room_types), is_locked=False,
                      price=random.randint(min_price, max_price)))
-            beds_room.append(
-                BedRoom(
-                    bed_type_id=random.choice([1, 2, 3, 4]),
-                    room_id=room_id,
-                    bed_amount=1
+            bed_type_options = [1, 2, 3, 4]
+            for _ in range (random.randint(1 ,2)):
+                choice_type = random.choice(bed_type_options)
+                beds_room.append(
+                    BedRoom(
+                        bed_type_id= choice_type,
+                        room_id=room_id,
+                        bed_amount=random.choice([ 1 , 2  ])
+                    )
+                # Remove to avoid unique constraint
                 )
-            )
+                bed_type_options = [ x  for x in bed_type_options if x != choice_type]
             room_id += 1
         _session.add_all(list_room)
         _session.commit()
