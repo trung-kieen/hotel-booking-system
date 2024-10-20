@@ -21,12 +21,27 @@ class Ui_RoomScene(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton = QtWidgets.QPushButton(self.containerQwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.headerLayout = QtWidgets.QHBoxLayout()
+        self.headerLayout.setObjectName("headerLayout")
         self.label = QtWidgets.QLabel(self.containerQwidget)
         self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
+        self.headerLayout.addWidget(self.label)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.headerLayout.addItem(spacerItem)
+        self.cmbRoomType = QtWidgets.QComboBox(self.containerQwidget)
+        self.cmbRoomType.setObjectName("cmbRoomType")
+        self.headerLayout.addWidget(self.cmbRoomType)
+        self.cmbFloor = QtWidgets.QComboBox(self.containerQwidget)
+        self.cmbFloor.setObjectName("cmbFloor")
+        self.headerLayout.addWidget(self.cmbFloor)
+        self.verticalLayout.addLayout(self.headerLayout)
+        self.tableView = QtWidgets.QTableView(self.containerQwidget)
+        self.tableView.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.tableView.setObjectName("tableView")
+        self.verticalLayout.addWidget(self.tableView)
+        self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.retranslateUi(RoomScene)
         QtCore.QMetaObject.connectSlotsByName(RoomScene)
@@ -34,8 +49,7 @@ class Ui_RoomScene(object):
     def retranslateUi(self, RoomScene):
         _translate = QtCore.QCoreApplication.translate
         RoomScene.setWindowTitle(_translate("RoomScene", "Hotel"))
-        self.pushButton.setText(_translate("RoomScene", "PushButton"))
-        self.label.setText(_translate("RoomScene", "This is room scene load from separate file ui"))
+        self.label.setText(_translate("RoomScene", "Room"))
 
 
 if __name__ == "__main__":

@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from sqlalchemy import create_engine
 
 from utils.settings import DATABASE_SQLITE_FILE
@@ -9,3 +12,8 @@ class EngineHolder:
 
     def get_engine(self):
         return self._engine
+
+
+def query_excute(statement,  engine =  EngineHolder().get_engine()):
+    # TODO
+    pass

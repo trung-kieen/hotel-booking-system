@@ -7,7 +7,7 @@ from database.orm import Base
 
 class Service(Base):
     __tablename__ = "services"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer ,  primary_key= True, autoincrement=True)
     name = Column( String(80),nullable= False )
     price = Column ( DECIMAL  ,  nullable= False , default= 0)
 

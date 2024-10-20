@@ -7,20 +7,26 @@ from database.orm import Base
 
 class Booking(Base, AuditCreation):
     __tablename__ = "bookings"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     customer_id = Column(Integer, ForeignKey("customers.id"))
+
     customer = relationship("Customer", backref="customers")
 
     start_date = Column(DateTime, nullable=False)
 
-    end_date = Column(DateTime, nullable=True)
+    checkin = Column(DateTime, nullable=True)
+
+    checkout = Column(DateTime, nullable=True)
+
+    end_date = Column(DateTime, nullable=False)
 
     num_adults = Column(Integer, default=0, nullable=False)
 
     num_children = Column(Integer, default=0, nullable=False)
 
     room_id = Column(Integer, ForeignKey("rooms.id"))
+
     room = relationship("Room", backref="rooms")
 
     is_canceled = Column(Boolean, default=False, nullable=False)

@@ -2,6 +2,7 @@ from operator import and_
 from typing import Iterable, Any
 
 from database.repositories.irepository import IRepository, T
+from utils.singleton import singleton
 
 
 class Repository(IRepository[T]):

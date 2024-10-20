@@ -5,7 +5,7 @@ from database.orm import Base
 
 class ServiceInvoice(Base):
     __tablename__ = "services_invoices"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer ,  primary_key= True, autoincrement=True, nullable=False)
     service_id  = Column(Integer , ForeignKey("services.id"))
     service = relationship("Service" , backref = "services")
 
