@@ -7,7 +7,7 @@ from database.orm import Base
 
 class Booking(Base, AuditCreation):
     __tablename__ = "bookings"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     customer_id = Column(Integer, ForeignKey("customers.id"))
 

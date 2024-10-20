@@ -7,7 +7,7 @@ from database.orm import Base
 
 class Invoice(Base, AuditCreation):
     __tablename__ = "invoices"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer ,  primary_key= True, autoincrement=True, nullable=False)
 
     total_price  = Column(DECIMAL(), nullable= False, default= 0 )
 

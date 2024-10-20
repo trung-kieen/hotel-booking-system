@@ -8,7 +8,7 @@ Author: Hoang Le Thuy Hoa
 """
 class Floor(Base):
     __tablename__ = "floors"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer ,  primary_key= True, autoincrement=True, nullable=False)
     hotel_id = Column(Integer, ForeignKey("hotels.id"))
 
     def __repr__(self):

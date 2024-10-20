@@ -13,7 +13,7 @@ class Gender(enum):
 
 class Customer(Base, AuditCreation):
     __tablename__ = "customers"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     firstname = Column(String(80), nullable=False)
 

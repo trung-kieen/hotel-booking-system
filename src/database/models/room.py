@@ -15,13 +15,15 @@ class RoomType(enum.Enum):
     Standard = 0
     Deluxe = 1
     Suit = 2
+
     def __str__(self):
         return self.name
+
 
 class Room(Base):
     __tablename__ = "rooms"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     floor_id = Column(Integer, ForeignKey("floors.id"), nullable=False)
     room_type = Column(Enum(RoomType), nullable=False)
     is_locked = Column(Integer, default=0, nullable=False)
@@ -31,4 +33,3 @@ class Room(Base):
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
-
