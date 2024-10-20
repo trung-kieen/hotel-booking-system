@@ -8,7 +8,7 @@ Author: Hoang Le Thuy Hoa
 """
 class Review(Base):
     __tablename__ = "reviews"
-    id = Column(Integer ,  primary_key= True)
+    id = Column(Integer ,  primary_key= True, autoincrement=True, nullable=False)
     booking_id = Column(Integer, ForeignKey("bookings.id"))
     date = Column(DateTime)
     content = Column(String(255))
