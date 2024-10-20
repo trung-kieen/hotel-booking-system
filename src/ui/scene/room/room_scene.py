@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QModelIndex, Qt
+from PyQt5.QtSql import QSqlQueryModel
 from qt_material import apply_stylesheet
-from database.models.floor import Floor
 from database.repositories.base_repository import Repository
+from utils.query import query_get_room_by_total_capacity
 from database.repositories.floor_repository import FloorRepository
 from database.table_model import adjust_size, fill_data
 from services.room_service import ComboboxFilter, floor_members,  query_condition_translator, room_type_members
@@ -14,11 +16,15 @@ class RoomScene( QtWidgets.QMainWindow ):
         self.ui = Ui_RoomScene()
         self.ui.setupUi(self)
 
+
         self.floor_cmb_items = ComboboxFilter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
         self.room_type_cmb_items= ComboboxFilter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
-        self.renderRoomTable()
+        self.cmb_filter_list = [self.floor_cmb_items , self.room_type_cmb_items]
+
         self._initUi()
-        floor = Repository[Floor]().get_all()
+        self.model : QSqlQueryModel
+        self.renderRoomTable()
+        self._apply_event()
 
 
     def _getRoomType(self):
@@ -27,6 +33,9 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _initUi(self):
+        def view_table_behavior():
+            self.ui.tableView.setSelectionMode(QtWidgets.QTableView.SingleSelection)
+            self.ui.tableView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
         def adjust_cmb (cmb):
             border_offset = 25
@@ -37,8 +46,7 @@ class RoomScene( QtWidgets.QMainWindow ):
 
         self.setCentralWidget(self.ui.containerQwidget )
 
-        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.renderRoomTable() )
-        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.renderRoomTable())
+        view_table_behavior()
 
         apply_theme(self.ui.tableView)
         apply_theme(self.ui.cmbRoomType)
@@ -47,61 +55,54 @@ class RoomScene( QtWidgets.QMainWindow ):
         adjust_cmb(self.ui.cmbFloor)
         adjust_cmb(self.ui.cmbRoomType)
 
+    def _apply_event(self):
+        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.renderRoomTable() )
+        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.renderRoomTable())
+        c = self.ui.tableView
+        self.ui.btnCreatBooking.clicked.connect(lambda: self._index_table())
+
+    def _index_table(self):
 
 
+        # column_headers = []
+        def model_header_index(header_name):
+            column_count = self.model.columnCount()
+            for column in range(column_count):
+                model = self.ui.tableView.model()
+                header = self.model.headerData(column, Qt.Horizontal)
+                if str(header).lower().strip() ==  header_name:
+                    return column
+            return -1
+        def get_room_id():
+            room_id_index  = model_header_index("room id")
+            selected_item: QModelIndex =  self.ui.tableView.currentIndex()
 
+            selected_row = selected_item.row()
+            selected_column = room_id_index
 
+            if selected_column == -1:
+                return None
+
+            room_id = self.model.data(self.model.index(selected_row, selected_column))
+            return room_id
+
+        print(get_room_id())
+
+            # TODO load dialog
 
 
     ## TODO: Refactor to service layer
 
 
     def renderRoomTable(self):
-        cmb_filter_list = [self.floor_cmb_items , self.room_type_cmb_items]
         conditions = [ ]
-        for cmb in cmb_filter_list:
+        for cmb in self.cmb_filter_list:
             conditions.append(cmb.query_condition())
-
         conditions_string  = query_condition_translator(*conditions)
         # TODO: Pagination
         PAGE_LIMIT_RESULT = 1000
 
-        query_get_room_by_total_capacity  = """
-SELECT
-  room_id AS 'room id',
-  SUM(capacity) as capacity,
-  floor_id as 'floor id',
-  is_locked as 'is locked',
-  price as 'PRICE',
-  room_type as 'room type'
-FROM
-  (
-    SELECT
-      A.id as room_id,
-      room_type,
-      floor_id,
-      is_locked,
-      price,
-      bed_type_id,
-      name,
-      (T.capacity * bed_amount) as capacity
-    FROM
-      (SELECT * FROM  rooms WHERE {0} LIMIT {1} )  AS A
-      INNER JOIN bed_rooms AS B
-      INNER JOIN bed_types AS T
-    WHERE
-      A.id = B.room_id
-      AND T.id = B.bed_type_id
-  )
-GROUP BY
-  room_id
-        """
 
         stmt = query_get_room_by_total_capacity.format(conditions_string, PAGE_LIMIT_RESULT)
-        # fill_data(sql_statement="SELECT  id || floor_id as 'Room' , room_type as 'Room Type', price   FROM rooms LIMIT 10", view=self.ui.tableView)
-        fill_data(sql_statement=stmt, view=self.ui.tableView)
+        self.model = fill_data(sql_statement=stmt, view=self.ui.tableView)
         adjust_size(self.ui.tableView)
-        # layout = QtWidgets.QVBoxLayout(self)
-        # label = QtWidgets.QLabel("Room Scene")
-        # label.setAlignment(QtCore.Qt.AlignCenter)
-        # layout.addWidget(label)

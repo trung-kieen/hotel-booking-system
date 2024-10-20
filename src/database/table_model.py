@@ -41,6 +41,7 @@ def fill_data( sql_statement: str ,view: QTableView):
     query_result = excute_query(sql_statement)
     model.setQuery(query_result)
     view.setModel(model)
+    return model
 
 def adjust_size(view : QTableView):
     header = view.horizontalHeader()

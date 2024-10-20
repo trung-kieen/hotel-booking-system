@@ -26,6 +26,16 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+       </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="headerLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -49,6 +59,16 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnCreatBooking">
+          <property name="text">
+           <string>Create booking</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbLockStatus"/>
         </item>
         <item>
          <widget class="QComboBox" name="cmbRoomType"/>

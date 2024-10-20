@@ -23,6 +23,11 @@ class Ui_RoomScene(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setContentsMargins(10, -1, -1, -1)
+        self.horizontalLayout_4.setSpacing(10)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.headerLayout = QtWidgets.QHBoxLayout()
         self.headerLayout.setObjectName("headerLayout")
         self.label = QtWidgets.QLabel(self.containerQwidget)
@@ -30,6 +35,12 @@ class Ui_RoomScene(object):
         self.headerLayout.addWidget(self.label)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.headerLayout.addItem(spacerItem)
+        self.btnCreatBooking = QtWidgets.QPushButton(self.containerQwidget)
+        self.btnCreatBooking.setObjectName("btnCreatBooking")
+        self.headerLayout.addWidget(self.btnCreatBooking)
+        self.cmbLockStatus = QtWidgets.QComboBox(self.containerQwidget)
+        self.cmbLockStatus.setObjectName("cmbLockStatus")
+        self.headerLayout.addWidget(self.cmbLockStatus)
         self.cmbRoomType = QtWidgets.QComboBox(self.containerQwidget)
         self.cmbRoomType.setObjectName("cmbRoomType")
         self.headerLayout.addWidget(self.cmbRoomType)
@@ -50,6 +61,7 @@ class Ui_RoomScene(object):
         _translate = QtCore.QCoreApplication.translate
         RoomScene.setWindowTitle(_translate("RoomScene", "Hotel"))
         self.label.setText(_translate("RoomScene", "Room"))
+        self.btnCreatBooking.setText(_translate("RoomScene", "Create booking"))
 
 
 if __name__ == "__main__":

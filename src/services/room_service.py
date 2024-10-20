@@ -40,7 +40,7 @@ class ComboboxFilter():
     Auto add items for default select `all_item_selection` like select all items exist
     Example:  Floor >: All, Floor 1, Floor 2, ...
     """
-    def __init__(self, combobox_members: Iterable[Tuple[Any , Any]],cmb :  QComboBox , field_name :str , all_view_value: str = "All") -> None:
+    def __init__(self, combobox_members: Iterable[Tuple[Any , Any]],cmb :  QComboBox , field_name :str , all_view_value = None) -> None:
         """
         field_name use for query condition
         """
