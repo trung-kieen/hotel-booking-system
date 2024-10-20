@@ -7,8 +7,8 @@ from database.orm import Base
 
 
 class Gender(enum):
-    FEMALE = 0
-    MALE = 1
+    FEMALE = "Female"
+    MALE  = "Male"
 
 
 class Customer(Base, AuditCreation):
