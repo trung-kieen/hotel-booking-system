@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CustomerDialog</class>
- <widget class="QDialog" name="CustomerDialog">
+ <class>FilterCustomerDialog</class>
+ <widget class="QDialog" name="FilterCustomerDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>250</y>
+     <y>240</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -40,54 +40,19 @@
    </property>
    <layout class="QFormLayout" name="formLayout_3">
     <item row="0" column="0">
-     <widget class="QLabel" name="firstNameLabel">
-      <property name="text">
-       <string>First Name</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="firstname"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="lastNameLabel">
-      <property name="text">
-       <string>Last Name</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lastname"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="addressLabel">
-      <property name="text">
-       <string>Address</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="address"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="birthLabel">
-      <property name="text">
-       <string>Birth</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDateEdit" name="birth"/>
-    </item>
-    <item row="4" column="0">
      <widget class="QLabel" name="genderLabel">
       <property name="text">
        <string>Gender</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="0" column="1">
      <widget class="QComboBox" name="gender">
+      <item>
+       <property name="text">
+        <string>None</string>
+       </property>
+      </item>
       <item>
        <property name="text">
         <string>Male</string>
@@ -100,26 +65,6 @@
       </item>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="phoneLabel">
-      <property name="text">
-       <string>Phone</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="phone"/>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="emailLabel">
-      <property name="text">
-       <string>Email</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLineEdit" name="email"/>
-    </item>
    </layout>
   </widget>
  </widget>
@@ -128,7 +73,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>CustomerDialog</receiver>
+   <receiver>FilterCustomerDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -144,7 +89,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>CustomerDialog</receiver>
+   <receiver>FilterCustomerDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

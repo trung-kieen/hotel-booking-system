@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QDesktopWidget, QMainWindow
 import sys
 import math
 
-from ui.scene.customer.customer_scene import window  as  CustomerScene
+from ui.scene.customer.customer_scene import CustomerScene
 from designer.style import STYLE
 from designer.style import  set_style
 from ui.scene.booking.booking_scene import BookingScene
