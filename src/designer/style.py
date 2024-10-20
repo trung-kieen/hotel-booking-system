@@ -3,9 +3,10 @@ Author: Nguyen Khac Trung Kien
 """
 from enum import Enum
 
+from PyQt5 import QtWidgets
 from PyQt5.QtGui import QColor, QPalette
-from PyQt5.QtWidgets import QWidget
-
+from PyQt5.QtWidgets import QTableView, QWidget
+from qt_material import apply_stylesheet
 
 class Color(Enum):
     SURFACE_BACKGROUND = QColor(248, 250, 252)
@@ -37,7 +38,7 @@ def set_widget_property(widget: QWidget, background=None, text_color=None, reset
     widget.setAutoFillBackground(True)
 
 
-def set_style_button(widget: QWidget, style):
+def set_style_button(widget: QWidget, style = None):
     widget.setStyleSheet("QPushButton {\n"
                          "                background-color: #007BFF;  /* Màu nền */\n"
                          "                color: white;                 /* Màu chữ */\n"
@@ -48,3 +49,20 @@ def set_style_button(widget: QWidget, style):
                          "            QPushButton:hover {\n"
                          "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
                          "            }")
+
+def apply_theme(widget):
+    apply_stylesheet(widget, theme='light_blue.xml', css_file='custom.css', extra={'font-size': '15px'})
+
+
+
+def adjust_cmb (cmb):
+    """
+    Add space for combox when apply material theme `apply_theme(widget)`
+    """
+    border_offset = 25
+    cmb.setFixedWidth(cmb.minimumSizeHint().width() + border_offset )
+
+def adjust_view_table(tableWidget: QTableView):
+    tableWidget.setSelectionMode(QtWidgets.QTableView.SingleSelection)
+    tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+    tableWidget.setStyleSheet("background-color: #FFFFFF");

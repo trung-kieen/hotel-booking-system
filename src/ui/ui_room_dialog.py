@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/room_dialog.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_room_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -14,39 +14,44 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(545, 296)
+        Dialog.resize(550, 449)
         self.layoutWidget = QtWidgets.QWidget(Dialog)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 20, 531, 271))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 20, 531, 411))
         self.layoutWidget.setObjectName("layoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.lbRoomId = QtWidgets.QLabel(self.layoutWidget)
+        self.lbRoomId.setObjectName("lbRoomId")
+        self.verticalLayout.addWidget(self.lbRoomId)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.label = QtWidgets.QLabel(self.layoutWidget)
         self.label.setObjectName("label")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.comboBox = QtWidgets.QComboBox(self.layoutWidget)
-        self.comboBox.setObjectName("comboBox")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.comboBox)
+        self.cmbFloor = QtWidgets.QComboBox(self.layoutWidget)
+        self.cmbFloor.setObjectName("cmbFloor")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.cmbFloor)
         self.label_2 = QtWidgets.QLabel(self.layoutWidget)
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
-        self.lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
-        self.lineEdit.setInputMask("")
-        self.lineEdit.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.lineEdit.setObjectName("lineEdit")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
+        self.txtPrice = QtWidgets.QLineEdit(self.layoutWidget)
+        self.txtPrice.setInputMask("")
+        self.txtPrice.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.txtPrice.setObjectName("txtPrice")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.txtPrice)
         self.label_3 = QtWidgets.QLabel(self.layoutWidget)
         self.label_3.setObjectName("label_3")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
-        self.comboBox_2 = QtWidgets.QComboBox(self.layoutWidget)
-        self.comboBox_2.setObjectName("comboBox_2")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.comboBox_2)
-        self.checkBox = QtWidgets.QCheckBox(self.layoutWidget)
-        self.checkBox.setObjectName("checkBox")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.checkBox)
+        self.cmbRoomType = QtWidgets.QComboBox(self.layoutWidget)
+        self.cmbRoomType.setObjectName("cmbRoomType")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.cmbRoomType)
+        self.ckLockRoom = QtWidgets.QCheckBox(self.layoutWidget)
+        self.ckLockRoom.setObjectName("ckLockRoom")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.ckLockRoom)
         self.verticalLayout.addLayout(self.formLayout)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.layoutWidget)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -61,11 +66,12 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.lbRoomId.setText(_translate("Dialog", "Room details"))
         self.label.setText(_translate("Dialog", "Floor"))
         self.label_2.setText(_translate("Dialog", "Price"))
-        self.lineEdit.setText(_translate("Dialog", "0"))
+        self.txtPrice.setText(_translate("Dialog", "0"))
         self.label_3.setText(_translate("Dialog", "Type"))
-        self.checkBox.setText(_translate("Dialog", "Lock"))
+        self.ckLockRoom.setText(_translate("Dialog", "Lock"))
 
 
 if __name__ == "__main__":

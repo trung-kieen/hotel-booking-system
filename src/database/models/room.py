@@ -1,7 +1,7 @@
 import enum
 
-from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import backref, defaultload, relationship
+from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey, Enum
 
 from database.models.audit import AuditCreation
 from database.orm import Base

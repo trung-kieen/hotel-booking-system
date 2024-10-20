@@ -5,22 +5,33 @@ from collections.abc import Iterable
 from typing import Any, Tuple
 
 from PyQt5.QtWidgets import QComboBox
+from sqlalchemy.orm import keyfunc_mapping
+from database.models.bed_type import BedType
 from database.models.floor import Floor
 from database.models.room import RoomType
+from database.orm import Session
 from database.repositories.base_repository import Repository
 
 
 
 
+def bed_types() -> list[BedType]:
+    bed_type  = Session().query(BedType).all()
+    return bed_type
 
-def floor_members() -> Iterable:
+
+
+
+
+
+def floor_members(prefix = "Floor ") -> Iterable:
     """
     Get floor key, view_value  from table to load into combobox
     Use to create `ComboboxFilter()`
     """
     floors = Repository[Floor]().get_all()
 
-    members = [(floor.id  , "Floor " + str(floor.id) ) for floor in floors ]
+    members = [(floor.id  , prefix + str(floor.id) ) for floor in floors ]
     return members
 def room_type_members() -> Iterable:
     """
@@ -32,9 +43,38 @@ def room_type_members() -> Iterable:
 
 
 
+class FormComboboxAdapter():
+    def __init__(self, combobox_members: Iterable[Tuple[Any , Any]],cmb :  QComboBox ) -> None:
+        self.combobox_members = combobox_members
+        self.combobox : QComboBox = cmb
+        self.set_items()
+    def set_items(self):
+        self.combobox.clear()
+        self.combobox.addItems(self._get_items_view())
+
+    def _get_items_view(self):
+        """
+        Return a list of view to display in combobox
+        Example: ["Floor 1", "Floor 2", "Floor 3"]
+        """
+        view =  [view_value for key , view_value in self.combobox_members]
+        return view
+    def set_by_key(self , key ):
+        key_idx = 0
+        for k , v in self.combobox_members:
+            if key ==  k:
+                break;
+            key_idx += 1
+        self.combobox.setCurrentIndex(key_idx)
 
 
-class ComboboxFilter():
+
+    def current_key(self):
+        for key , value in self.combobox_members:
+            if self.combobox.currentText() == value:
+                return key
+
+class ComboboxFilterAdapter():
     """
     Use to load selection for a property in table as combobox
     Auto add items for default select `all_item_selection` like select all items exist
@@ -50,9 +90,17 @@ class ComboboxFilter():
         self.all_view_value= all_view_value
         self.set_items()
     def _get_items_view(self):
-        return [self.all_view_value] + [view_value for key , view_value in self.combobox_members]
+        """
+        Return a list of view to display in combobox
+        Example: ["Floor 1", "Floor 2", "Floor 3"]
+        """
+        view =  [view_value for key , view_value in self.combobox_members]
+        if self.all_view_value:
+            view = [self.all_view_value ] + view
+        return view
     def set_items(self):
-       self.combobox.addItems(self._get_items_view())
+        self.combobox.clear()
+        self.combobox.addItems(self._get_items_view())
 
     def query_condition(self):
         key = self.current_key()

@@ -61,9 +61,15 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="btnCreatBooking">
+         <widget class="QPushButton" name="btnAddRoom">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
-           <string>Create booking</string>
+           <string>Add Room</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

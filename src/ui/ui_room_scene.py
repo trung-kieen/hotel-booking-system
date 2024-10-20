@@ -35,9 +35,11 @@ class Ui_RoomScene(object):
         self.headerLayout.addWidget(self.label)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.headerLayout.addItem(spacerItem)
-        self.btnCreatBooking = QtWidgets.QPushButton(self.containerQwidget)
-        self.btnCreatBooking.setObjectName("btnCreatBooking")
-        self.headerLayout.addWidget(self.btnCreatBooking)
+        self.btnAddRoom = QtWidgets.QPushButton(self.containerQwidget)
+        self.btnAddRoom.setStyleSheet("")
+        self.btnAddRoom.setFlat(True)
+        self.btnAddRoom.setObjectName("btnAddRoom")
+        self.headerLayout.addWidget(self.btnAddRoom)
         self.cmbLockStatus = QtWidgets.QComboBox(self.containerQwidget)
         self.cmbLockStatus.setObjectName("cmbLockStatus")
         self.headerLayout.addWidget(self.cmbLockStatus)
@@ -61,7 +63,7 @@ class Ui_RoomScene(object):
         _translate = QtCore.QCoreApplication.translate
         RoomScene.setWindowTitle(_translate("RoomScene", "Hotel"))
         self.label.setText(_translate("RoomScene", "Room"))
-        self.btnCreatBooking.setText(_translate("RoomScene", "Create booking"))
+        self.btnAddRoom.setText(_translate("RoomScene", "Add Room"))
 
 
 if __name__ == "__main__":

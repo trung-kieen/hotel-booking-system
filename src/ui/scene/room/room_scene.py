@@ -3,10 +3,12 @@ from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtSql import QSqlQueryModel
 from qt_material import apply_stylesheet
 from database.repositories.base_repository import Repository
+from designer.style import adjust_cmb, apply_theme, adjust_view_table, set_style_button
+from ui.scene.room.room_dialog import RoomDialog
 from utils.query import query_get_room_by_total_capacity
 from database.repositories.floor_repository import FloorRepository
 from database.table_model import adjust_size, fill_data
-from services.room_service import ComboboxFilter, floor_members,  query_condition_translator, room_type_members
+from services.room_service import ComboboxFilterAdapter, floor_members,  query_condition_translator, room_type_members
 from ui.ui_room_scene import Ui_RoomScene
 
 
@@ -17,14 +19,15 @@ class RoomScene( QtWidgets.QMainWindow ):
         self.ui.setupUi(self)
 
 
-        self.floor_cmb_items = ComboboxFilter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
-        self.room_type_cmb_items= ComboboxFilter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
+        self.floor_cmb_items = ComboboxFilterAdapter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
+        self.room_type_cmb_items= ComboboxFilterAdapter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
         self.cmb_filter_list = [self.floor_cmb_items , self.room_type_cmb_items]
 
         self._initUi()
         self.model : QSqlQueryModel
         self.renderRoomTable()
-        self._apply_event()
+        self._register_event()
+
 
 
     def _getRoomType(self):
@@ -33,39 +36,53 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _initUi(self):
-        def view_table_behavior():
-            self.ui.tableView.setSelectionMode(QtWidgets.QTableView.SingleSelection)
-            self.ui.tableView.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
 
-        def adjust_cmb (cmb):
-            border_offset = 25
-            cmb.setFixedWidth(cmb.minimumSizeHint().width() + border_offset )
 
-        def apply_theme(widget):
-            apply_stylesheet(widget, theme='light_blue.xml', css_file='custom.css', extra={'font-size': '15px'})
 
         self.setCentralWidget(self.ui.containerQwidget )
 
-        view_table_behavior()
 
         apply_theme(self.ui.tableView)
         apply_theme(self.ui.cmbRoomType)
         apply_theme(self.ui.cmbFloor)
+        adjust_view_table(self.ui.tableView)
 
         adjust_cmb(self.ui.cmbFloor)
         adjust_cmb(self.ui.cmbRoomType)
+        set_style_button(self.ui.btnAddRoom)
 
-    def _apply_event(self):
+    def _register_event(self):
         self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.renderRoomTable() )
         self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.renderRoomTable())
         c = self.ui.tableView
-        self.ui.btnCreatBooking.clicked.connect(lambda: self._index_table())
+        self.ui.btnAddRoom.clicked.connect(lambda: self._editRoom())
 
-    def _index_table(self):
+
+    def _addRoom(self):
+
+        pass
+    def _editRoom(self):
+        room_id = self._room_id()
+        # Open to edit current room
+        dialog = RoomDialog(room_id)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            # Dialog was accepted, you can refresh your customer list or perform other actions
+            print("Customer added successfully.")
+        else:
+            print("Customer is not added!")
+
+    def _room_id (self):
 
 
         # column_headers = []
         def model_header_index(header_name):
+            """
+            Return index of header match header_name
+            Example:
+            Input: "room id"
+            Output: 1
+            Return -1 if notfound
+            """
             column_count = self.model.columnCount()
             for column in range(column_count):
                 model = self.ui.tableView.model()
@@ -73,7 +90,10 @@ class RoomScene( QtWidgets.QMainWindow ):
                 if str(header).lower().strip() ==  header_name:
                     return column
             return -1
-        def get_room_id():
+        def room_id_current_row():
+            """
+            Return room id of current selected row in QTableView
+            """
             room_id_index  = model_header_index("room id")
             selected_item: QModelIndex =  self.ui.tableView.currentIndex()
 
@@ -86,7 +106,9 @@ class RoomScene( QtWidgets.QMainWindow ):
             room_id = self.model.data(self.model.index(selected_row, selected_column))
             return room_id
 
-        print(get_room_id())
+        return room_id_current_row()
+
+
 
             # TODO load dialog
 
