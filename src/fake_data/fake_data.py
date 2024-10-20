@@ -48,7 +48,8 @@ def _fake_booking():
             s_date = _faker.date_this_year(before_today=False, after_today=True)
 
         # Đảm bảo là không bị hủy để xét trường hợp đã check-in
-        is_canceled = random.choice([False, True]) if b_id > (num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
+        is_canceled = random.choice([False, True]) if b_id > (
+                    num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
 
         if is_canceled:
             # Nếu booking bị hủy
@@ -68,27 +69,31 @@ def _fake_booking():
             )
         else:
             # Nếu booking không bị hủy
-            checkin_time = _faker.date_time_between_dates(
-                datetime_start=datetime(s_date.year, s_date.month, s_date.day, 0, 0),
-                datetime_end=datetime(s_date.year, s_date.month, s_date.day, 23, 59)
-            )
+            today = datetime.now().date()  # Lấy ngày giờ hiện tại (chỉ lấy phần ngày)
 
-            # Tạo thời gian checkout
-            stay_duration = random.randint(1, 10)  # Số ngày lưu trú ngẫu nhiên
-            end_date = checkin_time + timedelta(days=stay_duration)  # Ngày kết thúc của booking
-
-            # Kiểm tra ngày hiện tại
-            today = datetime.now()  # Lấy ngày giờ hiện tại
-
-            if today < datetime.combine(s_date, datetime.min.time()):  # Nếu vẫn trong tương lai
-                checkout_time = None  # Không có checkout
-            elif datetime.combine(s_date, datetime.min.time()) <= today <= end_date:  # Nếu đã check-in
-                checkout_time = None  # Không có checkout
-            else:  # Nếu đã hết hạn
-                checkout_time = _faker.date_time_between_dates(
-                    datetime_start=datetime(end_date.year, end_date.month, end_date.day, 8, 0),
-                    datetime_end=datetime(end_date.year, end_date.month, end_date.day, 12, 0)
+            if s_date > today:
+                # Nếu ngày bắt đầu trong tương lai, thì chưa check-in
+                checkin_time = None
+                checkout_time = None
+                end_date = s_date  # Ngày kết thúc bằng ngày bắt đầu
+            else:
+                # Nếu booking không bị hủy và đã xảy ra hoặc đang diễn ra
+                checkin_time = _faker.date_time_between_dates(
+                    datetime_start=datetime(s_date.year, s_date.month, s_date.day, 0, 0),
+                    datetime_end=datetime(s_date.year, s_date.month, s_date.day, 23, 59)
                 )
+
+                # Tạo thời gian checkout
+                stay_duration = random.randint(1, 10)  # Số ngày lưu trú ngẫu nhiên
+                end_date = checkin_time + timedelta(days=stay_duration)  # Ngày kết thúc của booking
+
+                if today <= end_date.date():  # Khách vẫn ở hoặc vừa check-out
+                    checkout_time = None  # Không có checkout nếu khách vẫn ở
+                else:
+                    checkout_time = _faker.date_time_between_dates(
+                        datetime_start=datetime(end_date.year, end_date.month, end_date.day, 8, 0),
+                        datetime_end=datetime(end_date.year, end_date.month, end_date.day, 12, 0)
+                    )
 
             # Thêm thông tin đặt phòng vào danh sách
             l_b.append(
@@ -98,7 +103,7 @@ def _fake_booking():
                     start_date=s_date,  # Lưu ngày bắt đầu
                     checkin=checkin_time,
                     checkout=checkout_time,  # Có thể là None nếu khách vẫn ở
-                    end_date=end_date.date(),  # Ngày kết thúc
+                    end_date=end_date,  # Ngày kết thúc
                     num_adults=random.randint(1, 3),  # Số lượng người lớn ngẫu nhiên
                     num_children=random.randint(0, 2),  # Số lượng trẻ em ngẫu nhiên
                     room_id=random.choice(range(1, 50)),
@@ -109,6 +114,7 @@ def _fake_booking():
     # Lưu vào session và commit
     _session.add_all(l_b)
     _session.commit()
+
 
 def _generate_unique_cccd(existing_cccds):
     while True:
