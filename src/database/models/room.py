@@ -32,4 +32,7 @@ class Room(Base):
     bookings = relationship("Booking", back_populates="room")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"floor_id={self.floor_id}, room_type='{self.room_type}', "
+                f"is_locked={self.is_locked}, price={self.price})>")
+

@@ -37,4 +37,10 @@ class Booking(Base, AuditCreation):
         {})
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"customer_id={self.customer_id}, start_date={self.start_date}, "
+                f"checkin={self.checkin}, checkout={self.checkout}, "
+                f"end_date={self.end_date}, num_adults={self.num_adults}, "
+                f"num_children={self.num_children}, room_id={self.room_id}, "
+                f"is_canceled={self.is_canceled})>")
+

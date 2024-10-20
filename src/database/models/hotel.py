@@ -14,4 +14,5 @@ class Hotel(Base):
     phone = Column(String(255))
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return f"<{self.__class__.__name__}(id={self.id}, name='{self.name}', address='{self.address}', phone='{self.phone}')>"
+

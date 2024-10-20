@@ -17,4 +17,6 @@ class BedType(Base):
     rooms = relationship("Room", secondary="bed_rooms", back_populates="bed_types")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"name='{self.name}', capacity={self.capacity})>")
+
