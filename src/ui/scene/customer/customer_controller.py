@@ -2,14 +2,16 @@ from database.models.customer import Customer
 from database.repositories.base_repository import Repository
 from utils.singleton import singleton
 
+from sqlalchemy import or_
+
 
 @singleton
 class CustomerController:
     def __init__(self):
         self.customers = []
         
-    # def add_customer(self, customer):
-    #     pass
+    def add_customer(self, customer):
+        return Repository[Customer]().insert(customer)
 
     def delete_customer(self, customer_id):
         repository = Repository[Customer]()
@@ -24,15 +26,16 @@ class CustomerController:
         finally:
             session.close()  # Always close the session
 
-    # def get_detail_customers(self):
-    #     pass
-    # def filter_customers(self, customers):
-    #     pass
-
-    def search_customers_by_last_name(self, lastname):
+    def search_customers_by_firstname_or_lastname(self, name):
         repository = Repository[Customer]()
         session = repository.session
-        customers = session.query(Customer).filter(Customer.lastname.ilike(f'%{lastname}%')).all()
+        customers = session.query(Customer).filter(
+            or_(
+                Customer.firstname.ilike(f'%{name}%'),
+                Customer.lastname.ilike(f'%{name}%')
+            )
+        ).all()
+
         return customers
 
     def update_customer(self, customer):
