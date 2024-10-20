@@ -15,7 +15,8 @@ class RoomType(enum.Enum):
     Standard = 0
     Deluxe = 1
     Suit = 2
-
+    def __str__(self):
+        return self.name
 
 class Room(Base):
     __tablename__ = "rooms"
