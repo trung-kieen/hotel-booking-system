@@ -8,8 +8,9 @@ class App(QApplication):
         self.setApplicationName(APP_NAME)
 
         self.window = AppWindow()
-        self.window.maximumSize()
-
+        screen_geometry = self.primaryScreen().availableGeometry()  
+        self.window.setGeometry(screen_geometry)
+        
     def run(self):
         self.window.show()
         sys.exit(self.exec_())
