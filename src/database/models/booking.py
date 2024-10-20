@@ -1,8 +1,15 @@
-from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey
+import enum
+
+from sqlalchemy import Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import Relationship, backref, defaultload, relationship
 
 from database.models.audit import AuditCreation
 from database.orm import Base
+
+
+class BookingType(enum.Enum):
+    HOURLY = "Hourly"
+    DAILY = "Daily"
 
 
 class Booking(Base, AuditCreation):
@@ -31,6 +38,8 @@ class Booking(Base, AuditCreation):
 
     is_canceled = Column(Boolean, default=False, nullable=False)
 
+    booking_type = Column(Enum(BookingType), nullable=False, default=BookingType.DAILY)
+
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
         CheckConstraint(num_adults >= 0, name='CK_num_adults_positive'),
@@ -43,4 +52,3 @@ class Booking(Base, AuditCreation):
                 f"end_date={self.end_date}, num_adults={self.num_adults}, "
                 f"num_children={self.num_children}, room_id={self.room_id}, "
                 f"is_canceled={self.is_canceled})>")
-
