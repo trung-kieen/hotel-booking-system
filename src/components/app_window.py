@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 import ui.resource.resource_rc
 
-from ui.scene.customer.customer_scene import window  as  CustomerScene
+from ui.scene.customer.customer_scene import CustomerScene
 from designer.style import STYLE
 from designer.style import  set_style
 from ui.scene.booking.booking_scene import BookingScene

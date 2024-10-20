@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="images">
+    <file>dropdown.png</file>
+    <file>dot vertical.png</file>
+    <file>search.png</file>
     <file>home-icon.png</file>
     <file>services-icon.png</file>
     <file>setting-icon.png</file>
