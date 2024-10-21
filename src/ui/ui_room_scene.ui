@@ -74,6 +74,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="btnEditRoom">
+          <property name="text">
+           <string>Edit Room</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QComboBox" name="cmbLockStatus"/>
         </item>
         <item>

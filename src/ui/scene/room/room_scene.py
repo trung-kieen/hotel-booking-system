@@ -19,13 +19,13 @@ class RoomScene( QtWidgets.QMainWindow ):
         self.ui.setupUi(self)
 
 
-        self.floor_cmb_items = ComboboxFilterAdapter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
-        self.room_type_cmb_items= ComboboxFilterAdapter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
-        self.cmb_filter_list = [self.floor_cmb_items , self.room_type_cmb_items]
+        self.floor_cmb_filter = ComboboxFilterAdapter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
+        self.room_type_cmb_filter= ComboboxFilterAdapter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
+        self.cmb_filter_list = [self.floor_cmb_filter , self.room_type_cmb_filter]
 
         self._initUi()
         self.model : QSqlQueryModel
-        self.renderRoomTable()
+        self.refreshRoomTable()
         self._register_event()
 
 
@@ -36,9 +36,6 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _initUi(self):
-
-
-
         self.setCentralWidget(self.ui.containerQwidget )
 
 
@@ -46,35 +43,45 @@ class RoomScene( QtWidgets.QMainWindow ):
         apply_theme(self.ui.cmbRoomType)
         apply_theme(self.ui.cmbFloor)
         adjust_view_table(self.ui.tableView)
-
         adjust_cmb(self.ui.cmbFloor)
         adjust_cmb(self.ui.cmbRoomType)
         set_style_button(self.ui.btnAddRoom)
 
     def _register_event(self):
-        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.renderRoomTable() )
-        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.renderRoomTable())
-        c = self.ui.tableView
-        self.ui.btnAddRoom.clicked.connect(lambda: self._editRoom())
+        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.refreshRoomTable() )
+        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.refreshRoomTable())
+        self.ui.btnEditRoom.clicked.connect(lambda: self._openEditRoomDialog())
+        self.ui.btnAddRoom.clicked.connect(lambda: self._openAddRoomDialog())
 
 
-    def _addRoom(self):
 
-        pass
-    def _editRoom(self):
-        room_id = self._room_id()
-        # Open to edit current room
-        dialog = RoomDialog(room_id)
+    def _openAddRoomDialog(self):
+        dialog = RoomDialog()
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.renderRoomTable()
+            self.refreshRoomTable()
             # Dialog was accepted, you can refresh your customer list or perform other actions
             print("Customer added successfully.")
         else:
             print("Customer is not added!")
 
-    def _room_id (self):
 
 
+        pass
+    def _openEditRoomDialog(self):
+        room_id = self._selected_room_id()
+        if not self._selected_room_id():
+            # TODO: use msg box or diable button
+            print("Please select room to edit")
+        # Open to edit current room
+        dialog = RoomDialog(room_id)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self.refreshRoomTable()
+            # Dialog was accepted, you can refresh your customer list or perform other actions
+            print("Customer edited successfully.")
+        else:
+            print("Customer is not edited!")
+
+    def _selected_room_id (self):
         # column_headers = []
         def model_header_index(header_name):
             """
@@ -111,13 +118,12 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
 
-            # TODO load dialog
 
 
     ## TODO: Refactor to service layer
 
 
-    def renderRoomTable(self):
+    def refreshRoomTable(self):
         conditions = [ ]
         for cmb in self.cmb_filter_list:
             conditions.append(cmb.query_condition())

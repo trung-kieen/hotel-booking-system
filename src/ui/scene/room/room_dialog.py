@@ -27,30 +27,33 @@ class FormAction (Enum):
 class RoomDialog( QDialog):
     def __init__(self, room_id  = None ):
         super().__init__()
-        # QMainWindow().__init__()
+        self.room_id = room_id
+
+
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.floor_cmb= FormComboboxAdapter(floor_members( prefix= "") , self.ui.cmbFloor  )
         self.room_type_cmb = FormComboboxAdapter(room_type_members() , self.ui.cmbRoomType)
-        self.room_id = room_id
+
+        # Model
         self.room:  Room
         self.form_action = FormAction.EDIT  if room_id  else FormAction.ADD
-        # self.buttonBox.accepted.connect(self.add_customer) # type: ignore
-        self.ui.buttonBox.accepted.connect(self.add_room)
-        if self.form_action == FormAction.EDIT:
-            self.ui.lbRoomId.setText(f"Room #{room_id}")
-        else:
-            self.room = Room()
-            pass
-            # TODO: Create room model if ADD mod
 
-        self._load_room_by_room_id();
+        # TODO Handle to add and edit separate
+        if self.form_action == FormAction.ADD:
+            self.room = Room()
+            self.ui.buttonBox.accepted.connect(self.add_room)
+        elif  self.form_action == FormAction.EDIT:
+            self._load_room(self.room_id)
+            self.ui.buttonBox.accepted.connect(self.update_room)
+            self.ui.lbRoomId.setText(f"Room #{room_id}")
+
 
 
 
         # Create an instance of ItemManager
         self.item_manager = ItemManager()
-        self.setLayout(self.ui.formLayout)
+        # self.setLayout(self.ui.formLayout)
         self.ui.formLayout.addWidget(self.item_manager)
 
             # Load room by id
@@ -61,12 +64,18 @@ class RoomDialog( QDialog):
         # Bing event save and save data for model
 
     def get_room_details(self)-> Room:
+        """
+        Get current input as room object from orm
+        """
         room_type = self.room_type_cmb.current_key()
         price = float(self.ui.txtPrice.text())
         floor_id = self.floor_cmb.current_key()
         is_locked = self.ui.ckLockRoom.isChecked()
         new_room =  Room(floor_id=floor_id, room_type=room_type, is_locked=is_locked,price=price)
         return new_room
+    def update_room(self):
+        # TODO
+        pass
     def add_room(self):
         session = Session()
         try:
@@ -76,6 +85,7 @@ class RoomDialog( QDialog):
             session.commit()
 
 
+
             for bed in self.item_manager.get_bed_details():
                 bed.room_id = new_room.id
                 session.add(bed)
@@ -83,23 +93,23 @@ class RoomDialog( QDialog):
             session.commit()
 
         except Exception as e:
-            session.rollback()  # Rollback in case of an error
-            print(f"An error occurred: {e}")
+            session.rollback()
+            print(f"Error occurred when try to add room and bed room: {e}")
 
         finally:
-            session.close()  # Close the session
+            session.close()
 
 
 
     def _load(self):
         if self.form_action  == FormAction.EDIT:
-            self._load_room_by_room_id()
-    def _load_room_by_room_id(self):
+            self._load_room(self.room_id)
+    def _load_room(self, room_id ):
         """
         Load from model in field in form
         Use when user want to edit a room
         """
-        if self.room_id:
+        if room_id:
             self.room = Session().query(Room).filter_by(id = self.room_id).one()
             self.floor_cmb.set_by_key(self.room.floor_id)
             self.room_type_cmb.set_by_key(self.room.room_type.name)

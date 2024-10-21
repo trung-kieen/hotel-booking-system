@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_customer_scene.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_customer_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -134,3 +134,13 @@ class Ui_CustomerScene(object):
         self.filter_btn.setText(_translate("CustomerScene", "Filter"))
         self.add_customer_btn.setText(_translate("CustomerScene", "Add New Customer"))
         self.filter_btn_2.setText(_translate("CustomerScene", "Customer Information"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    CustomerScene = QtWidgets.QWidget()
+    ui = Ui_CustomerScene()
+    ui.setupUi(CustomerScene)
+    CustomerScene.show()
+    sys.exit(app.exec_())

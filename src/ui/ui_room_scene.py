@@ -40,6 +40,9 @@ class Ui_RoomScene(object):
         self.btnAddRoom.setFlat(True)
         self.btnAddRoom.setObjectName("btnAddRoom")
         self.headerLayout.addWidget(self.btnAddRoom)
+        self.btnEditRoom = QtWidgets.QPushButton(self.containerQwidget)
+        self.btnEditRoom.setObjectName("btnEditRoom")
+        self.headerLayout.addWidget(self.btnEditRoom)
         self.cmbLockStatus = QtWidgets.QComboBox(self.containerQwidget)
         self.cmbLockStatus.setObjectName("cmbLockStatus")
         self.headerLayout.addWidget(self.cmbLockStatus)
@@ -64,6 +67,7 @@ class Ui_RoomScene(object):
         RoomScene.setWindowTitle(_translate("RoomScene", "Hotel"))
         self.label.setText(_translate("RoomScene", "Room"))
         self.btnAddRoom.setText(_translate("RoomScene", "Add Room"))
+        self.btnEditRoom.setText(_translate("RoomScene", "Edit Room"))
 
 
 if __name__ == "__main__":

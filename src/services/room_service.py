@@ -16,6 +16,10 @@ from database.repositories.base_repository import Repository
 
 
 def bed_types() -> list[BedType]:
+    """
+    Return list of all available bed type in database
+    """
+    # TODO: use service instead to close session with singleton service
     bed_type  = Session().query(BedType).all()
     return bed_type
 
@@ -45,6 +49,14 @@ def room_type_members() -> Iterable:
 
 class FormComboboxAdapter():
     def __init__(self, combobox_members: Iterable[Tuple[Any , Any]],cmb :  QComboBox ) -> None:
+        """
+        @combobox_members: list(key_value , view_value)
+        key_value is value which will actually interact with database
+        view_value is use to display information for human readable
+        For example:
+        Database room have room_type_id = key_value = 1 which reference to room_type.name = view_value = 'single'
+        @cmb: actual combobox item to display in gui
+        """
         self.combobox_members = combobox_members
         self.combobox : QComboBox = cmb
         self.set_items()
@@ -70,6 +82,9 @@ class FormComboboxAdapter():
 
 
     def current_key(self):
+        """
+        Current select key_value for database interaction
+        """
         for key , value in self.combobox_members:
             if self.combobox.currentText() == value:
                 return key
@@ -103,6 +118,13 @@ class ComboboxFilterAdapter():
         self.combobox.addItems(self._get_items_view())
 
     def query_condition(self):
+        """
+        Return a predicate to express user select filter
+        Example:
+        User select item have text room_type = 'single'
+        'single' is room_type.name for actually record of room_type_id = 1
+        => return fitler as {"room_type_id" : 1}
+        """
         key = self.current_key()
         if key != None:
             return {self.field_name :  key}

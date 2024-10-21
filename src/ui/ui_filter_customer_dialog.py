@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_filter_customer_dialog.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_filter_customer_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -48,3 +48,13 @@ class Ui_FilterCustomerDialog(object):
         self.gender.setItemText(0, _translate("FilterCustomerDialog", "None"))
         self.gender.setItemText(1, _translate("FilterCustomerDialog", "Male"))
         self.gender.setItemText(2, _translate("FilterCustomerDialog", "Female"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    FilterCustomerDialog = QtWidgets.QDialog()
+    ui = Ui_FilterCustomerDialog()
+    ui.setupUi(FilterCustomerDialog)
+    FilterCustomerDialog.show()
+    sys.exit(app.exec_())
