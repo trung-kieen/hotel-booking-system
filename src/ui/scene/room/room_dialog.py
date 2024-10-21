@@ -9,9 +9,12 @@ from PyQt5.QtWidgets import (
 from enum import Enum
 
 from sqlalchemy.sql.functions import grouping_sets
+from database.models import bed_type
+from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
 from database.models.room import Room, RoomType
 from database.orm import Session
+from database.repositories.base_repository import Repository
 from services.room_service import ComboboxFilterAdapter, FormComboboxAdapter, bed_types, floor_members, room_type_members
 from ui.ui_room_dialog import  Ui_Dialog
 from PyQt5 import QtCore, QtWidgets
@@ -32,6 +35,8 @@ class RoomDialog( QDialog):
         self.room_id = room_id
         self.room:  Room
         self.form_action = FormAction.EDIT  if room_id  else FormAction.ADD
+        # self.buttonBox.accepted.connect(self.add_customer) # type: ignore
+        self.ui.buttonBox.accepted.connect(self.add_room)
         if self.form_action == FormAction.EDIT:
             self.ui.lbRoomId.setText(f"Room #{room_id}")
         else:
@@ -47,7 +52,6 @@ class RoomDialog( QDialog):
         self.item_manager = ItemManager()
         self.setLayout(self.ui.formLayout)
         self.ui.formLayout.addWidget(self.item_manager)
-        # self.ui.groupBoxBed.addWidget(self.item_manager, self.ui.groupBoxBed)
 
             # Load room by id
             # Populate data into form
@@ -55,6 +59,36 @@ class RoomDialog( QDialog):
 
 
         # Bing event save and save data for model
+
+    def get_room_details(self)-> Room:
+        room_type = self.room_type_cmb.current_key()
+        price = float(self.ui.txtPrice.text())
+        floor_id = self.floor_cmb.current_key()
+        is_locked = self.ui.ckLockRoom.isChecked()
+        new_room =  Room(floor_id=floor_id, room_type=room_type, is_locked=is_locked,price=price)
+        return new_room
+    def add_room(self):
+        session = Session()
+        try:
+            new_room = self.get_room_details()
+            session.add(new_room)
+            # Need to persistence room before to get new room id
+            session.commit()
+
+
+            for bed in self.item_manager.get_bed_details():
+                bed.room_id = new_room.id
+                session.add(bed)
+
+            session.commit()
+
+        except Exception as e:
+            session.rollback()  # Rollback in case of an error
+            print(f"An error occurred: {e}")
+
+        finally:
+            session.close()  # Close the session
+
 
 
     def _load(self):
@@ -97,6 +131,13 @@ class ItemRow(QWidget):
         self.layout.addWidget(self.label)
         self.layout.addWidget(self.input)
         self.layout.addWidget(self.delete_button)
+    def get_bed_room_detail(self):
+        """
+        Return ( bed_type_name : bed_amount)
+        """
+        # TODO
+        return (self.label.text(),   int(self.input.text()))
+
 
     def validate_input(self):
         # Validate the input number is greater than 0
@@ -116,8 +157,10 @@ class ItemManager(QWidget):
 
         self.bed_types: List[BedType]= bed_types()
         self.bed_type_to_amount = bed_type_to_amount
+        self.lookup_bed_type_to_bed_type_id  =  { str(bed_type.name) : bed_type.id for  bed_type  in self.bed_types}
 
-        self.selected_items = []
+        self.selected_items : list[str] = []
+        self.selected_rows : list[ItemRow] = []
 
 
         self.layout = QVBoxLayout(self)
@@ -132,11 +175,25 @@ class ItemManager(QWidget):
         # Ensure at least one item exists at the start
         self._load_init_items()
 
+
+
+
+
+    def get_bed_details(self) -> list[BedRoom]:
+        """
+        Return a list of BedRoom not persistence to database
+        BedRoom not set room_id yet
+        """
+        bed_rooms= []
+        for item in self.selected_rows:
+            bed_type_name  , amount = item.get_bed_room_detail()
+            id  = self.lookup_bed_type_to_bed_type_id[bed_type_name]
+            bed_rooms.append(BedRoom(bed_type_id = id , bed_amount = amount))
+        return bed_rooms
     def _load_init_items(self):
         if self.bed_type_to_amount:
             for bed_type , amount in self.bed_type_to_amount:
                 self.add_item(bed_type , amount )
-
 
         else:
             self.add_item(self.bed_types[0].name)
@@ -159,6 +216,7 @@ class ItemManager(QWidget):
     def add_item(self, item , amount = 1):
         self.selected_items.append(item)
         item_row = ItemRow(item, lambda: self.remove_item(item_row), self)
+        self.selected_rows.append(item_row)
         self.layout.addWidget(item_row)
 
     def remove_item(self, item_widget):
@@ -167,6 +225,7 @@ class ItemManager(QWidget):
         if len(self.selected_items) > MINIMUM_BED_TYPE :
             item_widget.deleteLater()  # Properly delete the widget
             self.selected_items.remove(item_widget.label.text())  # Remove from selected items
+            self.selected_rows.remove(item_widget)
         else:
             QMessageBox.warning(self, "Warning", "At least one item must remain.")
 

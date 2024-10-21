@@ -66,6 +66,7 @@ class RoomScene( QtWidgets.QMainWindow ):
         # Open to edit current room
         dialog = RoomDialog(room_id)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            self.renderRoomTable()
             # Dialog was accepted, you can refresh your customer list or perform other actions
             print("Customer added successfully.")
         else:
