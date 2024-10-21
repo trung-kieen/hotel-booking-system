@@ -10,7 +10,12 @@ from utils.room_information import get_room_location, get_base_information
 
 
 class BookingDialog(QDialog):
-
+    """
+    Dialog for booking room
+    Args:
+        room_id: int
+        parent: QWidget
+    """
     def __init__(self, room_id=None, parent=None):
         super().__init__(parent)
         self.booking = None
