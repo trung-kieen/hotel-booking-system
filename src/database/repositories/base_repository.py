@@ -1,5 +1,6 @@
-from operator import and_
 from typing import Iterable, Any
+
+from sqlalchemy import and_
 
 from database.repositories.irepository import IRepository, T
 

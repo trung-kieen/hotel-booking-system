@@ -12,9 +12,9 @@ Author: Dang Xuan Lam
 
 
 class RoomType(enum.Enum):
-    Standard = 0
-    Deluxe = 1
-    Suit = 2
+    Standard = "Standard"
+    Deluxe = "Deluxe"
+    Suit = "Suit"
 
     def __str__(self):
         return self.name
