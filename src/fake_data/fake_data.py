@@ -63,7 +63,7 @@ def _fake_booking():
                     end_date=s_date,  # Ngày kết thúc là ngày bắt đầu
                     num_adults=random.randint(1, 3),  # Số lượng người lớn ngẫu nhiên
                     num_children=random.randint(0, 2),  # Số lượng trẻ em ngẫu nhiên
-                    room_id=random.choice(range(1, 50)),
+                    room_id=random.choice(range(1, 100)),
                     is_canceled=True  # Đánh dấu là bị hủy
                 )
             )
@@ -106,7 +106,7 @@ def _fake_booking():
                     end_date=end_date,  # Ngày kết thúc
                     num_adults=random.randint(1, 3),  # Số lượng người lớn ngẫu nhiên
                     num_children=random.randint(0, 2),  # Số lượng trẻ em ngẫu nhiên
-                    room_id=random.choice(range(1, 50)),
+                    room_id=random.choice(range(1, 100)),
                     is_canceled=False  # Đánh dấu là không bị hủy
                 )
             )
