@@ -49,7 +49,7 @@ def _fake_booking():
 
         # Đảm bảo là không bị hủy để xét trường hợp đã check-in
         is_canceled = random.choice([False, True]) if b_id > (
-                    num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
+                num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
 
         if is_canceled:
             # Nếu booking bị hủy
@@ -159,33 +159,43 @@ def _fake_customer():
 
 
 def _fake_floor():
-    _session.add_all([Floor(id=1, hotel_id=_ID_HOTEL),
-                      Floor(id=2, hotel_id=_ID_HOTEL),
-                      Floor(id=3, hotel_id=_ID_HOTEL),
-                      Floor(id=4, hotel_id=_ID_HOTEL),
-                      Floor(id=5, hotel_id=_ID_HOTEL)])
+    for floor_id in range(1, 11):
+        _session.add(Floor(id=floor_id, hotel_id=_ID_HOTEL))
     _session.commit()
 
 
 def _fake_room():
     room_id = 1
-    for floor_id in range(1, 6):
+    for floor_id in range(1, 11):
         list_room = []
         beds_room = []
+        # Các thông số cho giá tối thiểu và tối đa
         min_price = 500  # Minimum price
         max_price = 2000  # Maximum price
-        for _ in range(1, 11):
-            list_room.append(
-                Room(id=room_id, floor_id=floor_id, room_type=random.choice(room_types), is_locked=False,
-                     price=random.randint(min_price, max_price)))
-            beds_room.append(
-                BedRoom(
-                    bed_type_id=random.choice([1, 2, 3, 4]),
-                    room_id=room_id,
-                    bed_amount=1
+
+        for _ in range(1, 11):  # Tạo 10 phòng mỗi tầng
+            # Số lượng giường ngẫu nhiên (từ 1 đến 4)
+            num_beds = random.randint(1, 4)
+            # Chọn một loại phòng ngẫu nhiên
+            room_type = random.choice(room_types)
+            # Tính toán giá dựa trên loại phòng và số lượng giường
+            price = random.randint(min_price, max_price) * num_beds // 2
+
+            # Tạo phòng với các thuộc tính phù hợp
+            room = Room(id=room_id, floor_id=floor_id, room_type=room_type, is_locked=False, price=price)
+            list_room.append(room)
+
+            # Tạo giường cho phòng
+            for _ in range(num_beds):
+                beds_room.append(
+                    BedRoom(
+                        bed_type_id=random.choice([1, 2, 3, 4]),  # Chọn loại giường ngẫu nhiên
+                        room_id=room_id,
+                        bed_amount=1  # Mỗi giường chỉ tính 1
+                    )
                 )
-            )
             room_id += 1
+
         _session.add_all(list_room)
         _session.commit()
         _session.add_all(beds_room)
