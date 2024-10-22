@@ -12,9 +12,9 @@ Author: Dang Xuan Lam
 
 
 class RoomType(enum.Enum):
-    Standard = 0
-    Deluxe = 1
-    Suit = 2
+    Standard = "Standard"
+    Deluxe = "Deluxe"
+    Suit = "Suit"
 
     def __str__(self):
         return self.name
@@ -32,4 +32,7 @@ class Room(Base):
     bookings = relationship("Booking", back_populates="room")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"floor_id={self.floor_id}, room_type='{self.room_type}', "
+                f"is_locked={self.is_locked}, price={self.price})>")
+

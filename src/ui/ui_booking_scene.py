@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_booking_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -41,31 +40,25 @@ class Ui_ReservationScene(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.filter_btn = QtWidgets.QPushButton(self.widget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.filter_btn.sizePolicy().hasHeightForWidth())
-        self.filter_btn.setSizePolicy(sizePolicy)
         self.filter_btn.setStyleSheet("QPushButton {\n"
 "                background-color: #007BFF;  /* Màu nền */\n"
 "                color: white;                 /* Màu chữ */\n"
 "                border: none;                 /* Không viền */\n"
-"                border-radius: 15px;         /* Bo tròn góc */\n"
-"                padding: 10px 20px;          /* Khoảng cách bên trong */\n"
+"                border-radius: 10px;         /* Bo tròn góc */\n"
+"                padding: 5px 10px;          /* Khoảng cách bên trong */\n"
 "            }\n"
 "            QPushButton:hover {\n"
 "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
 "            }")
-        self.filter_btn.setFlat(True)
         self.filter_btn.setObjectName("filter_btn")
-        self.horizontalLayout_3.addWidget(self.filter_btn, 0, QtCore.Qt.AlignVCenter)
+        self.horizontalLayout_3.addWidget(self.filter_btn)
         self.add_booking_btn = QtWidgets.QPushButton(self.widget_2)
         self.add_booking_btn.setStyleSheet("QPushButton {\n"
 "                background-color: #007BFF;  /* Màu nền */\n"
 "                color: white;                 /* Màu chữ */\n"
 "                border: none;                 /* Không viền */\n"
-"                border-radius: 15px;         /* Bo tròn góc */\n"
-"                padding: 10px 20px;          /* Khoảng cách bên trong */\n"
+"                border-radius: 10px;         /* Bo tròn góc */\n"
+"                padding: 5px 10px;          /* Khoảng cách bên trong */\n"
 "            }\n"
 "            QPushButton:hover {\n"
 "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
@@ -73,6 +66,20 @@ class Ui_ReservationScene(object):
         self.add_booking_btn.setFlat(True)
         self.add_booking_btn.setObjectName("add_booking_btn")
         self.horizontalLayout_3.addWidget(self.add_booking_btn)
+        self.refresh_btn = QtWidgets.QPushButton(self.widget_2)
+        self.refresh_btn.setStyleSheet("QPushButton {\n"
+"                background-color: #007BFF;  /* Màu nền */\n"
+"                color: white;                 /* Màu chữ */\n"
+"                border: none;                 /* Không viền */\n"
+"                border-radius: 10px;         /* Bo tròn góc */\n"
+"                padding: 5px 10px;          /* Khoảng cách bên trong */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
+"            }")
+        self.refresh_btn.setFlat(True)
+        self.refresh_btn.setObjectName("refresh_btn")
+        self.horizontalLayout_3.addWidget(self.refresh_btn)
         self.verticalLayout_2.addWidget(self.widget_2)
         self.booking_data_table = QtWidgets.QTableView(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -80,6 +87,9 @@ class Ui_ReservationScene(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.booking_data_table.sizePolicy().hasHeightForWidth())
         self.booking_data_table.setSizePolicy(sizePolicy)
+        self.booking_data_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.booking_data_table.setShowGrid(False)
+        self.booking_data_table.setSortingEnabled(True)
         self.booking_data_table.setObjectName("booking_data_table")
         self.booking_data_table.horizontalHeader().setCascadingSectionResizes(False)
         self.booking_data_table.verticalHeader().setCascadingSectionResizes(False)
@@ -96,7 +106,7 @@ class Ui_ReservationScene(object):
         ReservationScene.setWindowTitle(_translate("ReservationScene", "Hotel"))
         self.filter_btn.setText(_translate("ReservationScene", "Filter"))
         self.add_booking_btn.setText(_translate("ReservationScene", "Create New Booking"))
-
+        self.refresh_btn.setText(_translate("ReservationScene", "↻"))
 
 if __name__ == "__main__":
     import sys

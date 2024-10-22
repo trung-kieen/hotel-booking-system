@@ -12,4 +12,5 @@ class Floor(Base):
     hotel_id = Column(Integer, ForeignKey("hotels.id"))
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return f"<{self.__class__.__name__}(id={self.id}, hotel_id={self.hotel_id})>"
+

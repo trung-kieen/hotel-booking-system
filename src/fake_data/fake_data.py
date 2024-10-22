@@ -48,7 +48,8 @@ def _fake_booking():
             s_date = _faker.date_this_year(before_today=False, after_today=True)
 
         # Đảm bảo là không bị hủy để xét trường hợp đã check-in
-        is_canceled = random.choice([False, True]) if b_id > (num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
+        is_canceled = random.choice([False, True]) if b_id > (
+                num_bookings - num_future_bookings) else False  # Đặt trước không bị hủy
 
         if is_canceled:
             # Nếu booking bị hủy
@@ -62,33 +63,37 @@ def _fake_booking():
                     end_date=s_date,  # Ngày kết thúc là ngày bắt đầu
                     num_adults=random.randint(1, 3),  # Số lượng người lớn ngẫu nhiên
                     num_children=random.randint(0, 2),  # Số lượng trẻ em ngẫu nhiên
-                    room_id=random.choice(range(1, 50)),
+                    room_id=random.choice(range(1, 100)),
                     is_canceled=True  # Đánh dấu là bị hủy
                 )
             )
         else:
             # Nếu booking không bị hủy
-            checkin_time = _faker.date_time_between_dates(
-                datetime_start=datetime(s_date.year, s_date.month, s_date.day, 0, 0),
-                datetime_end=datetime(s_date.year, s_date.month, s_date.day, 23, 59)
-            )
+            today = datetime.now().date()  # Lấy ngày giờ hiện tại (chỉ lấy phần ngày)
 
-            # Tạo thời gian checkout
-            stay_duration = random.randint(1, 10)  # Số ngày lưu trú ngẫu nhiên
-            end_date = checkin_time + timedelta(days=stay_duration)  # Ngày kết thúc của booking
-
-            # Kiểm tra ngày hiện tại
-            today = datetime.now()  # Lấy ngày giờ hiện tại
-
-            if today < datetime.combine(s_date, datetime.min.time()):  # Nếu vẫn trong tương lai
-                checkout_time = None  # Không có checkout
-            elif datetime.combine(s_date, datetime.min.time()) <= today <= end_date:  # Nếu đã check-in
-                checkout_time = None  # Không có checkout
-            else:  # Nếu đã hết hạn
-                checkout_time = _faker.date_time_between_dates(
-                    datetime_start=datetime(end_date.year, end_date.month, end_date.day, 8, 0),
-                    datetime_end=datetime(end_date.year, end_date.month, end_date.day, 12, 0)
+            if s_date > today:
+                # Nếu ngày bắt đầu trong tương lai, thì chưa check-in
+                checkin_time = None
+                checkout_time = None
+                end_date = s_date  # Ngày kết thúc bằng ngày bắt đầu
+            else:
+                # Nếu booking không bị hủy và đã xảy ra hoặc đang diễn ra
+                checkin_time = _faker.date_time_between_dates(
+                    datetime_start=datetime(s_date.year, s_date.month, s_date.day, 0, 0),
+                    datetime_end=datetime(s_date.year, s_date.month, s_date.day, 23, 59)
                 )
+
+                # Tạo thời gian checkout
+                stay_duration = random.randint(1, 10)  # Số ngày lưu trú ngẫu nhiên
+                end_date = checkin_time + timedelta(days=stay_duration)  # Ngày kết thúc của booking
+
+                if today <= end_date.date():  # Khách vẫn ở hoặc vừa check-out
+                    checkout_time = None  # Không có checkout nếu khách vẫn ở
+                else:
+                    checkout_time = _faker.date_time_between_dates(
+                        datetime_start=datetime(end_date.year, end_date.month, end_date.day, 8, 0),
+                        datetime_end=datetime(end_date.year, end_date.month, end_date.day, 12, 0)
+                    )
 
             # Thêm thông tin đặt phòng vào danh sách
             l_b.append(
@@ -98,10 +103,10 @@ def _fake_booking():
                     start_date=s_date,  # Lưu ngày bắt đầu
                     checkin=checkin_time,
                     checkout=checkout_time,  # Có thể là None nếu khách vẫn ở
-                    end_date=end_date.date(),  # Ngày kết thúc
+                    end_date=end_date,  # Ngày kết thúc
                     num_adults=random.randint(1, 3),  # Số lượng người lớn ngẫu nhiên
                     num_children=random.randint(0, 2),  # Số lượng trẻ em ngẫu nhiên
-                    room_id=random.choice(range(1, 50)),
+                    room_id=random.choice(range(1, 100)),
                     is_canceled=False  # Đánh dấu là không bị hủy
                 )
             )
@@ -109,6 +114,7 @@ def _fake_booking():
     # Lưu vào session và commit
     _session.add_all(l_b)
     _session.commit()
+
 
 def _generate_unique_cccd(existing_cccds):
     while True:
@@ -153,38 +159,43 @@ def _fake_customer():
 
 
 def _fake_floor():
-    _session.add_all([Floor(id=1, hotel_id=_ID_HOTEL),
-                      Floor(id=2, hotel_id=_ID_HOTEL),
-                      Floor(id=3, hotel_id=_ID_HOTEL),
-                      Floor(id=4, hotel_id=_ID_HOTEL),
-                      Floor(id=5, hotel_id=_ID_HOTEL)])
+    for floor_id in range(1, 11):
+        _session.add(Floor(id=floor_id, hotel_id=_ID_HOTEL))
     _session.commit()
 
 
 def _fake_room():
     room_id = 1
-    for floor_id in range(1, 6):
+    for floor_id in range(1, 11):
         list_room = []
         beds_room = []
+        # Các thông số cho giá tối thiểu và tối đa
         min_price = 500  # Minimum price
         max_price = 2000  # Maximum price
-        for _ in range(1, 11):
-            list_room.append(
-                Room(id=room_id, floor_id=floor_id, room_type=random.choice(room_types), is_locked=False,
-                     price=random.randint(min_price, max_price)))
-            bed_type_options = [1, 2, 3, 4]
-            for _ in range (random.randint(1 ,2)):
-                choice_type = random.choice(bed_type_options)
+
+        for _ in range(1, 11):  # Tạo 10 phòng mỗi tầng
+            # Số lượng giường ngẫu nhiên (từ 1 đến 4)
+            num_beds = random.randint(1, 4)
+            # Chọn một loại phòng ngẫu nhiên
+            room_type = random.choice(room_types)
+            # Tính toán giá dựa trên loại phòng và số lượng giường
+            price = random.randint(min_price, max_price) * num_beds // 2
+
+            # Tạo phòng với các thuộc tính phù hợp
+            room = Room(id=room_id, floor_id=floor_id, room_type=room_type, is_locked=False, price=price)
+            list_room.append(room)
+
+            # Tạo giường cho phòng
+            for _ in range(num_beds):
                 beds_room.append(
                     BedRoom(
-                        bed_type_id= choice_type,
+                        bed_type_id=random.choice([1, 2, 3, 4]),  # Chọn loại giường ngẫu nhiên
                         room_id=room_id,
-                        bed_amount=random.choice([ 1 , 2  ])
+                        bed_amount=1  # Mỗi giường chỉ tính 1
                     )
-                # Remove to avoid unique constraint
                 )
-                bed_type_options = [ x  for x in bed_type_options if x != choice_type]
             room_id += 1
+
         _session.add_all(list_room)
         _session.commit()
         _session.add_all(beds_room)
