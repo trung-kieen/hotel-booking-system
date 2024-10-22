@@ -16,6 +16,7 @@ class BookingDialog(QDialog):
         room_id: int
         parent: QWidget
     """
+
     def __init__(self, room_id=None, parent=None):
         super().__init__(parent)
         self.booking = None
@@ -24,6 +25,9 @@ class BookingDialog(QDialog):
         self.setWindowTitle("Booking Dialog")
         self.ui = Ui_Booking_Dialog()
         self.ui.setupUi(self)
+        self.geometry().center()
+        from components.app import App
+        self.resize(int(App.maxWidth * 3 / 4), int(App.maxHeight * 3 / 4))
         self.init_base_ui()
         if room_id is not None:
             self.init_ui_w_room_data(room_id)
