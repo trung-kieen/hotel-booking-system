@@ -11,9 +11,75 @@ from database.models import bed_type
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
 from database.models.floor import Floor
-from database.models.room import RoomType
+from database.models.room import Room, RoomType
 from database.orm import Session
+from database.repositories import bed_room_repository, room_repository
 from database.repositories.base_repository import Repository
+from database.repositories.bed_room_repository import BedRoomRepository
+from database.repositories.bed_type_repository import BedTypeRepository
+from database.repositories.room_repository import RoomRepository
+from utils.singleton import singleton
+
+
+@singleton
+class RoomService:
+    def __init__(self):
+        self.room_repo = RoomRepository[Room]()
+        self.bed_type_repo = BedTypeRepository[BedType]()
+        self.bed_room_repo : BedRoomRepository[BedRoom]= BedRoomRepository[BedRoom]()
+
+    # def get_detail_booking(self):
+    #     pass
+
+
+    def update_room(self, room):
+        return self.room_repo.update(room)
+    def update_bed_room(self, bed_room):
+        return self.bed_room_repo.update(bed_room)
+    def add_bed_room(self , bed_room):
+        self.bed_room_repo.insert
+
+    def get_all_rooms(self):
+        return self.room_repo.get_all()
+
+    def get_room_by_id(self, room_id):
+        return self.room_repo.get_by_id(room_id)
+    def get_all_bed_types(self ):
+        return self.bed_type_repo.get_all_bed_types()
+
+
+    def get_bed_type_by_id(self , bed_type_id ):
+        return self.bed_type_repo.get_bed_type_by_id(bed_type_id)
+    def get_all_bed_by_room_id(self , room_id) -> Iterable[BedRoom]:
+        """
+        Return a list of bed_id filter by bed room
+        """
+        return  self.bed_room_repo.get_all_by_room_id(room_id)
+
+
+    def delete_bed_room_by_room_id_and_bed_type(self , room_id , type_id ) -> None :
+        self.bed_room_repo.delete_by_room_id_and_bed_type(room_id , type_id)
+
+    def save_bed_room_by_room_id (self , room_id   , bed_rooms : Iterable[BedRoom] ):
+
+        # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
+        final_bed_rooms_id = set([room.id for room in bed_rooms])
+        # list_add  = final_bed_rooms_id - persisted_bed_rooms_id
+        # list_delete  = persisted_bed_rooms_id - final_bed_rooms_id
+        # list_update = persisted_bed_rooms_id & final_bed_rooms_id
+        # for bed in bed_rooms:
+        #     # TODO
+        #     if bed.id in list_add:
+        #         self.bed_room_repo.insert(bed)
+        #     if bed.id in list_update:
+        #         self.bed_room_repo.update(bed)
+        #     if bed.id in list_delete:
+        #         self.bed_room_repo.delete_room_id(bed.id)
+
+        for bed_room in bed_rooms:
+            bed_room.room_id = room_id
+        self.bed_room_repo.delete_by_room_id(room_id)
+        self.bed_room_repo.insert_all(bed_rooms)
 
 
 
@@ -27,9 +93,12 @@ def bed_types() -> list[BedType]:
     return bed_type
 
 
-def bed_type_name( bed_type_id ):
+
+
+def bed_type( bed_type_id ) -> BedType:
     t = Session().query(BedType).filter_by(id = bed_type_id).first()
-    return t.name if t else ""
+    return t
+
 
 def get_bed_rooms( room_id ) -> Iterable[BedRoom]:
     """
@@ -101,6 +170,7 @@ class FormComboboxAdapter():
         for key , value in self.combobox_members:
             if self.combobox.currentText() == value:
                 return key
+
 
 class ComboboxFilterAdapter():
     """
@@ -193,14 +263,16 @@ class ItemRow(QWidget):
         self.bed_room = bed_room
 
 
+        self.bed_type =   bed_type(self.bed_room.bed_type_id)
 
 
         # TODO: Check fetch able to get name form bed_type
-        self.label = QLabel(str(bed_type_name(self.bed_room.bed_type_id)), self)
+        self.label = QLabel(str(self.bed_type.name), self)
         self.input = QLineEdit(self)
         self.input.setPlaceholderText('Enter number')
         self.input.setText(str(bed_room.bed_amount))  # Set default value
         self.input.setValidator(QDoubleValidator(0.99, 99.99, 2, self))  # Allow only numbers with up to 2 decimal places
+        self.lblCapacity= QLabel(str(self.bed_type.capacity) + " people/bed", self)
 
         # Create a button for deletion
         self.delete_button = QToolButton(self)
@@ -213,6 +285,7 @@ class ItemRow(QWidget):
         # Add widgets to layout
         self.layout.addWidget(self.label)
         self.layout.addWidget(self.input)
+        self.layout.addWidget(self.lblCapacity)
         self.layout.addWidget(self.delete_button)
     def get_bed_room_detail(self):
         """
@@ -238,12 +311,14 @@ class ItemRow(QWidget):
 
 
 
-class ItemManager(QWidget):
-    def __init__(self, room_id = None ):
+class BedRoomManager(QWidget):
+    def __init__(self, room_id = None , parentLayout= None ):
         super().__init__()
         # All available type: Single, Double
+        self.room_service = RoomService()
+        self.parentLayout = parentLayout
 
-        self.bed_types: List[BedType]= bed_types()
+        self.bed_types: Iterable[BedType]= self.room_service.get_all_bed_types()
         self.room_id  = room_id
         # TODO
         # Bed room information before edit
@@ -268,6 +343,7 @@ class ItemManager(QWidget):
 
 
     def _initUi(self):
+        self.parentLayout.addWidget(self)
         self.layout.addWidget(self.add_button)
         self.setLayout(self.layout)
 

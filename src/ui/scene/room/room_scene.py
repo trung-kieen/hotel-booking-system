@@ -30,9 +30,6 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
 
-    def _getRoomType(self):
-        # TODO
-        pass
 
 
     def _initUi(self):
