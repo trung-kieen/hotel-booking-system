@@ -1,5 +1,6 @@
-from operator import and_
 from typing import Iterable, Any
+
+from sqlalchemy import and_
 
 from database.repositories.irepository import IRepository, T
 from utils.singleton import singleton
@@ -22,14 +23,14 @@ class Repository(IRepository[T]):
         keys = [k.name for k in self.__orig_class__.__args__[0].__mapper__.primary_key]
         primary_key_values = {key: getattr(item, key) for key in keys}
         existing_item = self.session.query(type(item)).filter_by(**primary_key_values).first()
-
+    
         if existing_item:
-            for attr, value in item.__dict__.items():
-                if not attr.startswith('_') and attr != 'id':
-                    setattr(existing_item, attr, value)
+            # Merge the incoming item into the session to avoid session conflicts
+            merged_item = self.session.merge(item)
             self.session.commit()
         else:
             print(f"Item with primary key {primary_key_values} not found.")
+
 
     def get(self, _filters: list[Any] = []) -> T:
         """ get object of type T base on filter (optional)

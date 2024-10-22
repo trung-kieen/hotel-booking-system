@@ -22,4 +22,7 @@ class Invoice(Base, AuditCreation):
         {})
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"total_price={self.total_price}, quantity={self.quantity}, "
+                f"booking_id={self.booking_id})>")
+

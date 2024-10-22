@@ -22,4 +22,7 @@ class ServiceInvoice(Base):
         {})
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"service_id={self.service_id}, invoice_id={self.invoice_id}, "
+                f"quantity={self.quantity})>")
+

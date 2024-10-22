@@ -18,4 +18,7 @@ class Review(Base):
     booking = relationship("Booking", backref=backref("reviews", uselist=False))
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"booking_id={self.booking_id}, date={self.date}, "
+                f"rate={self.rate}, content='{self.content[:20]}...')>")
+

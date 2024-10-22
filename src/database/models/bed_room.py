@@ -16,4 +16,7 @@ class BedRoom(Base):
 
 
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"bed_type_id={self.bed_type_id}, room_id={self.room_id}, "
+                f"bed_amount={self.bed_amount})>")
+

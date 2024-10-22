@@ -8,7 +8,7 @@ from database.orm import Base
 
 class Gender(enum):
     FEMALE = "Female"
-    MALE  = "Male"
+    MALE = "Male"
 
 
 class Customer(Base, AuditCreation):
@@ -36,5 +36,8 @@ class Customer(Base, AuditCreation):
         CheckConstraint(birth < func.current_date(), name='CK_birthdate_in_past'),
         {})
 
+
     def __repr__(self):
-        return f"{self.__class__.__name__}"
+        return (f"<{self.__class__.__name__}(id={self.id}, "
+                f"firstname={self.firstname}, lastname={self.lastname}, "
+                f"phone={self.phone}, email={self.email})>")
