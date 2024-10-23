@@ -2,13 +2,15 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtSql import QSqlQueryModel
 from qt_material import apply_stylesheet
+from components.messagebox.popup import ErrorPopup
 from database.repositories.base_repository import Repository
 from designer.style import adjust_cmb, apply_theme, adjust_view_table, set_style_button
 from ui.scene.room.room_dialog import RoomDialog
+from utils.decorator import handle_exception
 from utils.query import query_get_room_by_total_capacity
 from database.repositories.floor_repository import FloorRepository
 from database.table_model import adjust_size, fill_data
-from services.room_service import ComboboxFilterAdapter, floor_members,  query_condition_translator, room_type_members
+from services.room_service import ComboboxFilterAdapter, RoomService, floor_members, lock_members,  query_condition_translator, room_type_members
 from ui.ui_room_scene import Ui_RoomScene
 
 
@@ -17,16 +19,19 @@ class RoomScene( QtWidgets.QMainWindow ):
         super().__init__()
         self.ui = Ui_RoomScene()
         self.ui.setupUi(self)
+        self.room_service = RoomService()
 
 
         self.floor_cmb_filter = ComboboxFilterAdapter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
         self.room_type_cmb_filter= ComboboxFilterAdapter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
-        self.cmb_filter_list = [self.floor_cmb_filter , self.room_type_cmb_filter]
+        self.lock_status_cmb_filter= ComboboxFilterAdapter(lock_members() , self.ui.cmbLockStatus,  field_name="is_locked")
+        self.cmb_filter_list = [self.floor_cmb_filter , self.room_type_cmb_filter, self.lock_status_cmb_filter]
 
         self._initUi()
         self.model : QSqlQueryModel
         self.refreshRoomTable()
         self._register_event()
+
 
 
 
@@ -39,16 +44,21 @@ class RoomScene( QtWidgets.QMainWindow ):
         apply_theme(self.ui.tableView)
         apply_theme(self.ui.cmbRoomType)
         apply_theme(self.ui.cmbFloor)
+        apply_theme(self.ui.cmbLockStatus)
         adjust_view_table(self.ui.tableView)
         adjust_cmb(self.ui.cmbFloor)
         adjust_cmb(self.ui.cmbRoomType)
+        adjust_cmb(self.ui.cmbLockStatus)
         set_style_button(self.ui.btnAddRoom)
+        set_style_button(self.ui.btnEditRoom)
 
     def _register_event(self):
         self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.refreshRoomTable() )
         self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.refreshRoomTable())
+        self.ui.cmbLockStatus.currentIndexChanged.connect(lambda : self.refreshRoomTable())
         self.ui.btnEditRoom.clicked.connect(lambda: self._openEditRoomDialog())
         self.ui.btnAddRoom.clicked.connect(lambda: self._openAddRoomDialog())
+        self.ui.btnDeleteRoom.clicked.connect(lambda: self._deleteCurrentRoom())
 
 
 
@@ -57,13 +67,30 @@ class RoomScene( QtWidgets.QMainWindow ):
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.refreshRoomTable()
             # Dialog was accepted, you can refresh your customer list or perform other actions
-            print("Customer added successfully.")
-        else:
-            print("Customer is not added!")
+
 
 
 
         pass
+
+
+    @handle_exception
+    def _deleteCurrentRoom(self):
+        # TODO
+        print("Erorr orccure ")
+        raise Exception("SOme thing went wrong ")
+        pass
+        target_room_id   = self._selected_room_id()
+        if target_room_id:
+            # TODO: Check before delete
+            self.room_service.delete_room_by_id(target_room_id)
+            self.refreshRoomTable()
+
+
+
+
+
+
     def _openEditRoomDialog(self):
         room_id = self._selected_room_id()
         if not self._selected_room_id():
@@ -73,10 +100,6 @@ class RoomScene( QtWidgets.QMainWindow ):
         dialog = RoomDialog(room_id)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             self.refreshRoomTable()
-            # Dialog was accepted, you can refresh your customer list or perform other actions
-            print("Customer edited successfully.")
-        else:
-            print("Customer is not edited!")
 
     def _selected_room_id (self):
         # column_headers = []
@@ -114,10 +137,6 @@ class RoomScene( QtWidgets.QMainWindow ):
         return room_id_current_row()
 
 
-
-
-
-    ## TODO: Refactor to service layer
 
 
     def refreshRoomTable(self):

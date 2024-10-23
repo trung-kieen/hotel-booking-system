@@ -19,3 +19,6 @@ class RoomRepository[T](Repository[T]):
         return self.get(_filters=[
             Room.id == room_id
         ])
+    def delete_by_id(self , room_id ) -> None:
+        self.session.query(Room).filter_by(id = room_id).delete()
+        self.session.commit()

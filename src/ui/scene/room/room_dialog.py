@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 
 import sys
 from typing import List
@@ -15,6 +18,7 @@ from database.models.room import Room
 from database.orm import Session
 from services.room_service import  FormComboboxAdapter, BedRoomManager, RoomService, bed_types, floor_members, room_type_members
 from ui.ui_room_dialog import  Ui_Dialog
+from utils.decorator import handle_exception
 
 class FormAction (Enum):
     ADD   = 1 ,
@@ -30,7 +34,7 @@ class RoomDialog( QDialog):
         super().__init__()
         self.room_id = room_id
         self.form_action = FormAction.EDIT  if room_id  else FormAction.ADD
-        self.service = RoomService();
+        self.room_service = RoomService();
 
 
         # Boot strap component
@@ -69,7 +73,7 @@ class RoomDialog( QDialog):
             room =  Room(floor_id=floor_id, room_type=room_type, is_locked=is_locked,price=price, id = self.room_id)
             return room
         elif self.form_action == FormAction.EDIT:
-            room = self.service.get_room_by_id(self.room_id)
+            room = self.room_service.get_room_by_id(self.room_id)
 
             # Get value from form to variable
             room_type = self.room_type_cmb.current_key()
@@ -90,81 +94,36 @@ class RoomDialog( QDialog):
             return None
 
     # TODO: Handle exception
+    @handle_exception
     def update_room(self):
         """
         Use only when edit room
         """
-
         if self.form_action != FormAction.EDIT: return
-        session = Session()
-        try:
-            updated_room = self.get_room_details()
-            self.service.update_room(updated_room)
-            # Need to persistence room before to get new room id
-            session.commit()
+        self.room_service.update_room_and_bed(self.get_room_details(), self.bed_room_manager.get_bed_details())
 
-            bed_type_ids_before = set(bed_room.bed_type_id for bed_room in  self.service.get_all_bed_by_room_id(self.room_id))
-
-
-            bed_rooms = self.bed_room_manager.get_bed_details()
-            bed_type_ids_after = set(bed.bed_type_id  for bed in bed_rooms) # After is get from form information
-
-            added_bed_type_id = bed_type_ids_after - bed_type_ids_before
-            updated_bed_type_id = bed_type_ids_after &  bed_type_ids_before
-            deleted_bed_type_id =   bed_type_ids_before  -  bed_type_ids_after
-
-            for type_id in deleted_bed_type_id:
-                self.service.delete_bed_room_by_room_id_and_bed_type(self.room_id  , type_id)
-            for bed  in bed_rooms:
-                if bed.bed_type_id in added_bed_type_id:
-                    session.add(bed)
-                elif bed.bed_type_id in updated_bed_type_id:
-                    self.service.update_bed_room(bed)
-            session.commit()
-
-        except Exception as e:
-            session.rollback()
-            print(f"Error occurred when try to update room and bed room: {e}")
-
-        finally:
-            session.close()
+    @handle_exception
     def add_room(self):
+        # TODO: validate input price before
         if self.form_action != FormAction.ADD: return
-        session = Session()
-        try:
-            new_room = self.get_room_details()
-            session.add(new_room)
-            # Need to persistence room before to get new room id
-            session.commit()
-
-            for bed in self.bed_room_manager.get_bed_details():
-                bed.room_id = new_room.id
-                session.add(bed)
-
-            session.commit()
-
-        except Exception as e:
-            session.rollback()
-            print(f"Error occurred when try to add room and bed room: {e}")
-
-        finally:
-            session.close()
+        self.room_service.add_room_and_bed(self.get_room_details(), self.bed_room_manager.get_bed_details())
 
 
 
+
+
+    @handle_exception
     def load_form(self):
         """
         Load data to room information to form
         """
-        try:
-            # Work if exist room information
-            if self.room_id:
-                self.ui.lbRoomId.setText(f"Room #{self.room_id}")
-                room  = self.service.get_room_by_id(self.room_id)
-                self.floor_cmb.set_by_key(room.floor_id)
-                self.room_type_cmb.set_by_key(room.room_type.name)
-                self.ui.txtPrice.setText("{:.0f}".format(room.price ))
-            else:
-                self.ui.lbRoomId.setText(f"New room")
-        except Exception as ex:
-            print("Unable to load room details ")
+        # Work if exist room information
+        if self.room_id:
+            self.ui.lbRoomId.setText(f"Room #{self.room_id}")
+            room  = self.room_service.get_room_by_id(self.room_id)
+            self.floor_cmb.set_by_key(room.floor_id)
+            self.room_type_cmb.set_by_key(room.room_type.name)
+            self.ui.txtPrice.setText("{:.0f}".format(room.price ))
+        else:
+            self.ui.lbRoomId.setText(f"New room")
+            # print("business_error_message="Unable to load room details "")

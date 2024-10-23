@@ -36,30 +36,17 @@
        </layout>
       </item>
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Room</string>
+        </property>
+        <property name="margin">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="headerLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Room</string>
-          </property>
-          <property name="margin">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item>
          <widget class="QPushButton" name="btnAddRoom">
           <property name="styleSheet">
@@ -79,6 +66,26 @@
            <string>Edit Room</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnDeleteRoom">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <widget class="QComboBox" name="cmbLockStatus"/>
