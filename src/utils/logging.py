@@ -35,3 +35,10 @@ def setup_logger_config(name: str =APP_NAME , log_file: str = LOG_FILE):
     logger.addHandler(file_handler)
 
     return logger
+
+"""
+Get this global variable to use same config
+Example:
+logger.info("HI")
+"""
+app_logger =  setup_logger_config()

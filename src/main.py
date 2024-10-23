@@ -19,7 +19,6 @@ from database.models.customer import Customer
 from database.orm import  bootstrap
 
 # from database.models.user import User
-from utils.logging import setup_logger_config
 from utils.settings import DATABASE_SQLITE_FILE
 
 # ========================================================
@@ -30,7 +29,6 @@ from database.orm import Session, bootstrap
 
 def main():
 
-    setup_logger_config()
     engine = EngineHolder().get_engine()
 
     # Require to import all class inheritance with Base class (declarative_base)

@@ -77,9 +77,8 @@ class RoomScene( QtWidgets.QMainWindow ):
     @handle_exception
     def _deleteCurrentRoom(self):
         # TODO
-        print("Erorr orccure ")
-        raise Exception("SOme thing went wrong ")
-        pass
+        # print("Erorr orccure ")
+        # raise Exception("SOme thing went wrong ")
         target_room_id   = self._selected_room_id()
         if target_room_id:
             # TODO: Check before delete

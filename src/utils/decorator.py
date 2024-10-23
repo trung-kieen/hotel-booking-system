@@ -3,7 +3,7 @@ Author: Nguyen Khac Trung Kien
 """
 
 
-import logging
+from utils.logging import  app_logger
 from typing import final
 from components.messagebox.popup import BasePopup, ErrorPopup
 from database.orm import Session
@@ -18,7 +18,7 @@ def handle_exception(f, business_error_message = "Something went wrong" ):
         try:
             return f(*args , ** kwargs)
         except Exception as ex:
-            logging.error("Error occur %s" , ex)
+            app_logger.error("Error occur %s" , ex)
             ErrorPopup(message=business_error_message)
     return wrapper
 
@@ -41,7 +41,7 @@ def transaction(f):
             f(*args, session = session  ,  **kwargs)
             session.commit()
         except:
-            logging.critical("Transaction failed. Rollback to previous stage")
+            app_logger.error("Transaction failed. Rollback to previous stage")
             session.rollback()
         finally:
             session.close()
