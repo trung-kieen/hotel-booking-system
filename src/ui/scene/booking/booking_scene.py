@@ -13,6 +13,7 @@ from PyQt5.QtCore import QModelIndex, Qt
 from ui.scene.booking.constant.booking_status import BookingStatus
 from ui.scene.booking.dialog.booking_detail_dialog import BookingDetailDialog
 from ui.scene.booking.dialog.booking_dialog import BookingDialog
+from ui.scene.booking.dialog.pay_dialog import PayDialog
 from ui.ui_booking_scene import Ui_ReservationScene
 
 
@@ -105,15 +106,22 @@ class BookingScene(QtWidgets.QMainWindow):
     def checkout(self):
         row_index = self.ui.booking_data_table.selectionModel().currentIndex().row()
         item = self.adapter.get_item(row_index)
-        if item is not None:
-            s = BookingStatus.get_status(item)
-            if s == BookingStatus.InActive or s == BookingStatus.Late:
-                item.checkout = datetime.now()  # Cập nhật thời gian checkout
-                self.service.update_booking(item)
-                self.adapter.update_item(row_index, item)  # Cập nhật item trong adapter
-            # Lưu lại vào cơ sở dữ liệu
+        item.checkout = datetime.now()
+        self.service.update_booking(item)
+        self.adapter.update_item(row_index, item)
+        d = PayDialog(item)
+        d.exec()
+        result = d.get_checkout_result()
+        while result is None:
+            d.exec()
+            result = d.get_checkout_result()
+            if result is not None:
+                MessageBox = BasePopup("Booking Message", "Payment successfully")
+                MessageBox.exec()
+                self.refresh_data()
             else:
-                BasePopup(f"Booking Message", "Can't checkout this Booking because of it's" + s).exec()
+                MessageBox = BasePopup("Booking Message", "You must payment before exit")
+                MessageBox.exec()
 
     def checkin(self):
         row_index = self.ui.booking_data_table.selectionModel().currentIndex().row()

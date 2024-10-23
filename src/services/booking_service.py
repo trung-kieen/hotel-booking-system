@@ -5,6 +5,7 @@ from sqlalchemy import select
 from database.models.bed_type import BedType
 from database.models.booking import Booking
 from database.models.customer import Customer
+from database.models.invoice import Invoice
 from database.models.room import Room, RoomType
 from database.repositories.base_repository import Repository
 from database.repositories.booking_repository import BookingRepository
@@ -61,5 +62,9 @@ class BookingService:
             num_children=num_child,
             room_id=room_id,
         ))
+
     def check_room_available(self, room_id, start_date, end_date):
         return self.booking_repo.check_room_available(room_id, start_date, end_date)
+
+    def update_invoice(self, invoice):
+        return Repository[Invoice]().update(invoice)

@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from decimal import Decimal
 
 from database.models.booking import Booking
@@ -7,43 +7,35 @@ from database.models.invoice import Invoice
 
 class BookingPriceCalculator:
     @staticmethod
-    def calculate_total_price(booking: Booking) -> Decimal:
-        """
-        Calculate the total price of a booking based on check-in and check-out times, 
-        and the room's price. Adjusts for early check-out if applicable.
-        """
-        if not booking.checkin or not booking.checkout:
-            raise ValueError("Check-in and check-out times must be set")
+    def calculate_extra_charges(checkin_datetime, checkout_datetime, room_price):
+        # Calculate total nights stayed
+        total_nights = (checkout_datetime.date() - checkin_datetime.date()).days
+        extra_charge = 0
 
-        room_price = booking.room.price
-        total_price = Decimal(0)
+        # Early check-in conditions
+        early_checkin_time = checkin_datetime.time()
+        if time(5, 0) <= early_checkin_time <= time(9, 0):
+            extra_charge += 0.5 * room_price  # 50% room price for early check-in
+        elif time(9, 0) < early_checkin_time <= time(14, 0):
+            extra_charge += 0.3 * room_price  # 30% room price for early check-in
 
-        # Determine the actual checkout date (could be earlier than end_date)
-        actual_checkout = min(booking.checkout, booking.end_date)
+        # Late checkout conditions
+        late_checkout_time = checkout_datetime.time()
+        if time(12, 0) <= late_checkout_time <= time(15, 0):
+            extra_charge += 0.3 * room_price  # 30% room price for late check-out
+        elif time(15, 0) < late_checkout_time <= time(18, 0):
+            extra_charge += 0.5 * room_price  # 50% room price for late check-out
+        elif late_checkout_time > time(18, 0):
+            extra_charge += room_price  # 100% room price for late check-out
 
-        # Calculate the duration of stay in days
-        stay_duration = actual_checkout - booking.checkin
-        full_days = stay_duration.days
-        remaining_hours = stay_duration.seconds / 3600
-
-        # Full day price for each full day of stay
-        total_price += Decimal(full_days) * room_price
-
-        # Handle partial day charges based on remaining hours
-        if remaining_hours > 0:
-            if remaining_hours <= 6:  # Early check-out or short stay
-                total_price += room_price * Decimal(0.5)
-            else:  # Any checkout past 6 hours considered full day
-                total_price += room_price
-
-        return total_price
+        return total_nights, extra_charge
 
 
 class InvoiceFactory:
     @staticmethod
     def generate_invoice(booking: Booking) -> Invoice:
         calculator = BookingPriceCalculator()
-        total_price = calculator.calculate_total_price(booking)
+        _, total_price = calculator.calculate_extra_charges(booking.checkin, booking.checkout, booking.room.price)
 
         # Create and return the invoice
         invoice = Invoice(

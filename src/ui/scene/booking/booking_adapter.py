@@ -38,7 +38,7 @@ class BookingAdapter:
         self.model.setItem(row, 0, item)
 
         # Room
-        item = QStandardItem(str(booking.room_id // 10) + " - " + str(booking.room.floor_id))
+        item = QStandardItem(f"#{booking.room_id} Floor {booking.room.floor_id}")
         item.setTextAlignment(Qt.AlignCenter)
         item.setEditable(False)
         self.model.setItem(row, 1, item)

@@ -13,6 +13,8 @@ class BookingDetailDialog(QDialog):
         self.setWindowTitle("Booking Dialog")
         self.ui = Ui_Booking_Details_Dialog()
         self.ui.setupUi(self)
+        from components.app import App
+        self.resize(int(App.maxWidth * 3 / 4), 0)
         self.init_ui_personal_container(booking.customer)
         self.init_booking_container(booking)
         self.init_room_container(booking.room)

@@ -40,6 +40,9 @@ class Booking(Base, AuditCreation):
 
     booking_type = Column(Enum(BookingType), nullable=False, default=BookingType.DAILY)
 
+    invoice = relationship("Invoice", uselist=False, back_populates="booking", foreign_keys="Invoice.booking_id")
+
+
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
         CheckConstraint(num_adults >= 0, name='CK_num_adults_positive'),
