@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from PyQt5.QtWidgets import QHeaderView, QMenu
+from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog
 
 from components.messagebox.popup import BasePopup
 from database.models.booking import Booking
@@ -13,6 +13,7 @@ from PyQt5.QtCore import QModelIndex, Qt
 from ui.scene.booking.constant.booking_status import BookingStatus
 from ui.scene.booking.dialog.booking_detail_dialog import BookingDetailDialog
 from ui.scene.booking.dialog.booking_dialog import BookingDialog
+from ui.scene.booking.dialog.filter_dialog import FilterDialog
 from ui.scene.booking.dialog.pay_dialog import PayDialog
 from ui.ui_booking_scene import Ui_ReservationScene
 
@@ -56,6 +57,7 @@ class BookingScene(QtWidgets.QMainWindow):
         self.ui.booking_data_table.customContextMenuRequested.connect(self.show_context_menu)
 
         self.ui.refresh_btn.clicked.connect(self.refresh_data)
+        self.ui.filter_btn.clicked.connect(self.filter_data)
 
     def init_state(self):
         # Lấy dữ liệu từ controller và cập nhật vào adapter
@@ -151,3 +153,54 @@ class BookingScene(QtWidgets.QMainWindow):
                 item.is_canceled = True
                 self.service.update_booking(item)
                 self.adapter.update_item(row_index, item)
+
+    def filter_data(self):
+        f = FilterDialog()
+        if f.exec() == QDialog.Accepted:  # Kiểm tra xem hộp thoại có được chấp nhận không
+            filters = f.apply_filter()  # Lấy các tiêu chí lọc
+
+            all_bookings = list(self.service.get_all_bookings())
+
+            filtered_bookings = []
+
+            for booking in all_bookings:
+                match = True
+
+                if "phone_number" in filters and filters["phone_number"]:
+                    if filters[
+                        "phone_number"] != booking.customer.phone:  # Giả định rằng có trường phone trong customer
+                        match = False
+                if "room_number" in filters and filters["room_number"]:
+                    if filters["room_number"] != str(booking.room_id):  # Giả định rằng có trường phone trong customer
+                        match = False
+                if "booking_type" in filters and filters["booking_type"] != "All":
+                    if booking.booking_type.value != filters["booking_type"]:  # So sánh với giá trị enum
+                        match = False
+
+                if "start_date" in filters and filters["start_date"]:
+                    if booking.start_date.date() <= filters["start_date"]:  # Giả định rằng đây là kiểu datetime
+                        match = False
+
+                if "end_date" in filters and filters["end_date"]:
+                    if booking.end_date.date() >= filters["end_date"]:  # Giả định rằng đây là kiểu datetime
+                        match = False
+
+                if "checkin" in filters and filters["checkin"]:
+                    if booking.checkin and booking.checkin.date() <= filters["checkin"]:  # Kiểm tra checkin có tồn tại
+                        match = False
+
+                if "checkout" in filters and filters["checkout"]:
+                    if booking.checkout and booking.checkout.date() >= filters[
+                        "checkout"]:  # Kiểm tra checkout có tồn tại
+                        match = False
+
+                # Kiểm tra trạng thái booking
+                if "status" in filters and filters["status"] != "All":
+                    current_status = BookingStatus.get_status(booking).value
+                    if current_status != filters["status"]:
+                        match = False
+                        
+                if match:
+                    filtered_bookings.append(booking)
+
+            self.adapter.set_items(filtered_bookings)

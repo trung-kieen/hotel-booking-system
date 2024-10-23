@@ -1,3 +1,4 @@
+import datetime
 from typing import Iterable
 
 from sqlalchemy import select
@@ -68,3 +69,39 @@ class BookingService:
 
     def update_invoice(self, invoice):
         return Repository[Invoice]().update(invoice)
+
+    def filter_bookings(self, booking_type=None, start_date=None, end_date=None, checkin=None, checkout=None,
+                        status=None):
+        filters = []
+
+        if booking_type:
+            filters.append(Booking.booking_type == booking_type)
+
+        if start_date:
+            filters.append(Booking.start_date >= start_date)
+
+        if end_date:
+            filters.append(Booking.end_date <= end_date)
+
+        if checkin:
+            filters.append(Booking.checkin >= checkin)
+
+        if checkout:
+            filters.append(Booking.checkout <= checkout)
+
+        if status:
+            # Tính toán trạng thái dựa trên các điều kiện
+            current_date = datetime.date.today()
+            if status == "Completed":
+                filters.append(Booking.checkout.isnot(None))
+            elif status == "Cancelled":
+                filters.append(Booking.is_canceled.is_(True))
+            elif status == "InActive":
+                filters.append(Booking.start_date <= current_date, Booking.end_date >= current_date,
+                               Booking.checkout.is_(None))
+            elif status == "InComing":
+                filters.append(Booking.start_date > current_date)
+            elif status == "Late":
+                filters.append(Booking.end_date < current_date, Booking.checkout.is_(None))
+
+        return self.booking_repo.get_all(filters)
