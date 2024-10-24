@@ -41,3 +41,18 @@ class Customer(Base, AuditCreation):
         return (f"<{self.__class__.__name__}(id={self.id}, "
                 f"firstname={self.firstname}, lastname={self.lastname}, "
                 f"phone={self.phone}, email={self.email})>")
+
+
+    def validate(self):
+        if self.firstname == "":
+            raise Exception("first name is empty")
+
+        if self.lastname == "":
+            raise Exception("last name is empty")
+
+        if self.address == "":
+            raise Exception("last name is empty")
+
+        if len(self.uuid) != 12:
+            raise Exception("CCCD should have length 12")
+

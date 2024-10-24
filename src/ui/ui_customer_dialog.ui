@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1728</width>
+    <height>1051</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>250</y>
+     <x>20</x>
+     <y>270</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -34,8 +34,8 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>361</width>
-     <height>221</height>
+     <width>341</width>
+     <height>251</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout_3">
@@ -110,15 +110,25 @@
     <item row="5" column="1">
      <widget class="QLineEdit" name="phone"/>
     </item>
-    <item row="6" column="0">
+    <item row="7" column="0">
      <widget class="QLabel" name="emailLabel">
       <property name="text">
        <string>Email</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
+    <item row="7" column="1">
      <widget class="QLineEdit" name="email"/>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="cccd"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="phoneLabel_2">
+      <property name="text">
+       <string>CCCD</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

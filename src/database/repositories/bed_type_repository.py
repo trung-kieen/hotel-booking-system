@@ -9,7 +9,7 @@ from utils.singleton import singleton
 T = TypeVar('T')
 
 
-class BedTypeRepository[T](Repository[T]):
+class BedTypeRepository(Repository[T]):
     def __init__(self):
         super().__init__()
 

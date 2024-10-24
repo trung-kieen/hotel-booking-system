@@ -10,7 +10,7 @@ from PyQt5.QtCore import QAbstractEventDispatcher, QSettings, Qt, QPoint, QSize
 from PyQt5.QtGui import QIcon, QStandardItemModel, QStandardItem, QPainter
 from PyQt5.QtWidgets import QApplication, QPushButton, QTableWidgetItem
 from PyQt5.QtWidgets import QHeaderView
-from PyQt5.QtWidgets import QStyledItemDelegate, QComboBox, QMenu
+from PyQt5.QtWidgets import QStyledItemDelegate, QComboBox, QMenu, QDialogButtonBox
 from sqlalchemy import Column, ForeignKey, Integer, String, except_, text
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Relationship, base, declarative_base
@@ -51,14 +51,19 @@ class AddCustomerDialog(QtWidgets.QDialog, Ui_CustomerDialog):
         birth = datetime.date(birth_qdate.year(), birth_qdate.month(), birth_qdate.day())
         gender = self.gender.currentText().upper()
         phone = self.phone.text()
+        cccd = self.cccd.text()
         email = self.email.text()
 
         new_customer = Customer(firstname=firstname, lastname=lastname, address=address, \
-                                birth=birth, gender=gender, phone=phone, email=email)
+                                birth=birth, gender=gender, phone=phone, uuid=cccd, email=email)
 
-        self.controller.add_customer(new_customer)
-
-        self.accept()
+        try:
+            new_customer.validate()
+            self.controller.add_customer(new_customer)
+            self.accept()
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self, "Add Customer", f"Add customer error {e}")
+            self.reject()
 
 class UpdateCustomerDialog(QtWidgets.QDialog, Ui_CustomerDialog):
     def __init__(self, parent, controller, customer_id):
@@ -78,6 +83,7 @@ class UpdateCustomerDialog(QtWidgets.QDialog, Ui_CustomerDialog):
         self.birth.setDate(self.customer.birth)
         self.gender.setCurrentText(str(self.customer.gender.value).lower().capitalize())
         self.phone.setText(self.customer.phone)
+        self.cccd.setText(self.customer.uuid)
         self.email.setText(self.customer.email)
 
         self.buttonBox.accepted.connect(self.update_customer) # type: ignore
@@ -91,6 +97,7 @@ class UpdateCustomerDialog(QtWidgets.QDialog, Ui_CustomerDialog):
         birth = datetime.date(birth_qdate.year(), birth_qdate.month(), birth_qdate.day())
         gender = self.gender.currentText().upper()
         phone = self.phone.text()
+        cccd = self.cccd.text()
         email = self.email.text()
 
         self.customer.firstname = firstname
@@ -99,11 +106,16 @@ class UpdateCustomerDialog(QtWidgets.QDialog, Ui_CustomerDialog):
         self.customer.birth = birth
         self.customer.gender = gender
         self.customer.phone = phone
+        self.customer.uuid = cccd
         self.customer.email = email
 
-        self.controller.update_customer(self.customer)
-
-        self.accept()
+        try:
+            self.customer.validate()
+            self.controller.update_customer(self.customer)
+            self.accept()
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self, "Update Customer", f"Update customer error {e}")
+            self.reject()
 
 
 class FilterCustomerDialog(QtWidgets.QDialog, Ui_FilterCustomerDialog):
@@ -165,8 +177,8 @@ class CustomerScene(QtWidgets.QMainWindow):
     def initUi(self):
         self.ui.model = QStandardItemModel()
         self.ui.model.setHorizontalHeaderLabels(["Customer ID", "First Name", "Last Name",
-                                                 "Address", "Birth", "Gender", "Phone", "Email",
-                                                 "Action"])
+                                                 "Address", "Birth", "Gender", "Phone", "CCCD",
+                                                 "Email", "Action"])
         self.ui.customer_data_table.setStyleSheet("""
         border: none;
         background-color: white;  /* Màu nền */
@@ -223,17 +235,18 @@ class CustomerScene(QtWidgets.QMainWindow):
             self.ui.model.setItem(row, 4, QStandardItem(str(customer.birth)))
             self.ui.model.setItem(row, 5, QStandardItem(str(customer.gender.value)))
             self.ui.model.setItem(row, 6, QStandardItem(str(customer.phone)))
-            self.ui.model.setItem(row, 7, QStandardItem(str(customer.email)))
+            self.ui.model.setItem(row, 7, QStandardItem(str(customer.uuid)))
+            self.ui.model.setItem(row, 8, QStandardItem(str(customer.email)))
 
             actionItem = QStandardItem()
-            self.ui.model.setItem(row, 8, actionItem)
+            self.ui.model.setItem(row, 9, actionItem)
 
         for row, customer in enumerate(customers):
             combo_box = QComboBox()
             combo_box.addItems(["Action", "Edit", "Delete"])  # Add items to the combo box
             combo_box.activated.connect(lambda index, r=row, cb=combo_box: self.combo_action(index, r, cb))
 
-            self.ui.customer_data_table.setIndexWidget(self.ui.model.index(row, 8), combo_box)
+            self.ui.customer_data_table.setIndexWidget(self.ui.model.index(row, 9), combo_box)
 
 
     def combo_action(self, index, row, combo_box):

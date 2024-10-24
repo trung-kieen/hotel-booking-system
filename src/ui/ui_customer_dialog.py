@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_customer_dialog.ui'
+# Form implementation generated from reading ui file 'ui_customer_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -14,14 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_CustomerDialog(object):
     def setupUi(self, CustomerDialog):
         CustomerDialog.setObjectName("CustomerDialog")
-        CustomerDialog.resize(400, 300)
+        CustomerDialog.resize(1728, 1051)
         self.buttonBox = QtWidgets.QDialogButtonBox(CustomerDialog)
-        self.buttonBox.setGeometry(QtCore.QRect(30, 250, 341, 32))
+        self.buttonBox.setGeometry(QtCore.QRect(20, 270, 341, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.formLayoutWidget = QtWidgets.QWidget(CustomerDialog)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 20, 361, 221))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 20, 341, 251))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.formLayout_3 = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.formLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -66,10 +66,16 @@ class Ui_CustomerDialog(object):
         self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.phone)
         self.emailLabel = QtWidgets.QLabel(self.formLayoutWidget)
         self.emailLabel.setObjectName("emailLabel")
-        self.formLayout_3.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.emailLabel)
+        self.formLayout_3.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.emailLabel)
         self.email = QtWidgets.QLineEdit(self.formLayoutWidget)
         self.email.setObjectName("email")
-        self.formLayout_3.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.email)
+        self.formLayout_3.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.email)
+        self.cccd = QtWidgets.QLineEdit(self.formLayoutWidget)
+        self.cccd.setObjectName("cccd")
+        self.formLayout_3.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.cccd)
+        self.phoneLabel_2 = QtWidgets.QLabel(self.formLayoutWidget)
+        self.phoneLabel_2.setObjectName("phoneLabel_2")
+        self.formLayout_3.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.phoneLabel_2)
 
         self.retranslateUi(CustomerDialog)
         self.buttonBox.accepted.connect(CustomerDialog.accept) # type: ignore
@@ -88,13 +94,4 @@ class Ui_CustomerDialog(object):
         self.gender.setItemText(1, _translate("CustomerDialog", "Female"))
         self.phoneLabel.setText(_translate("CustomerDialog", "Phone"))
         self.emailLabel.setText(_translate("CustomerDialog", "Email"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    CustomerDialog = QtWidgets.QDialog()
-    ui = Ui_CustomerDialog()
-    ui.setupUi(CustomerDialog)
-    CustomerDialog.show()
-    sys.exit(app.exec_())
+        self.phoneLabel_2.setText(_translate("CustomerDialog", "CCCD"))

@@ -10,7 +10,7 @@ from database.repositories.base_repository import Repository
 T = TypeVar('T')
 
 
-class BedRoomRepository[T](Repository[T]):
+class BedRoomRepository(Repository[T]):
     def __init__(self):
         super().__init__()
 
