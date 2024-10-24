@@ -6,4 +6,5 @@ def get_room_location(id, floor):
 
 
 def get_base_information(room: Room):
-    return f"Room: {room.id} Type: {room.room_type} Floor: {room.floor_id} Price: {room.price} Bed: {" ".join([x.name for x in room.bed_types])}"
+    bed_str = " ".join([x.name for x in room.bed_types])
+    return f"Room: {room.id} Type: {room.room_type} Floor: {room.floor_id} Price: {room.price} Bed: {bed_str}"
