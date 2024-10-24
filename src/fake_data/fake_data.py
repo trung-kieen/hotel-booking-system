@@ -14,7 +14,10 @@ from database.models.booking import Booking
 from database.models.customer import Customer, Gender
 from database.models.floor import Floor
 from database.models.hotel import Hotel
+from database.models.invoice import Invoice
 from database.models.room import Room, RoomType
+from database.models.service import Service
+from database.models.service_invoice import ServiceInvoice
 
 _session: Session
 _ID_HOTEL = 1
@@ -31,11 +34,13 @@ def fake(engine = EngineHolder().get_engine()):
     _fake_bed()
     _fake_room()
     _fake_customer()
+    _fake_services()
     _fake_booking()
 
 
 def _fake_booking():
     l_b = []
+    invoice_count = 1
     num_bookings = 100  # Tổng số lượng booking
     num_future_bookings = 20  # Số lượng booking đặt trước
 
@@ -112,6 +117,27 @@ def _fake_booking():
                 )
             )
 
+        if not is_canceled:
+
+            # Create a single invoice for this booking
+            services = random.sample(_session.query(Service).all(), random.randint(1, 3))  # Random services
+            total_price = sum(s.price for s in services)
+
+            invoice = Invoice(
+                id=invoice_count,
+                total_price=total_price,
+                booking_id=b_id,  # Link the invoice to the booking
+            )
+            _session.add(invoice)
+            invoice_count += 1
+
+            # Link services to the invoice
+            for service in services:
+                _session.add(ServiceInvoice(
+                    service_id=service.id,
+                    invoice_id=invoice.id,
+                    quantity=random.randint(1, 5)  # Random quantity for each service
+                ))
     # Lưu vào session và commit
     _session.add_all(l_b)
     _session.commit()
@@ -220,4 +246,34 @@ def _fake_bed():
     _session.add_all(bed)
 
     # Commit the session to save the data to the database
+    _session.commit()
+
+
+_SERVICE_NAMES = [
+    "Laundry Service",  # Dịch vụ giặt là
+    "Spa",  # Dịch vụ spa
+    "Gym",  # Dịch vụ phòng gym
+    "Swimming Pool",  # Dịch vụ bể bơi
+    "Airport Shuttle",  # Dịch vụ đưa đón sân bay
+    "Car Rental",  # Thuê xe
+    "Massage",  # Dịch vụ massage
+    "Restaurant",  # Dịch vụ nhà hàng
+    "Bar",  # Dịch vụ quầy bar
+]
+
+_NUM_SERVICES = 10
+
+
+def _fake_services():
+    services = []
+
+    for _ in range(_NUM_SERVICES):
+        service = Service(
+            name=random.choice(_SERVICE_NAMES),
+            price=random.uniform(50, 500)
+        )
+        services.append(service)
+
+    # Thêm vào session và commit
+    _session.add_all(services)
     _session.commit()

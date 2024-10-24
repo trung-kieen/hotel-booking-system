@@ -10,7 +10,7 @@ class Service(Base):
     id = Column(Integer ,  primary_key= True, autoincrement=True)
     name = Column( String(80),nullable= False )
     price = Column ( DECIMAL  ,  nullable= False , default= 0)
-
+    services_invoices = Relationship("ServiceInvoice", back_populates="service")
     __table_args__ = (
         CheckConstraint(price >= 0, name='CK_price_positive'),
         {})

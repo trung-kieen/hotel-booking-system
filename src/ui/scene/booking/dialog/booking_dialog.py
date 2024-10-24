@@ -16,6 +16,7 @@ class BookingDialog(QDialog):
         room_id: int
         parent: QWidget
     """
+
     def __init__(self, room_id=None, parent=None):
         super().__init__(parent)
         self.booking = None
@@ -24,6 +25,9 @@ class BookingDialog(QDialog):
         self.setWindowTitle("Booking Dialog")
         self.ui = Ui_Booking_Dialog()
         self.ui.setupUi(self)
+        self.geometry().center()
+        from components.app import App
+        self.resize(int(App.maxWidth * 3 / 4), int(App.maxHeight * 3 / 4))
         self.init_base_ui()
         if room_id is not None:
             self.init_ui_w_room_data(room_id)
@@ -42,8 +46,8 @@ class BookingDialog(QDialog):
     def init_base_ui(self):
         self.ui.message_personal_infor_lb.setVisible(False)
 
-        self.ui.type_booking_cb.addItem(BookingType.DAILY.value)
-        self.ui.type_booking_cb.addItem(BookingType.HOURLY.value)
+        self.ui.type_booking_cb.addItem(BookingType.Daily.value)
+        self.ui.type_booking_cb.addItem(BookingType.Hourly.value)
 
         self.ui.start_date_picker.setMinimumDate(datetime.now())
         self.ui.end_date_picker.setMinimumDate(datetime.now())

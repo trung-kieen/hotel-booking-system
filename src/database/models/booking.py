@@ -8,8 +8,8 @@ from database.orm import Base
 
 
 class BookingType(enum.Enum):
-    HOURLY = "Hourly"
-    DAILY = "Daily"
+    Hourly = "Hourly"
+    Daily = "Daily"
 
 
 class Booking(Base, AuditCreation):
@@ -38,7 +38,9 @@ class Booking(Base, AuditCreation):
 
     is_canceled = Column(Boolean, default=False, nullable=False)
 
-    booking_type = Column(Enum(BookingType), nullable=False, default=BookingType.DAILY)
+    booking_type = Column(Enum(BookingType), nullable=False, default=BookingType.Daily)
+
+    invoice = relationship("Invoice", uselist=False, back_populates="booking", foreign_keys="Invoice.booking_id")
 
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
