@@ -113,5 +113,5 @@ class PayDialog(QDialog):
 
     def pay(self, booking: Booking):
         self._booking = booking
-        booking.invoice.status = PaymentStatus.DONE
+        booking.invoice.status = PaymentStatus.Done
         BookingService().update_invoice(booking.invoice)

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SerivceScene</class>
+ <widget class="QWidget" name="SerivceScene">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>802</width>
+    <height>590</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Hotel</string>
+  </property>
+  <widget class="QWidget" name="containerQwidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-10</y>
+     <width>821</width>
+     <height>611</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="8">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <property name="styleSheet">
+         <string notr="true">background-color: #FFFFFF</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QWidget" name="widget_2" native="true">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0">
+            <property name="spacing">
+             <number>20</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="filter_btn">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+                background-color: #007BFF;  /* Màu nền */
+                color: white;                 /* Màu chữ */
+                border: none;                 /* Không viền */
+                border-radius: 10px;         /* Bo tròn góc */
+                padding: 5px 10px;          /* Khoảng cách bên trong */
+            }
+            QPushButton:hover {
+                background-color: #0056b3;   /* Màu nền khi di chuột qua */
+            }</string>
+              </property>
+              <property name="text">
+               <string>Search</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="add_booking_btn">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+                background-color: #007BFF;  /* Màu nền */
+                color: white;                 /* Màu chữ */
+                border: none;                 /* Không viền */
+                border-radius: 10px;         /* Bo tròn góc */
+                padding: 5px 10px;          /* Khoảng cách bên trong */
+            }
+            QPushButton:hover {
+                background-color: #0056b3;   /* Màu nền khi di chuột qua */
+            }</string>
+              </property>
+              <property name="text">
+               <string>Create New Service</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="refresh_btn">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+                background-color: #007BFF;  /* Màu nền */
+                color: white;                 /* Màu chữ */
+                border: none;                 /* Không viền */
+                border-radius: 10px;         /* Bo tròn góc */
+                padding: 5px 10px;          /* Khoảng cách bên trong */
+            }
+            QPushButton:hover {
+                background-color: #0056b3;   /* Màu nền khi di chuột qua */
+            }</string>
+              </property>
+              <property name="text">
+               <string>↻</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableView" name="service_data_table">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="showGrid">
+            <bool>false</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

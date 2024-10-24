@@ -14,10 +14,11 @@ from database.models.booking import Booking
 from database.models.customer import Customer, Gender
 from database.models.floor import Floor
 from database.models.hotel import Hotel
-from database.models.invoice import Invoice
+from database.models.invoice import Invoice, PaymentStatus
 from database.models.room import Room, RoomType
 from database.models.service import Service
-from database.models.service_invoice import ServiceInvoice
+from database.models.booking_service import BookingService
+from database.repositories.base_repository import Repository
 
 _session: Session
 _ID_HOTEL = 1
@@ -117,12 +118,20 @@ def _fake_booking():
                 )
             )
 
-        if not is_canceled:
-
             # Create a single invoice for this booking
             services = random.sample(_session.query(Service).all(), random.randint(1, 3))  # Random services
-            total_price = sum(s.price for s in services)
+            total_price = sum(s.price for s in services) + Repository[Room]().get(_filters=[
+                (Room.id == l_b[-1].room_id)
+            ]).price if len(
+                l_b) > 0 else 0
 
+            # Link services to the invoice
+            for service in services:
+                _session.add(BookingService(
+                    service_id=service.id,
+                    booking_id=b_id,
+                    quantity=random.randint(1, 5)  # Random quantity for each service
+                ))
             invoice = Invoice(
                 id=invoice_count,
                 total_price=total_price,
@@ -130,14 +139,8 @@ def _fake_booking():
             )
             _session.add(invoice)
             invoice_count += 1
-
-            # Link services to the invoice
-            for service in services:
-                _session.add(ServiceInvoice(
-                    service_id=service.id,
-                    invoice_id=invoice.id,
-                    quantity=random.randint(1, 5)  # Random quantity for each service
-                ))
+            if not is_canceled:
+                invoice.status = PaymentStatus.Done
     # Lưu vào session và commit
     _session.add_all(l_b)
     _session.commit()

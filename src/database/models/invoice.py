@@ -7,7 +7,7 @@ from database.orm import Base
 
 
 class PaymentStatus(enum.Enum):
-    DONE = "Done"
+    Done = "Done"
     Pending = "Pending"
 
 
@@ -23,15 +23,6 @@ class Invoice(Base, AuditCreation):
     # One-to-One relationship with Booking
 
     booking = relationship("Booking", back_populates="invoice")
-
-    # Many-to-Many relationship with Service through ServiceInvoice
-    services = relationship("ServiceInvoice", back_populates="invoice")
-
-    # Direct relationship to retrieve services associated with this invoice
-    service_list = relationship("Service",
-                                secondary="services_invoices",  # use the association table
-                                # back_populates="invoices"
-                                )
 
     __table_args__ = (
         CheckConstraint(total_price >= 0, name='CK_total_price_positive'),
