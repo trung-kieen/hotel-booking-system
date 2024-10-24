@@ -37,6 +37,7 @@ class Ui_Dialog(object):
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
         self.txtPrice = QtWidgets.QLineEdit(self.layoutWidget)
         self.txtPrice.setInputMask("")
+        self.txtPrice.setText("")
         self.txtPrice.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.txtPrice.setObjectName("txtPrice")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.txtPrice)
@@ -69,7 +70,7 @@ class Ui_Dialog(object):
         self.lbRoomId.setText(_translate("Dialog", "Room details"))
         self.label.setText(_translate("Dialog", "Floor"))
         self.label_2.setText(_translate("Dialog", "Price"))
-        self.txtPrice.setText(_translate("Dialog", "0"))
+        self.txtPrice.setPlaceholderText(_translate("Dialog", "/night"))
         self.label_3.setText(_translate("Dialog", "Type"))
         self.ckLockRoom.setText(_translate("Dialog", "Lock"))
 

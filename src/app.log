@@ -1,0 +1,103 @@
+2024-10-23 19:05:45,762 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 19:33:22,237 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 19:33:29,271 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 19:33:38,132 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 19:35:49,123 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 19:36:15,539 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 19:38:08,221 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 19:38:23,307 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 19:41:37,204 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 19:56:02,131 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (12,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-23 19:56:06,821 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (12,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-23 21:14:36,706 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (11,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-23 21:14:41,675 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-23 21:14:42,661 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 21:14:45,006 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-23 21:14:53,892 - Hotel booking system - ERROR - Error occur could not convert string to float: ''
+2024-10-23 21:15:23,331 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (10,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-23 21:15:59,866 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-23 21:18:08,611 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:09,907 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:10,842 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:11,312 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:11,712 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,078 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,279 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,448 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,616 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,799 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:12,979 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:13,157 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:13,877 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:14,884 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:15,210 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:18:15,824 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-23 21:21:06,387 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-23 21:21:34,001 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-23 21:23:13,511 - Hotel booking system - ERROR - Error occur RoomDialog.accept() takes 1 positional argument but 2 were given
+2024-10-24 13:55:14,769 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (10,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-24 13:56:52,165 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (10,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-24 13:57:18,637 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 13:57:34,295 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:14:22,661 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (14,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-24 14:17:08,119 - Hotel booking system - ERROR - Error occur 'RoomDialog' object has no attribute 'txtPrice'
+2024-10-24 14:24:03,295 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:24:24,291 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:26:12,430 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:27:14,136 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:29:38,876 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:30:50,096 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:35:44,175 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:46:06,215 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:47:28,137 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 14:48:29,060 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:05:00,861 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (6,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-24 15:05:07,538 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (6,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2024-10-24 15:11:36,198 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:11:42,212 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:37:08,281 - Hotel booking system - ERROR - Error occur 'RoomScene' object has no attribute 'table_view'
+2024-10-24 15:39:44,382 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:39:56,305 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:40:05,913 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:40:29,929 - Hotel booking system - ERROR - Error occur 'RoomScene' object has no attribute 'saved_index'
+2024-10-24 15:40:56,973 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:43:58,238 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:44:26,896 - Hotel booking system - ERROR - Transaction failed. Rollback to previous stage
+2024-10-24 15:49:22,210 - Hotel booking system - ERROR - Error occur arguments did not match any overloaded call:
+  QMessageBox(parent: Optional[QWidget] = None): argument 1 has unexpected type 'Icon'
+  QMessageBox(icon: QMessageBox.Icon, title: Optional[str], text: Optional[str], buttons: Union[QMessageBox.StandardButtons, QMessageBox.StandardButton] = QMessageBox.NoButton, parent: Optional[QWidget] = None, flags: Union[Qt.WindowFlags, Qt.WindowType] = Qt.Dialog|Qt.MSWindowsFixedSizeDialogHint): argument 3 has unexpected type 'QModelIndex'
+2024-10-24 15:51:47,406 - Hotel booking system - ERROR - Error occur 'RoomScene' object has no attribute 'table_view'
+2024-10-24 15:53:53,239 - Hotel booking system - ERROR - Error occur '>=' not supported between instances of 'QModelIndex' and 'int'
+2024-10-24 15:54:29,603 - Hotel booking system - ERROR - Error occur 'QTableView' object has no attribute 'selected_row'
+2024-10-24 15:57:46,879 - Hotel booking system - ERROR - Error occur 'RoomScene' object has no attribute 'table_view'
+2024-10-24 16:05:26,968 - Hotel booking system - ERROR - Error occur (sqlite3.IntegrityError) FOREIGN KEY constraint failed
+[SQL: DELETE FROM rooms WHERE rooms.id = ?]
+[parameters: (13,)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

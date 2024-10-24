@@ -28,13 +28,14 @@ from database.orm import Session, bootstrap
 
 
 def main():
+
     engine = EngineHolder().get_engine()
 
     # Require to import all class inheritance with Base class (declarative_base)
     # If not explicit engine will not create table for those class
     bootstrap(engine)
+    fake_data.fake()
 
-    fake_data.fake(engine)
     app = App(sys.argv)
     app.run()
 

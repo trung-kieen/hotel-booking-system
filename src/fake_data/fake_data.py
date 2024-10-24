@@ -4,6 +4,7 @@ Author: Dang Xuan Lam
 import random
 from datetime import datetime, timedelta
 
+from database.engine import EngineHolder
 from faker.proxy import Faker
 from sqlalchemy.orm import create_session, Bundle, Session
 
@@ -26,7 +27,7 @@ gender = [Gender.FEMALE, Gender.MALE]
 _faker = Faker(["vi_VN"])
 
 
-def fake(engine):
+def fake(engine = EngineHolder().get_engine()):
     global _session
     _session = create_session(bind=engine)
     _fake_hotel()

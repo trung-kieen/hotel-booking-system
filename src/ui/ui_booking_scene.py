@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_booking_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -107,6 +108,7 @@ class Ui_ReservationScene(object):
         self.filter_btn.setText(_translate("ReservationScene", "Filter"))
         self.add_booking_btn.setText(_translate("ReservationScene", "Create New Booking"))
         self.refresh_btn.setText(_translate("ReservationScene", "↻"))
+
 
 if __name__ == "__main__":
     import sys

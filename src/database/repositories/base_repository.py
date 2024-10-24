@@ -14,6 +14,7 @@ class Repository(IRepository[T]):
     def insert(self, item: T) -> None:
         self.session.add(item)
         self.session.commit()
+        self.session.close()
 
     def delete(self, item: T) -> None:
         self.session.delete(item)
@@ -23,7 +24,7 @@ class Repository(IRepository[T]):
         keys = [k.name for k in self.__orig_class__.__args__[0].__mapper__.primary_key]
         primary_key_values = {key: getattr(item, key) for key in keys}
         existing_item = self.session.query(type(item)).filter_by(**primary_key_values).first()
-    
+
         if existing_item:
             # Merge the incoming item into the session to avoid session conflicts
             merged_item = self.session.merge(item)

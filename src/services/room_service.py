@@ -18,6 +18,7 @@ from database.repositories.base_repository import Repository
 from database.repositories.bed_room_repository import BedRoomRepository
 from database.repositories.bed_type_repository import BedTypeRepository
 from database.repositories.room_repository import RoomRepository
+from utils.decorator import handle_exception, transaction
 from utils.singleton import singleton
 
 
@@ -37,8 +38,10 @@ class RoomService:
     def update_bed_room(self, bed_room):
         return self.bed_room_repo.update(bed_room)
     def add_bed_room(self , bed_room):
-        self.bed_room_repo.insert
+        self.bed_room_repo.insert(bed_room)
 
+    def delete_room_by_id(self , room_id ):
+        self.room_repo.delete_by_id(room_id)
     def get_all_rooms(self):
         return self.room_repo.get_all()
 
@@ -60,7 +63,12 @@ class RoomService:
     def delete_bed_room_by_room_id_and_bed_type(self , room_id , type_id ) -> None :
         self.bed_room_repo.delete_by_room_id_and_bed_type(room_id , type_id)
 
+    @transaction
     def save_bed_room_by_room_id (self , room_id   , bed_rooms : Iterable[BedRoom] ):
+        """
+        Flush all old bed room then save new information
+        It more complex to determine which bed_room is delete, add, update
+        """
 
         # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
         final_bed_rooms_id = set([room.id for room in bed_rooms])
@@ -81,6 +89,43 @@ class RoomService:
         self.bed_room_repo.delete_by_room_id(room_id)
         self.bed_room_repo.insert_all(bed_rooms)
 
+    @handle_exception
+    @transaction
+    def update_room_and_bed (self,  updated_room : Room , bed_rooms : Iterable[BedRoom], session  = None  ):
+        # self.update_room(updated_room)
+        session.merge(updated_room)
+        # Need to persistence room before to get new room id
+        # session.commit()
+
+        bed_rooms_from_database = self.get_all_bed_by_room_id(updated_room.id)
+        bed_type_ids_before = set([bed_room.bed_type_id for bed_room in  bed_rooms_from_database])
+
+        # After is get from form dialog input field
+        bed_type_ids_after = set([bed.bed_type_id  for bed in bed_rooms])
+
+        added_bed_type_id = bed_type_ids_after - bed_type_ids_before
+        updated_bed_type_id = bed_type_ids_after &  bed_type_ids_before
+        deleted_bed_type_id =   bed_type_ids_before  -  bed_type_ids_after
+
+        for type_id in deleted_bed_type_id:
+            self.delete_bed_room_by_room_id_and_bed_type(updated_room.id  , type_id)
+        for bed  in bed_rooms:
+            if bed.bed_type_id in added_bed_type_id:
+                session.merge(bed)
+            elif bed.bed_type_id in updated_bed_type_id:
+                session.merge(bed)
+
+
+    @handle_exception
+    @transaction
+    def add_room_and_bed (self , new_room  : Room , bed_rooms : Iterable [ BedRoom], session= Session()):
+        session.add(new_room)
+            # Need to persistence room before to get new room id
+        session.commit()
+
+        for bed in bed_rooms:
+            bed.room_id = new_room.id
+            session.add(bed)
 
 
 
@@ -108,6 +153,9 @@ def get_bed_rooms( room_id ) -> Iterable[BedRoom]:
         return Session().query(BedRoom).filter_by(room_id = room_id ).all()
     else:
         return []
+
+def lock_members() -> Iterable:
+    return [(0 , "Active"), (1 , "Locked" )]
 
 
 def floor_members(prefix = "Floor ") -> Iterable:
@@ -256,10 +304,9 @@ def query_condition_translator(*predicates) -> str :
 
 
 class ItemRow(QWidget):
-    def __init__(self, bed_room: BedRoom, remove_callback : Callable, parent=None):
+    def __init__(self, bed_room: BedRoom, remove_callback : Callable, parent ):
         super().__init__(parent)
         print("Add bed room " , bed_room.bed_type_id )
-        self.layout = QHBoxLayout(self)
         self.bed_room = bed_room
 
 
@@ -272,7 +319,7 @@ class ItemRow(QWidget):
         self.input.setPlaceholderText('Enter number')
         self.input.setText(str(bed_room.bed_amount))  # Set default value
         self.input.setValidator(QDoubleValidator(0.99, 99.99, 2, self))  # Allow only numbers with up to 2 decimal places
-        self.lblCapacity= QLabel(str(self.bed_type.capacity) + " people/bed", self)
+        self.lblCapacity= QLabel(str(self.bed_type.capacity) + " Guests / Bed", self)
 
         # Create a button for deletion
         self.delete_button = QToolButton(self)
@@ -283,10 +330,14 @@ class ItemRow(QWidget):
         self.input.editingFinished.connect(self.validate_input)
 
         # Add widgets to layout
+        self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.label)
         self.layout.addWidget(self.input)
         self.layout.addWidget(self.lblCapacity)
         self.layout.addWidget(self.delete_button)
+        # self.parent.parentLayout.addRow(self.label, self.input, self.lblCapacity, self.delete_button)
+
+
     def get_bed_room_detail(self):
         """
         Return ( bed_type_name : bed_amount)
@@ -315,10 +366,10 @@ class BedRoomManager(QWidget):
     def __init__(self, room_id = None , parentLayout= None ):
         super().__init__()
         # All available type: Single, Double
-        self.room_service = RoomService()
+        self.room_service  = RoomService()
         self.parentLayout = parentLayout
 
-        self.bed_types: Iterable[BedType]= self.room_service.get_all_bed_types()
+        self.bed_types: Iterable[BedType]= self.room_service .get_all_bed_types()
         self.room_id  = room_id
         # TODO
         # Bed room information before edit
@@ -327,7 +378,6 @@ class BedRoomManager(QWidget):
 
         self.selected_bed_rooms : list[BedRoom] = []
         self.selected_item_widget : list[ItemRow] = []
-
 
         self.layout = QVBoxLayout(self)
 
@@ -400,7 +450,7 @@ class BedRoomManager(QWidget):
         """
         def add(bed_room: BedRoom):
             self.selected_bed_rooms.append(bed_room)
-            item_row_widget = ItemRow(bed_room , lambda: self.remove_bed_room(item_row_widget, bed_room), self)
+            item_row_widget = ItemRow(bed_room , lambda: self.remove_bed_room(item_row_widget, bed_room),  self)
             self.selected_item_widget.append(item_row_widget)
             self.layout.addWidget(item_row_widget)
 

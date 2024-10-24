@@ -160,7 +160,7 @@ class CustomerScene(QtWidgets.QMainWindow):
         # add new customer event
         self.ui.add_customer_btn.clicked.connect(self.open_add_customer_dialog)
         self.ui.filter_btn.clicked.connect(self.open_filter_customer_dialog)
-        self.ui.search_bar.textChanged.connect(self.perform_search)
+        self.ui.search_bar.returnPressed.connect(self.perform_search)
 
     def initUi(self):
         self.ui.model = QStandardItemModel()
@@ -197,7 +197,8 @@ class CustomerScene(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.information(self, "Update Customer", "Customer is updated successfully.")
             self.load_all_customers()
 
-    def perform_search(self, text):
+    def perform_search(self):
+        text = self.ui.search_bar.text()
         if text == "":
             self.load_all_customers()
         else:
