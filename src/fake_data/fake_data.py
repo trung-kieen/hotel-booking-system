@@ -16,7 +16,7 @@ from database.models.hotel import Hotel
 from database.models.invoice import Invoice, PaymentStatus
 from database.models.room import Room, RoomType
 from database.models.service import Service
-from database.models.booking_invoice import BookingService
+from database.models.booking_service import BookingService
 from database.repositories.base_repository import Repository
 
 _session: Session

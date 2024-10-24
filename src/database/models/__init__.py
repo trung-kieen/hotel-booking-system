@@ -10,5 +10,5 @@ __all__ = [
        "review",
        "room",
        "service",
-    "booking_invoice.py"
+       "booking_service"
 ]
