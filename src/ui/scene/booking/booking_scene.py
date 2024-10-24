@@ -156,51 +156,18 @@ class BookingScene(QtWidgets.QMainWindow):
 
     def filter_data(self):
         f = FilterDialog()
-        if f.exec() == QDialog.Accepted:  # Kiểm tra xem hộp thoại có được chấp nhận không
-            filters = f.apply_filter()  # Lấy các tiêu chí lọc
+        if f.exec() == QDialog.Accepted:
+            filters = f.apply_filter()
 
-            all_bookings = list(self.service.get_all_bookings())
-
-            filtered_bookings = []
-
-            for booking in all_bookings:
-                match = True
-
-                if "phone_number" in filters and filters["phone_number"]:
-                    if filters[
-                        "phone_number"] != booking.customer.phone:  # Giả định rằng có trường phone trong customer
-                        match = False
-                if "room_number" in filters and filters["room_number"]:
-                    if filters["room_number"] != str(booking.room_id):  # Giả định rằng có trường phone trong customer
-                        match = False
-                if "booking_type" in filters and filters["booking_type"] != "All":
-                    if booking.booking_type.value != filters["booking_type"]:  # So sánh với giá trị enum
-                        match = False
-
-                if "start_date" in filters and filters["start_date"]:
-                    if booking.start_date.date() <= filters["start_date"]:  # Giả định rằng đây là kiểu datetime
-                        match = False
-
-                if "end_date" in filters and filters["end_date"]:
-                    if booking.end_date.date() >= filters["end_date"]:  # Giả định rằng đây là kiểu datetime
-                        match = False
-
-                if "checkin" in filters and filters["checkin"]:
-                    if booking.checkin and booking.checkin.date() <= filters["checkin"]:  # Kiểm tra checkin có tồn tại
-                        match = False
-
-                if "checkout" in filters and filters["checkout"]:
-                    if booking.checkout and booking.checkout.date() >= filters[
-                        "checkout"]:  # Kiểm tra checkout có tồn tại
-                        match = False
-
-                # Kiểm tra trạng thái booking
-                if "status" in filters and filters["status"] != "All":
-                    current_status = BookingStatus.get_status(booking).value
-                    if current_status != filters["status"]:
-                        match = False
-                        
-                if match:
-                    filtered_bookings.append(booking)
+            filtered_bookings = self.service.filter_bookings(
+                booking_type=filters.get("booking_type"),
+                start_date=filters.get("start_date"),
+                end_date=filters.get("end_date"),
+                checkin=filters.get("checkin"),
+                checkout=filters.get("checkout"),
+                status=filters.get("status"),
+                room_id=filters.get("room_number"),
+                phone=filters.get("phone_number")
+            )
 
             self.adapter.set_items(filtered_bookings)

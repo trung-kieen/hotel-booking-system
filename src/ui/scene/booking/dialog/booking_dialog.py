@@ -46,8 +46,8 @@ class BookingDialog(QDialog):
     def init_base_ui(self):
         self.ui.message_personal_infor_lb.setVisible(False)
 
-        self.ui.type_booking_cb.addItem(BookingType.DAILY.value)
-        self.ui.type_booking_cb.addItem(BookingType.HOURLY.value)
+        self.ui.type_booking_cb.addItem(BookingType.Daily.value)
+        self.ui.type_booking_cb.addItem(BookingType.Hourly.value)
 
         self.ui.start_date_picker.setMinimumDate(datetime.now())
         self.ui.end_date_picker.setMinimumDate(datetime.now())

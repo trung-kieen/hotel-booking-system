@@ -139,12 +139,12 @@ class FilterDialog(QDialog):
 
         # Kiểm tra xem người dùng có chọn trạng thái không
         status = self.status_input.currentText()
-        if status != "None":
+        if status != "All":
             filters["status"] = status
 
         # Kiểm tra loại booking (Hourly, Daily)
         booking_type = self.booking_type_input.currentText()
-        if booking_type != "None":
+        if booking_type != "All":
             filters["booking_type"] = booking_type
 
         self.accept()

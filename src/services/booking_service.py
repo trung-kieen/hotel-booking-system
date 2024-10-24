@@ -10,6 +10,7 @@ from database.models.invoice import Invoice
 from database.models.room import Room, RoomType
 from database.repositories.base_repository import Repository
 from database.repositories.booking_repository import BookingRepository
+from ui.scene.booking.constant.booking_status import BookingStatus
 from utils.singleton import singleton
 
 
@@ -70,9 +71,16 @@ class BookingService:
     def update_invoice(self, invoice):
         return Repository[Invoice]().update(invoice)
 
-    def filter_bookings(self, booking_type=None, start_date=None, end_date=None, checkin=None, checkout=None,
-                        status=None):
+    def filter_bookings(self, room_id=None, phone=None, booking_type=None, start_date=None, end_date=None, checkin=None,
+                        checkout=None, status=None):
         filters = []
+
+        # Nếu có điều kiện lọc theo số điện thoại, thực hiện join với bảng Customer
+
+        if phone:
+            filters.append(Customer.phone == phone)  # Lọc theo số điện thoại của khách hàng
+        if room_id:
+            filters.append(Booking.room_id == room_id)  # Lọc theo số điện thoại của khách hàng
 
         if booking_type:
             filters.append(Booking.booking_type == booking_type)
@@ -90,18 +98,21 @@ class BookingService:
             filters.append(Booking.checkout <= checkout)
 
         if status:
-            # Tính toán trạng thái dựa trên các điều kiện
             current_date = datetime.date.today()
-            if status == "Completed":
+            if status == BookingStatus.Completed.value:
                 filters.append(Booking.checkout.isnot(None))
-            elif status == "Cancelled":
+            elif status == BookingStatus.Cancelled.value:
                 filters.append(Booking.is_canceled.is_(True))
-            elif status == "InActive":
-                filters.append(Booking.start_date <= current_date, Booking.end_date >= current_date,
-                               Booking.checkout.is_(None))
-            elif status == "InComing":
+            elif status == BookingStatus.InActive.value:
+                filters.append(Booking.start_date <= current_date)
+                filters.append(Booking.end_date >= current_date)
+                filters.append(Booking.checkout.is_(None))
+            elif status == BookingStatus.InComing.value:
                 filters.append(Booking.start_date > current_date)
-            elif status == "Late":
-                filters.append(Booking.end_date < current_date, Booking.checkout.is_(None))
+                filters.append(Booking.is_canceled.is_(False))
+            elif status == BookingStatus.Late.value:
+                filters.append(Booking.end_date < current_date)
+                filters.append(Booking.checkout.is_(None))
 
-        return self.booking_repo.get_all(filters)
+        # Áp dụng tất cả các bộ lọc nếu có
+        return self.booking_repo.filter_booking(filters)

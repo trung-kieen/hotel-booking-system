@@ -60,7 +60,7 @@ class PayDialog(QDialog):
         pass
 
     def init_bill_info(self, booking: Booking):
-        if booking.booking_type == BookingType.DAILY:
+        if booking.booking_type == BookingType.Daily:
             self.ui.room_price_lb.setText(f"{round(booking.room.price, 2)} / per night")
 
             def calculate_nights_stayed(checkin_date, checkout_date):

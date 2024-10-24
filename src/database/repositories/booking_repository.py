@@ -1,7 +1,7 @@
 from typing import Iterable
 
 from sqlalchemy import select, func, and_, or_
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import aliased, joinedload
 from typing_extensions import TypeVar
 
 from database.models.bed_room import BedRoom
@@ -94,3 +94,11 @@ class BookingRepository[T](Repository[T]):
         )
 
         return availability_query.count() > 0
+
+    def filter_booking(self, filters=None):
+        query = self.session.query(Booking).join(Booking.customer)
+
+        if filters:
+            query = query.filter(*filters)
+
+        return query.options(joinedload(Booking.customer)).all()
