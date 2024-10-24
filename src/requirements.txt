@@ -1,5 +1,5 @@
 pyqt5~=5.15.11
 sqlalchemy~=2.0.35
 logger
-
+qt_material
 Faker~=30.1.0

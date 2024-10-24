@@ -14,22 +14,115 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_CustomerScene(object):
     def setupUi(self, CustomerScene):
         CustomerScene.setObjectName("CustomerScene")
-        CustomerScene.resize(800, 600)
+        CustomerScene.resize(1728, 1051)
         self.containerQwidget = QtWidgets.QWidget(CustomerScene)
-        self.containerQwidget.setGeometry(QtCore.QRect(0, 20, 781, 561))
+        self.containerQwidget.setGeometry(QtCore.QRect(-10, -10, 821, 611))
+        self.containerQwidget.setStyleSheet("")
         self.containerQwidget.setObjectName("containerQwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label = QtWidgets.QLabel(self.containerQwidget)
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
-        self.pushButton_2 = QtWidgets.QPushButton(self.containerQwidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
-        self.pushButton = QtWidgets.QPushButton(self.containerQwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.w = QtWidgets.QWidget(self.containerQwidget)
+        self.w.setStyleSheet("background-color: #FFFFFF")
+        self.w.setObjectName("w")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.w)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.search_bar = QtWidgets.QLineEdit(self.w)
+        self.search_bar.setStyleSheet("")
+        self.search_bar.setText("")
+        self.search_bar.setObjectName("search_bar")
+        self.verticalLayout_2.addWidget(self.search_bar)
+        self.widget_2 = QtWidgets.QWidget(self.w)
+        self.widget_2.setStyleSheet("")
+        self.widget_2.setObjectName("widget_2")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget_2)
+        self.horizontalLayout_3.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 10, 0)
+        self.horizontalLayout_3.setSpacing(20)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem)
+        self.filter_btn = QtWidgets.QPushButton(self.widget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.filter_btn.sizePolicy().hasHeightForWidth())
+        self.filter_btn.setSizePolicy(sizePolicy)
+        self.filter_btn.setStyleSheet("QPushButton {\n"
+"                background-color: #007BFF;  /* Màu nền */\n"
+"                color: white;                 /* Màu chữ */\n"
+"                border: none;                 /* Không viền */\n"
+"                border-radius: 15px;         /* Bo tròn góc */\n"
+"                padding: 10px 20px;          /* Khoảng cách bên trong */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
+"            }")
+        self.filter_btn.setFlat(True)
+        self.filter_btn.setObjectName("filter_btn")
+        self.horizontalLayout_3.addWidget(self.filter_btn, 0, QtCore.Qt.AlignVCenter)
+        self.add_customer_btn = QtWidgets.QPushButton(self.widget_2)
+        self.add_customer_btn.setStyleSheet("QPushButton {\n"
+"                background-color: #007BFF;  /* Màu nền */\n"
+"                color: white;                 /* Màu chữ */\n"
+"                border: none;                 /* Không viền */\n"
+"                border-radius: 15px;         /* Bo tròn góc */\n"
+"                padding: 10px 20px;          /* Khoảng cách bên trong */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
+"            }")
+        self.add_customer_btn.setFlat(True)
+        self.add_customer_btn.setObjectName("add_customer_btn")
+        self.horizontalLayout_3.addWidget(self.add_customer_btn)
+        self.verticalLayout_2.addWidget(self.widget_2)
+        self.widget_3 = QtWidgets.QWidget(self.w)
+        self.widget_3.setStyleSheet("")
+        self.widget_3.setObjectName("widget_3")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.widget_3)
+        self.horizontalLayout_4.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 10, 0)
+        self.horizontalLayout_4.setSpacing(20)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.filter_btn_2 = QtWidgets.QPushButton(self.widget_3)
+        self.filter_btn_2.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.filter_btn_2.sizePolicy().hasHeightForWidth())
+        self.filter_btn_2.setSizePolicy(sizePolicy)
+        self.filter_btn_2.setStyleSheet("QPushButton {\n"
+"                background-color: #007BFF;  /* Màu nền */\n"
+"                color: white;                 /* Màu chữ */\n"
+"                border: none;                 /* Không viền */\n"
+"                border-radius: 15px;         /* Bo tròn góc */\n"
+"                padding: 10px 20px;          /* Khoảng cách bên trong */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
+"            }")
+        self.filter_btn_2.setFlat(True)
+        self.filter_btn_2.setObjectName("filter_btn_2")
+        self.horizontalLayout_4.addWidget(self.filter_btn_2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem1)
+        self.verticalLayout_2.addWidget(self.widget_3)
+        self.customer_data_table = QtWidgets.QTableView(self.w)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.customer_data_table.sizePolicy().hasHeightForWidth())
+        self.customer_data_table.setSizePolicy(sizePolicy)
+        self.customer_data_table.setObjectName("customer_data_table")
+        self.customer_data_table.horizontalHeader().setCascadingSectionResizes(False)
+        self.customer_data_table.verticalHeader().setCascadingSectionResizes(False)
+        self.verticalLayout_2.addWidget(self.customer_data_table)
+        self.verticalLayout.addWidget(self.w)
+        self.verticalLayout.setStretch(0, 8)
+        self.horizontalLayout.addLayout(self.verticalLayout)
 
         self.retranslateUi(CustomerScene)
         QtCore.QMetaObject.connectSlotsByName(CustomerScene)
@@ -37,9 +130,10 @@ class Ui_CustomerScene(object):
     def retranslateUi(self, CustomerScene):
         _translate = QtCore.QCoreApplication.translate
         CustomerScene.setWindowTitle(_translate("CustomerScene", "Hotel"))
-        self.label.setText(_translate("CustomerScene", "This is customer scene load from separate file ui"))
-        self.pushButton_2.setText(_translate("CustomerScene", "PushButton"))
-        self.pushButton.setText(_translate("CustomerScene", "PushButton"))
+        self.search_bar.setPlaceholderText(_translate("CustomerScene", "Search customer by name..."))
+        self.filter_btn.setText(_translate("CustomerScene", "Filter"))
+        self.add_customer_btn.setText(_translate("CustomerScene", "Add New Customer"))
+        self.filter_btn_2.setText(_translate("CustomerScene", "Customer Information"))
 
 
 if __name__ == "__main__":

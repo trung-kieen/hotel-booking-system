@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/ui_main_window.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -97,3 +97,13 @@ class Ui_MainWindow(object):
         self.customerButton.setText(_translate("MainWindow", "Customer"))
         self.reservationButton.setText(_translate("MainWindow", "Reservation"))
         self.roomButton.setText(_translate("MainWindow", "Rooms"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

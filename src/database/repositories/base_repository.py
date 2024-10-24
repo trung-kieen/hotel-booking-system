@@ -3,6 +3,7 @@ from typing import Iterable, Any
 from sqlalchemy import and_
 
 from database.repositories.irepository import IRepository, T
+from utils.singleton import singleton
 
 
 class Repository(IRepository[T]):
