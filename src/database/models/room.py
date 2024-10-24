@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 import enum
 
 from sqlalchemy.orm import backref, defaultload, relationship
@@ -28,11 +31,15 @@ class Room(Base):
     room_type = Column(Enum(RoomType), nullable=False)
     is_locked = Column(Integer, default=0, nullable=False)
     price = Column(DECIMAL, default=0, nullable=False)
-    bed_types = relationship("BedType", secondary="bed_rooms", back_populates="rooms")
-    bookings = relationship("Booking", back_populates="room")
+    bed_types = relationship("BedType", secondary="bed_rooms", back_populates="rooms", )
 
+    # Cascade allow to delete room if there are no
+    bookings = relationship("Booking", back_populates="room" , cascade="all, delete-orphan")
+
+    __table_args__ = (
+        CheckConstraint(price> 0, name='CK_total_price_positive'),
+        {})
     def __repr__(self):
         return (f"<{self.__class__.__name__}(id={self.id}, "
                 f"floor_id={self.floor_id}, room_type='{self.room_type}', "
                 f"is_locked={self.is_locked}, price={self.price})>")
-

@@ -8,6 +8,7 @@ from utils.constants import APP_NAME, LOG_FILE
 def setup_logger_config(name: str =APP_NAME , log_file: str = LOG_FILE):
     """
     Call in start project entry point to setup logger
+    Error log will save in specific file
     Usage:
     - logger.info("Application has started.")
     - logger.error("An error occurred: %s", e)
@@ -39,6 +40,6 @@ def setup_logger_config(name: str =APP_NAME , log_file: str = LOG_FILE):
 """
 Get this global variable to use same config
 Example:
-logger.info("HI")
+app_logger.info("HI")
 """
 app_logger =  setup_logger_config()

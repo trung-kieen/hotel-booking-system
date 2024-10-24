@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtSql import QSqlQueryModel
@@ -22,14 +25,16 @@ class RoomScene( QtWidgets.QMainWindow ):
         self.room_service = RoomService()
 
 
+        # TODO: create class to manager filter cmb
         self.floor_cmb_filter = ComboboxFilterAdapter(floor_members() , self.ui.cmbFloor ,  field_name="floor_id" , all_view_value="All floor")
         self.room_type_cmb_filter= ComboboxFilterAdapter(room_type_members() , self.ui.cmbRoomType,  field_name="room_type", all_view_value="All type")
         self.lock_status_cmb_filter= ComboboxFilterAdapter(lock_members() , self.ui.cmbLockStatus,  field_name="is_locked")
         self.cmb_filter_list = [self.floor_cmb_filter , self.room_type_cmb_filter, self.lock_status_cmb_filter]
 
-        self._initUi()
+        self._init_ui()
+
         self.model : QSqlQueryModel
-        self.refreshRoomTable()
+        self.refresh_room_table()
         self._register_event()
 
 
@@ -37,60 +42,52 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
 
-    def _initUi(self):
+    def _init_ui(self):
         self.setCentralWidget(self.ui.containerQwidget )
-
 
         apply_theme(self.ui.tableView)
         apply_theme(self.ui.cmbRoomType)
         apply_theme(self.ui.cmbFloor)
         apply_theme(self.ui.cmbLockStatus)
-        adjust_view_table(self.ui.tableView)
         adjust_cmb(self.ui.cmbFloor)
         adjust_cmb(self.ui.cmbRoomType)
         adjust_cmb(self.ui.cmbLockStatus)
+
         set_style_button(self.ui.btnAddRoom)
         set_style_button(self.ui.btnEditRoom)
+        set_style_button(self.ui.btnDeleteRoom)
+
+        adjust_view_table(self.ui.tableView)
 
     def _register_event(self):
-        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.refreshRoomTable() )
-        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.refreshRoomTable())
-        self.ui.cmbLockStatus.currentIndexChanged.connect(lambda : self.refreshRoomTable())
-        self.ui.btnEditRoom.clicked.connect(lambda: self._openEditRoomDialog())
-        self.ui.btnAddRoom.clicked.connect(lambda: self._openAddRoomDialog())
-        self.ui.btnDeleteRoom.clicked.connect(lambda: self._deleteCurrentRoom())
+        self.ui.cmbFloor.currentIndexChanged.connect(lambda : self.refresh_room_table() )
+        self.ui.cmbRoomType.currentIndexChanged.connect(lambda : self.refresh_room_table())
+        self.ui.cmbLockStatus.currentIndexChanged.connect(lambda : self.refresh_room_table())
+        self.ui.btnEditRoom.clicked.connect(lambda: self._open_edit_room_dialog())
+        self.ui.btnAddRoom.clicked.connect(lambda: self._open_add_room_dialog())
+        self.ui.btnDeleteRoom.clicked.connect(lambda: self._delete_current_room())
 
 
 
-    def _openAddRoomDialog(self):
+    def _open_add_room_dialog(self):
         dialog = RoomDialog()
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.refreshRoomTable()
-            # Dialog was accepted, you can refresh your customer list or perform other actions
-
-
-
-
-        pass
-
-
+            self.refresh_room_table()
     @handle_exception
-    def _deleteCurrentRoom(self):
-        # TODO
-        # print("Erorr orccure ")
-        # raise Exception("SOme thing went wrong ")
+    def _delete_current_room(self):
+        # TODO: Use business error message
         target_room_id   = self._selected_room_id()
         if target_room_id:
             # TODO: Check before delete
             self.room_service.delete_room_by_id(target_room_id)
-            self.refreshRoomTable()
+            self.refresh_room_table()
 
 
 
 
 
 
-    def _openEditRoomDialog(self):
+    def _open_edit_room_dialog(self):
         room_id = self._selected_room_id()
         if not self._selected_room_id():
             # TODO: use msg box or diable button
@@ -98,10 +95,9 @@ class RoomScene( QtWidgets.QMainWindow ):
         # Open to edit current room
         dialog = RoomDialog(room_id)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.refreshRoomTable()
+            self.refresh_room_table()
 
     def _selected_room_id (self):
-        # column_headers = []
         def model_header_index(header_name):
             """
             Return index of header match header_name
@@ -138,7 +134,17 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
 
-    def refreshRoomTable(self):
+    @handle_exception
+    def refresh_room_table(self):
+        # Boilerplate code to remain table cusor position
+        current_index = self.ui.tableView.currentIndex()
+        current_row : int = -1
+        if current_index:
+            current_row = current_index.row()
+
+
+
+
         conditions = [ ]
         for cmb in self.cmb_filter_list:
             conditions.append(cmb.query_condition())
@@ -146,7 +152,14 @@ class RoomScene( QtWidgets.QMainWindow ):
         # TODO: Pagination
         PAGE_LIMIT_RESULT = 1000
 
-
         stmt = query_get_room_by_total_capacity.format(conditions_string, PAGE_LIMIT_RESULT)
         self.model = fill_data(sql_statement=stmt, view=self.ui.tableView)
         adjust_size(self.ui.tableView)
+
+
+
+        # Revert previous selected row
+        try:
+            self.ui.tableView.selectRow(current_row)
+        except:
+            pass

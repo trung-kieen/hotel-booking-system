@@ -32,7 +32,7 @@ class Booking(Base, AuditCreation):
 
     num_children = Column(Integer, default=0, nullable=False)
 
-    room_id = Column(Integer, ForeignKey("rooms.id"))
+    room_id = Column(Integer, ForeignKey("rooms.id", ondelete='RESTRICT'))
 
     room = relationship("Room", backref="rooms")
 

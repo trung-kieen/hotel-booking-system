@@ -18,7 +18,7 @@ from database.repositories.base_repository import Repository
 from database.repositories.bed_room_repository import BedRoomRepository
 from database.repositories.bed_type_repository import BedTypeRepository
 from database.repositories.room_repository import RoomRepository
-from utils.decorator import transaction
+from utils.decorator import handle_exception, transaction
 from utils.singleton import singleton
 
 
@@ -63,7 +63,12 @@ class RoomService:
     def delete_bed_room_by_room_id_and_bed_type(self , room_id , type_id ) -> None :
         self.bed_room_repo.delete_by_room_id_and_bed_type(room_id , type_id)
 
+    @transaction
     def save_bed_room_by_room_id (self , room_id   , bed_rooms : Iterable[BedRoom] ):
+        """
+        Flush all old bed room then save new information
+        It more complex to determine which bed_room is delete, add, update
+        """
 
         # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
         final_bed_rooms_id = set([room.id for room in bed_rooms])
@@ -84,16 +89,19 @@ class RoomService:
         self.bed_room_repo.delete_by_room_id(room_id)
         self.bed_room_repo.insert_all(bed_rooms)
 
+    @handle_exception
     @transaction
-    def update_room_and_bed (self,  updated_room : Room , bed_rooms : Iterable[BedRoom], session =Session()):
-        self.update_room(updated_room)
+    def update_room_and_bed (self,  updated_room : Room , bed_rooms : Iterable[BedRoom], session  = None  ):
+        # self.update_room(updated_room)
+        session.merge(updated_room)
         # Need to persistence room before to get new room id
-        session.commit()
+        # session.commit()
 
-        bed_type_ids_before = set(bed_room.bed_type_id for bed_room in  self.get_all_bed_by_room_id(updated_room.id))
+        bed_rooms_from_database = self.get_all_bed_by_room_id(updated_room.id)
+        bed_type_ids_before = set([bed_room.bed_type_id for bed_room in  bed_rooms_from_database])
 
-
-        bed_type_ids_after = set(bed.bed_type_id  for bed in bed_rooms) # After is get from form information
+        # After is get from form dialog input field
+        bed_type_ids_after = set([bed.bed_type_id  for bed in bed_rooms])
 
         added_bed_type_id = bed_type_ids_after - bed_type_ids_before
         updated_bed_type_id = bed_type_ids_after &  bed_type_ids_before
@@ -103,10 +111,12 @@ class RoomService:
             self.delete_bed_room_by_room_id_and_bed_type(updated_room.id  , type_id)
         for bed  in bed_rooms:
             if bed.bed_type_id in added_bed_type_id:
-                session.add(bed)
+                session.merge(bed)
             elif bed.bed_type_id in updated_bed_type_id:
-                self.update_bed_room(bed)
+                session.merge(bed)
 
+
+    @handle_exception
     @transaction
     def add_room_and_bed (self , new_room  : Room , bed_rooms : Iterable [ BedRoom], session= Session()):
         session.add(new_room)
@@ -368,7 +378,6 @@ class BedRoomManager(QWidget):
 
         self.selected_bed_rooms : list[BedRoom] = []
         self.selected_item_widget : list[ItemRow] = []
-
 
         self.layout = QVBoxLayout(self)
 

@@ -71,7 +71,7 @@ class Ui_RoomScene(object):
         self.label.setText(_translate("RoomScene", "Room"))
         self.btnAddRoom.setText(_translate("RoomScene", "Add Room"))
         self.btnEditRoom.setText(_translate("RoomScene", "Edit Room"))
-        self.btnDeleteRoom.setText(_translate("RoomScene", "PushButton"))
+        self.btnDeleteRoom.setText(_translate("RoomScene", "Delete"))
 
 
 if __name__ == "__main__":
