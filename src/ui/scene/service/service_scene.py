@@ -1,10 +1,11 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets
+
+from ui.ui_service_scene import Ui_SerivceScene
 
 
-class ServiceScene(QtWidgets.QWidget):
+class ServiceScene(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        layout = QtWidgets.QVBoxLayout(self)
-        label = QtWidgets.QLabel("Service Scene")
-        label.setAlignment(QtCore.Qt.AlignCenter)
-        layout.addWidget(label)
+        self.ui = Ui_SerivceScene()
+        self.ui.setupUi(self)
+        self.setCentralWidget(self.ui.containerQwidget)
