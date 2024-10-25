@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import QColor, QPalette
 from PyQt5.QtWidgets import QTableView, QWidget
 from qt_material import apply_stylesheet
+from sqlalchemy import table
 
 class Color(Enum):
     SURFACE_BACKGROUND = QColor(248, 250, 252)
@@ -63,6 +64,10 @@ def adjust_cmb (cmb):
     cmb.setFixedWidth(cmb.minimumSizeHint().width() + border_offset )
 
 def adjust_view_table(tableWidget: QTableView):
+
     tableWidget.setSelectionMode(QtWidgets.QTableView.SingleSelection)
     tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
-    tableWidget.setStyleSheet("background-color: #FFFFFF");
+    header = tableWidget.horizontalHeader()
+    header.setStyleSheet(
+            "QHeaderView::section { border: none; border-bottom: 2px solid black;  background-color: #FFFFFF }"
+    )

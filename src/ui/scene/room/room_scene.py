@@ -43,6 +43,8 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _init_ui(self):
+        apply_stylesheet(self, theme='light_blue.xml', extra={'font_size': '15px'})
+        self.setStyleSheet("background-color: #FFFFFF")
         self.setCentralWidget(self.ui.containerQwidget )
 
         apply_theme(self.ui.tableView)
@@ -77,7 +79,11 @@ class RoomScene( QtWidgets.QMainWindow ):
     def _delete_current_room(self):
         # TODO: Use business error message
         target_room_id   = self._selected_room_id()
-        if target_room_id:
+        if not target_room_id: return
+        reply = QtWidgets.QMessageBox.question(self, 'Confirm Delete',
+                                                f"Are you sure you want to delete room ID {target_room_id}?",
+                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if reply:
             # TODO: Check before delete
             self.room_service.delete_room_by_id(target_room_id)
             self.refresh_room_table()
