@@ -40,11 +40,11 @@ class Ui_SerivceScene(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
-        self.lineEdit = QtWidgets.QLineEdit(self.widget_2)
-        self.lineEdit.setObjectName("lineEdit")
-        self.horizontalLayout_3.addWidget(self.lineEdit)
-        self.filter_btn = QtWidgets.QPushButton(self.widget_2)
-        self.filter_btn.setStyleSheet("QPushButton {\n"
+        self.search_ld = QtWidgets.QLineEdit(self.widget_2)
+        self.search_ld.setObjectName("search_ld")
+        self.horizontalLayout_3.addWidget(self.search_ld)
+        self.search_btn = QtWidgets.QPushButton(self.widget_2)
+        self.search_btn.setStyleSheet("QPushButton {\n"
 "                background-color: #007BFF;  /* Màu nền */\n"
 "                color: white;                 /* Màu chữ */\n"
 "                border: none;                 /* Không viền */\n"
@@ -54,10 +54,10 @@ class Ui_SerivceScene(object):
 "            QPushButton:hover {\n"
 "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
 "            }")
-        self.filter_btn.setObjectName("filter_btn")
-        self.horizontalLayout_3.addWidget(self.filter_btn)
-        self.add_booking_btn = QtWidgets.QPushButton(self.widget_2)
-        self.add_booking_btn.setStyleSheet("QPushButton {\n"
+        self.search_btn.setObjectName("search_btn")
+        self.horizontalLayout_3.addWidget(self.search_btn)
+        self.create_new_service_btn = QtWidgets.QPushButton(self.widget_2)
+        self.create_new_service_btn.setStyleSheet("QPushButton {\n"
 "                background-color: #007BFF;  /* Màu nền */\n"
 "                color: white;                 /* Màu chữ */\n"
 "                border: none;                 /* Không viền */\n"
@@ -67,9 +67,9 @@ class Ui_SerivceScene(object):
 "            QPushButton:hover {\n"
 "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
 "            }")
-        self.add_booking_btn.setFlat(True)
-        self.add_booking_btn.setObjectName("add_booking_btn")
-        self.horizontalLayout_3.addWidget(self.add_booking_btn)
+        self.create_new_service_btn.setFlat(True)
+        self.create_new_service_btn.setObjectName("create_new_service_btn")
+        self.horizontalLayout_3.addWidget(self.create_new_service_btn)
         self.refresh_btn = QtWidgets.QPushButton(self.widget_2)
         self.refresh_btn.setStyleSheet("QPushButton {\n"
 "                background-color: #007BFF;  /* Màu nền */\n"
@@ -108,6 +108,6 @@ class Ui_SerivceScene(object):
     def retranslateUi(self, SerivceScene):
         _translate = QtCore.QCoreApplication.translate
         SerivceScene.setWindowTitle(_translate("SerivceScene", "Hotel"))
-        self.filter_btn.setText(_translate("SerivceScene", "Search"))
-        self.add_booking_btn.setText(_translate("SerivceScene", "Create New Service"))
+        self.search_btn.setText(_translate("SerivceScene", "Search"))
+        self.create_new_service_btn.setText(_translate("SerivceScene", "Create New Service"))
         self.refresh_btn.setText(_translate("SerivceScene", "↻"))
