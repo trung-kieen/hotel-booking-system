@@ -11,8 +11,7 @@ class Service(Base, AuditCreation):
     name = Column(String(80), nullable=False)
     price = Column(DECIMAL, nullable=False, default=0)
 
-    # Quan hệ với bảng BookingService
-    services_invoices = relationship("BookingService", back_populates="service")
+    bookings = relationship("Booking", secondary="booking_services", back_populates="services")
 
     __table_args__ = (
         CheckConstraint(price >= 0, name='CK_price_positive'),

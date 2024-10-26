@@ -42,10 +42,9 @@ class Booking(Base, AuditCreation):
 
     invoice = relationship("Invoice", uselist=False, back_populates="booking", foreign_keys="Invoice.booking_id")
 
-    services = relationship("BookingService", back_populates="booking")
-    
-    
-
+    # Quan hệ nhiều-nhiều với Service thông qua bảng trung gian BookingService
+    services = relationship("Service", secondary="booking_services", back_populates="bookings")
+        
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
         CheckConstraint(num_adults >= 0, name='CK_num_adults_positive'),
