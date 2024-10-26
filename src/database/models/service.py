@@ -1,9 +1,11 @@
 from sqlalchemy import DECIMAL, CheckConstraint, Column, Integer, String
 from sqlalchemy.orm import relationship
+
+from database.models.audit import AuditCreation
 from database.orm import Base
 
 
-class Service(Base):
+class Service(Base, AuditCreation):
     __tablename__ = "services"
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(80), nullable=False)

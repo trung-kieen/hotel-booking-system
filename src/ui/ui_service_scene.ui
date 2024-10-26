@@ -75,10 +75,10 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="search_ld"/>
             </item>
             <item>
-             <widget class="QPushButton" name="filter_btn">
+             <widget class="QPushButton" name="search_btn">
               <property name="styleSheet">
                <string notr="true">QPushButton {
                 background-color: #007BFF;  /* Màu nền */
@@ -97,7 +97,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="add_booking_btn">
+             <widget class="QPushButton" name="create_new_service_btn">
               <property name="styleSheet">
                <string notr="true">QPushButton {
                 background-color: #007BFF;  /* Màu nền */

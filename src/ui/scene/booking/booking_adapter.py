@@ -1,34 +1,17 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
+from components.adapter.adapter import AdapterBase
 from database.models.booking import Booking
 from ui.scene.booking.constant.booking_status import BookingStatus
 
 
-class BookingAdapter:
-    def __init__(self, bookings=None):
-        self.model = QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(
-            ['Guest Name', 'Room', "Start", "End", "Checkin", "Checkout", "Status"]
-        )
+class BookingAdapter(AdapterBase[Booking]):
 
-    def set_items(self, bookings):
-        """Cập nhật toàn bộ danh sách bookings và load vào model."""
-        self.model.setRowCount(0)  # Xóa dữ liệu cũ trong model
-        for row, booking in enumerate(bookings):
-            self._add_booking_to_model(row, booking)
+    def get_headers(self):
+        return ['Guest Name', 'Room', "Start", "End", "Checkin", "Checkout", "Status"]
 
-    def add_item(self, booking):
-        """Thêm một booking vào model."""
-        row = self.model.rowCount()
-        self._add_booking_to_model(row, booking)
-
-    def get_item(self, row) -> Booking | None:
-        """Lấy một booking từ hàng tương ứng."""
-        item = self.model.item(row, 0)  # Lấy item tại cột đầu tiên
-        return item.data(Qt.UserRole)  # Lấy đối tượng Booking từ UserRole
-
-    def _add_booking_to_model(self, row, booking):
+    def add_item_to_model(self, row, booking: Booking):
         """Thêm một mục vào model tại hàng chỉ định và lưu đối tượng Booking."""
         # Guest Name
         item = QStandardItem(str(booking.customer.lastname + " " + booking.customer.firstname))
@@ -72,12 +55,3 @@ class BookingAdapter:
         item.setTextAlignment(Qt.AlignCenter)
         item.setEditable(False)
         self.model.setItem(row, 6, item)
-
-    def get_model(self):
-        """Trả về model để đổ vào QTableView."""
-        return self.model
-
-    def update_item(self, row, booking):
-        """Cập nhật một booking tại hàng chỉ định."""
-        # Cập nhật booking trong model
-        self._add_booking_to_model(row, booking)
