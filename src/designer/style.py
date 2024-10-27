@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QTableView, QWidget
 from qt_material import apply_stylesheet
 from sqlalchemy import table
 
+
 class Color(Enum):
     SURFACE_BACKGROUND = QColor(248, 250, 252)
     BASE_BACKGROUND = QColor(255, 255, 255)
@@ -20,6 +21,20 @@ class STYLE(Enum):
     PRIMARY_CONTAINER = (Color.BASE_BACKGROUND.value, Color.PRIMARY_TEXT.value)
     SECONDARY_CONTAINER = (Color.SURFACE_BACKGROUND.value, Color.PRIMARY_TEXT.value)
     BUTTON = (Color.SURFACE_BACKGROUND.value, Color.PRIMARY_TEXT.value)
+    MENU = """
+            QMenu {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+            QMenu::item {
+                background-color: transparent;
+                color: #000000;
+            }
+            QMenu::item:selected {
+                background-color: #87CEEB; /* Light Blue */
+                color: #000000; /* Keep text color black */
+            }
+        """
 
 
 def set_style(widget: QWidget, style):
@@ -39,7 +54,7 @@ def set_widget_property(widget: QWidget, background=None, text_color=None, reset
     widget.setAutoFillBackground(True)
 
 
-def set_style_button(widget: QWidget, style = None):
+def set_style_button(widget: QWidget, style=None):
     widget.setStyleSheet("QPushButton {\n"
                          "                background-color: #007BFF;  /* Màu nền */\n"
                          "                color: white;                 /* Màu chữ */\n"
@@ -51,17 +66,18 @@ def set_style_button(widget: QWidget, style = None):
                          "                background-color: #0056b3;   /* Màu nền khi di chuột qua */\n"
                          "            }")
 
+
 def apply_theme(widget):
     apply_stylesheet(widget, theme='light_blue.xml', css_file='custom.css', extra={'font-size': '15px'})
 
 
-
-def adjust_cmb (cmb):
+def adjust_cmb(cmb):
     """
     Add space for combox when apply material theme `apply_theme(widget)`
     """
     border_offset = 25
-    cmb.setFixedWidth(cmb.minimumSizeHint().width() + border_offset )
+    cmb.setFixedWidth(cmb.minimumSizeHint().width() + border_offset)
+
 
 def adjust_view_table(tableWidget: QTableView):
 

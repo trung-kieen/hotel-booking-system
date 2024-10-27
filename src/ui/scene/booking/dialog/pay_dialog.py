@@ -1,12 +1,14 @@
 from datetime import datetime
 
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QDialog, QHeaderView, QSizePolicy, QTableView
 
 from database.models.booking import Booking, BookingType
 from database.models.customer import Customer
 from database.models.invoice import PaymentStatus
 from services.booking_service import BookingService
 from ui.scene.booking.dialog.ui.ui_pay import Ui_Pay_Dialog
+from ui.scene.service.service_adapter import ServiceAdapter
 from utils.invoice_caculator import BookingPriceCalculator
 
 
@@ -24,7 +26,7 @@ class PayDialog(QDialog):
         self.init_base_ui()
         self.init_personal_info(booking.customer)
         self.init_stay_info(booking)
-        self.init_service_info()
+        self.init_service_info(booking)
         self.init_bill_info(booking)
 
     def init_base_ui(self):
@@ -56,8 +58,42 @@ class PayDialog(QDialog):
         self.ui.num_of_guest_lb.setText(str(booking.num_adults + booking.num_children))
         self.ui.room_type_lb.setText(booking.room.room_type.value)
 
-    def init_service_info(self):
-        pass
+    def init_service_info(self, booking: Booking):
+        data = [booking_service.service for booking_service in booking.booking_services]
+        if len(data):
+            adapter = ServiceAdapter()
+            adapter.set_items(data)
+            self.ui.service_data_table.setModel(adapter.get_model())
+            header = self.ui.service_data_table.horizontalHeader()
+            header.setStyleSheet(
+                "QHeaderView::section { border: none; border-bottom: 2px solid black;  background-color: #FFFFFF }"
+            )
+            header.setSectionResizeMode(QHeaderView.Stretch)
+            # Resize column and row to fit contents
+            self.vertical_resize_table_view_to_contents(self.ui.service_data_table)
+        else:
+            self.ui.service_data_table.hide()
+
+    def vertical_resize_table_view_to_contents(self, table_view: QTableView) -> None:
+        row_total_height = 0
+
+        # Tính chiều cao tổng của các hàng
+        count = table_view.verticalHeader().count()
+        for i in range(count):
+            if not table_view.verticalHeader().isSectionHidden(i):
+                row_total_height += table_view.verticalHeader().sectionSize(i)
+
+        # Kiểm tra thanh cuộn ngang
+        if not table_view.horizontalScrollBar().isHidden():
+            row_total_height += table_view.horizontalScrollBar().height()
+
+        # Kiểm tra tiêu đề ngang
+        if not table_view.horizontalHeader().isHidden():
+            row_total_height += table_view.horizontalHeader().height()
+
+        # Đặt chiều cao tối thiểu cho QTableView
+        table_view.setMinimumHeight(row_total_height)
+        table_view.verticalHeader().hide()
 
     def init_bill_info(self, booking: Booking):
         if booking.booking_type == BookingType.Daily:
@@ -78,7 +114,7 @@ class PayDialog(QDialog):
             room_price = booking.room.price * nights
             total_room_price = room_price + extra_charges
 
-            service = 0
+            service = round(sum([ser.price for ser in booking.services]), 2)
 
             self.ui.service_total_price_lb.setText(str(round(service, 2)))
             self.ui.room_total_price_lb.setText(str(round(total_room_price, 2)))
@@ -100,7 +136,8 @@ class PayDialog(QDialog):
 
             # Tính giá phòng dựa trên giờ đã ở
             room_price = booking.room.price * 0.05 / 24 * hours
-            service = 0
+            service = round(sum([ser.price for ser in booking.services]), 2)
+
             self.ui.room_total_price_lb.setText(str(round(room_price, 2)))
             self.ui.service_total_price_lb.setText(str(round(service, 2)))
 

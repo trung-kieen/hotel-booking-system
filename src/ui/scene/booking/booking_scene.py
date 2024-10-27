@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog
 
 from components.messagebox.popup import BasePopup
 from database.models.booking import Booking
+from designer.style import STYLE
 from services.booking_service import BookingService
 from ui.scene.booking.booking_adapter import BookingAdapter
 from qt_material import apply_stylesheet
@@ -34,7 +35,7 @@ class BookingScene(QtWidgets.QMainWindow):
         self.init_state()
 
         # Apply theme
-        apply_stylesheet(self, theme='light_blue.xml', extra={'font_size': '15px'})
+        apply_stylesheet(self.ui, theme='light_blue.xml', extra={'font_size': '15px'})
 
     def init_ui(self):
         # Đổ model từ Adapter vào QTableView
@@ -77,6 +78,7 @@ class BookingScene(QtWidgets.QMainWindow):
 
         if model_index.isValid():  # Kiểm tra nếu vị trí nhấp là hợp lệ
             menu = QMenu(self)  # Tạo một menu
+            menu.setStyleSheet(STYLE.MENU.value)
             action_edit = menu.addAction("Edit")
             action_details = menu.addAction("View Details")
             item = self.adapter.get_item(model_index.row())

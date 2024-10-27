@@ -40,7 +40,7 @@ background-color: rgb(255, 255, 255);</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-461</y>
+        <y>0</y>
         <width>916</width>
         <height>1146</height>
        </rect>
@@ -497,7 +497,11 @@ QFrame#bill_container
                  </widget>
                 </item>
                 <item>
-                 <widget class="QTableView" name="tableView"/>
+                 <widget class="QTableView" name="service_data_table">
+                  <property name="verticalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAlwaysOff</enum>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>

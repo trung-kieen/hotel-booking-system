@@ -1,10 +1,13 @@
 from datetime import datetime
 
-from PyQt5.QtGui import QIntValidator
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIntValidator, QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QDialog
+from faker.utils.decorators import lowercase
 
 from database.models.booking import BookingType
 from services.booking_service import BookingService
+from services.service_service import ServiceService
 from ui.scene.booking.dialog.ui.ui_booking import Ui_Booking_Dialog
 from utils.room_information import get_room_location, get_base_information
 
@@ -19,6 +22,7 @@ class BookingDialog(QDialog):
 
     def __init__(self, room_id=None, parent=None):
         super().__init__(parent)
+        self.service_service = None
         self.booking = None
         self.current_user = None
         self.booking_service = BookingService()
@@ -29,6 +33,7 @@ class BookingDialog(QDialog):
         from components.app import App
         self.resize(int(App.maxWidth * 3 / 4), int(App.maxHeight * 3 / 4))
         self.init_base_ui()
+        self.init_service_container()
         if room_id is not None:
             self.init_ui_w_room_data(room_id)
         else:
@@ -107,8 +112,10 @@ class BookingDialog(QDialog):
                 num_adult=self.ui.num_adult_et.text(),
                 num_child=self.ui.num_child_et.text(),
                 room_id=self.ui.rooms_cb.currentData().id,
+                services=[self.ui.service_lw.model().item(i).data() for i in
+                          range(self.ui.service_lw.model().rowCount())]
             )
-            self.close()
+            self.accept()
 
     def create_booking_w_room(self, room):
         if int(self.ui.num_adult_et) + int(self.ui.num_child_et) <= sum([x.capacity for x in room.bed_types]):
@@ -126,8 +133,10 @@ class BookingDialog(QDialog):
                 num_adult=self.ui.num_adult_et.text(),
                 num_child=self.ui.num_child_et.text(),
                 room_id=room.id,
+                services=[self.ui.service_lw.model().item(i).data() for i in
+                          range(self.ui.service_lw.model().rowCount())]
             )
-            self.close()
+            self.accept()
 
     def validate_base_data(self) -> bool:
         if self.ui.phone_et.text() == "":
@@ -171,6 +180,33 @@ class BookingDialog(QDialog):
             f"{get_room_location(room.id, room.floor_id)}")
         self.ui.type_bed_lb.setText(" ".join([x.name for x in room.bed_types]))
         self.ui.maxinum_people_lb.setText(str(sum([x.capacity for x in room.bed_types])))
+
+    def init_service_container(self):
+        model = QStandardItemModel()
+        self.ui.service_lw.setModel(
+            model
+        )
+        self.service_service = ServiceService()
+        services = self.service_service.get_services()
+        for service in services:
+            self.ui.services_cb.addItem(service.name, service)
+        self.ui.search_service.textChanged.connect(
+            lambda x: self.get_services_by_name(services, x) if x != "" else None)
+        self.ui.add_service_btn.clicked.connect(self.add_service)
+
+    def get_services_by_name(self, services, name):
+        self.ui.services_cb.clear()
+        for service in services:
+            if lowercase(name) in lowercase(service.name):
+                self.ui.services_cb.addItem(service.name, service)
+
+    def add_service(self):
+        service = self.ui.services_cb.currentData()
+        item = QStandardItem()
+        item.setText(service.name)
+        item.setData(service)
+        item.setTextAlignment(Qt.AlignCenter)
+        self.ui.service_lw.model().appendRow(item)
 
     @staticmethod
     def validate_sum(a: str, b: str) -> bool:

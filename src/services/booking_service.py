@@ -1,8 +1,6 @@
 import datetime
 from typing import Iterable
 
-from sqlalchemy import select
-
 from database.models.bed_type import BedType
 from database.models.booking import Booking
 from database.models.customer import Customer
@@ -18,30 +16,32 @@ from utils.singleton import singleton
 class BookingService:
     def __init__(self):
         self.booking_repo = BookingRepository[Booking]()
+        self.room_repo = Repository[Room]()
+        self.customer_repo = Repository[Customer]()
+        self.bed_repo = Repository[BedType]()
+        self.invoice_repo = Repository[Invoice]()
 
     def get_detail_booking(self):
         pass
 
     def get_infor_customer(self, phone):
-        repo = Repository[Customer]()
-        return repo.get(_filters=[
+        return self.customer_repo.get(_filters=[
             Customer.phone == phone,
         ])
 
     def update_booking(self, booking):
-        repo = Repository[Booking]()
-        return repo.update(booking)
+        return self.booking_repo.update(booking)
 
     def get_all_bookings(self):
-        return Repository[Booking]().get_all()  # type: list[Booking]
+        return self.booking_repo.get_all()  # type: list[Booking]
 
     def get_room_by_id(self, customer_id):
-        return Repository[Room]().get(_filters=[
+        return self.room_repo.get(_filters=[
             Customer.id == customer_id
         ])
 
     def get_all_type_bed(self):
-        return Repository[BedType]().get_all()
+        return self.bed_repo.get_all()
 
     def get_all_type_room(self):
         return [member.value for member in RoomType]
@@ -54,8 +54,10 @@ class BookingService:
         return a
 
     def create_booking(self, cus_id, type_booking, start_date, end_date, num_adult, num_child,
-                       room_id):
-        return self.booking_repo.create(Booking(
+                       room_id, services=None):
+
+        # Tạo một đối tượng Booking mới
+        b = Booking(
             customer_id=cus_id,
             booking_type=type_booking,
             start_date=start_date,
@@ -63,13 +65,25 @@ class BookingService:
             num_adults=num_adult,
             num_children=num_child,
             room_id=room_id,
-        ))
+        )
+
+        self.booking_repo.insert(b)
+
+        if services:
+            for service in services:
+                from database.models.booking_service import BookingService
+                booking_service = BookingService(booking_id=b.id, service_id=service.id)
+                b.booking_services.append(booking_service)
+
+        self.booking_repo.update(b)
+
+        return b
 
     def check_room_available(self, room_id, start_date, end_date):
         return self.booking_repo.check_room_available(room_id, start_date, end_date)
 
     def update_invoice(self, invoice):
-        return Repository[Invoice]().update(invoice)
+        return self.invoice_repo.update(invoice)
 
     def filter_bookings(self, room_id=None, phone=None, booking_type=None, start_date=None, end_date=None, checkin=None,
                         checkout=None, status=None):

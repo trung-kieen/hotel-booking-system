@@ -28,7 +28,7 @@ gender = [Gender.FEMALE, Gender.MALE]
 _faker = Faker(["vi_VN"])
 
 
-def fake(engine = EngineHolder().get_engine()):
+def fake(engine=EngineHolder().get_engine()):
     global _session
     _session = create_session(bind=engine)
     _fake_hotel()
@@ -131,7 +131,6 @@ def _fake_booking():
                 _session.add(BookingService(
                     service_id=service.id,
                     booking_id=b_id,
-                    quantity=random.randint(1, 5)  # Random quantity for each service
                 ))
 
             invoice = Invoice(
@@ -146,6 +145,7 @@ def _fake_booking():
             _session.add(invoice)
             invoice_count += 1
             if not is_canceled:
+                invoice.completed_at = l_b[-1].checkout
                 invoice.status = PaymentStatus.Done
     # Lưu vào session và commit
     _session.add_all(l_b)
@@ -279,7 +279,7 @@ def _fake_services():
     for _ in range(_NUM_SERVICES):
         service = Service(
             name=random.choice(_SERVICE_NAMES),
-            price=random.uniform(50, 500)
+            price=random.randint(50, 500)
         )
         services.append(service)
 

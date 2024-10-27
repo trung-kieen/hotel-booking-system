@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SerivceScene</class>
- <widget class="QWidget" name="SerivceScene">
+ <class>InvoiceScene</class>
+ <widget class="QWidget" name="InvoiceScene">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -42,7 +42,7 @@
            <property name="styleSheet">
             <string notr="true"/>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0">
             <property name="spacing">
              <number>20</number>
             </property>
@@ -75,10 +75,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLineEdit" name="search_ld"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="search_btn">
+             <widget class="QPushButton" name="filter_btn">
               <property name="styleSheet">
                <string notr="true">QPushButton {
                 background-color: #007BFF;  /* Màu nền */
@@ -92,29 +89,7 @@
             }</string>
               </property>
               <property name="text">
-               <string>Search</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="create_new_service_btn">
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-                background-color: #007BFF;  /* Màu nền */
-                color: white;                 /* Màu chữ */
-                border: none;                 /* Không viền */
-                border-radius: 10px;         /* Bo tròn góc */
-                padding: 5px 10px;          /* Khoảng cách bên trong */
-            }
-            QPushButton:hover {
-                background-color: #0056b3;   /* Màu nền khi di chuột qua */
-            }</string>
-              </property>
-              <property name="text">
-               <string>Create New Service</string>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
+               <string>Filter</string>
               </property>
              </widget>
             </item>
@@ -144,7 +119,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QTableView" name="service_data_table">
+          <widget class="QTableView" name="invoice_data_table">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>

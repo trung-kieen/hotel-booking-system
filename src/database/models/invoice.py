@@ -1,6 +1,7 @@
 import enum
+from datetime import datetime
 
-from sqlalchemy import DECIMAL, CheckConstraint, Column, Integer, ForeignKey, Enum
+from sqlalchemy import DECIMAL, CheckConstraint, Column, Integer, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship
 from database.models.audit import AuditCreation
 from database.orm import Base
@@ -24,6 +25,7 @@ class Invoice(Base, AuditCreation):
 
     booking = relationship("Booking", back_populates="invoice")
 
+    completed_at = Column(DateTime(timezone=True), nullable=True)
     __table_args__ = (
         CheckConstraint(total_price >= 0, name='CK_total_price_positive'),
         {}

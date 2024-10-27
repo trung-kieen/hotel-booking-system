@@ -15,16 +15,16 @@ class BookingPriceCalculator:
         # Early check-in conditions
         early_checkin_time = checkin_datetime.time()
         if time(5, 0) <= early_checkin_time <= time(9, 0):
-            extra_charge += 0.5 * room_price  # 50% room price for early check-in
+            extra_charge += Decimal('0.5') * room_price  # 50% room price for early check-in
         elif time(9, 0) < early_checkin_time <= time(14, 0):
-            extra_charge += 0.3 * room_price  # 30% room price for early check-in
+            extra_charge += Decimal('0.3') * room_price  # 30% room price for early check-in
 
         # Late checkout conditions
         late_checkout_time = checkout_datetime.time()
         if time(12, 0) <= late_checkout_time <= time(15, 0):
-            extra_charge += 0.3 * room_price  # 30% room price for late check-out
+            extra_charge += Decimal('0.3') * room_price  # 30% room price for late check-out
         elif time(15, 0) < late_checkout_time <= time(18, 0):
-            extra_charge += 0.5 * room_price  # 50% room price for late check-out
+            extra_charge += Decimal('0.5') * room_price  # 50% room price for late check-out
         elif late_checkout_time > time(18, 0):
             extra_charge += room_price  # 100% room price for late check-out
 
