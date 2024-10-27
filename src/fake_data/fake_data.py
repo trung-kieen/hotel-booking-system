@@ -4,6 +4,7 @@ Author: Dang Xuan Lam
 import random
 from datetime import datetime, timedelta
 
+from components.messagebox.popup import ErrorPopup
 from database.engine import EngineHolder
 from faker.proxy import Faker
 from sqlalchemy.orm import create_session, Bundle, Session
@@ -132,11 +133,16 @@ def _fake_booking():
                     booking_id=b_id,
                     quantity=random.randint(1, 5)  # Random quantity for each service
                 ))
+
             invoice = Invoice(
                 id=invoice_count,
                 total_price=total_price,
                 booking_id=b_id,  # Link the invoice to the booking
             )
+            now = datetime.now()
+            five_years_ago = now - timedelta(days=5*365)  # Approximation for 5 years
+
+            invoice.created_at =  _faker.date_time_between(start_date=five_years_ago, end_date=now)
             _session.add(invoice)
             invoice_count += 1
             if not is_canceled:

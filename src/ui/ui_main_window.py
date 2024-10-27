@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/dxlaam/Projects/hotel-booking-system/src/ui/ui_main_window.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -49,6 +49,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, -1, 0, -1)
         self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.homeButton = QtWidgets.QPushButton(self.leftNavQwidget)
+        self.homeButton.setObjectName("homeButton")
+        self.verticalLayout_2.addWidget(self.homeButton)
         self.customerButton = QtWidgets.QPushButton(self.leftNavQwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -100,8 +103,19 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.homeButton.setText(_translate("MainWindow", "Home"))
         self.customerButton.setText(_translate("MainWindow", "Customer"))
         self.reservationButton.setText(_translate("MainWindow", "Reservation"))
         self.roomButton.setText(_translate("MainWindow", "Rooms"))
         self.service_btn.setText(_translate("MainWindow", "Service"))
         self.invoice_btn.setText(_translate("MainWindow", "Invoice"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

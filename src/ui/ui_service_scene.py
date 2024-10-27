@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/dxlaam/Projects/hotel-booking-system/src/ui/ui_service_scene.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_service_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -111,3 +111,13 @@ class Ui_SerivceScene(object):
         self.filter_btn.setText(_translate("SerivceScene", "Search"))
         self.add_booking_btn.setText(_translate("SerivceScene", "Create New Service"))
         self.refresh_btn.setText(_translate("SerivceScene", "↻"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    SerivceScene = QtWidgets.QWidget()
+    ui = Ui_SerivceScene()
+    ui.setupUi(SerivceScene)
+    SerivceScene.show()
+    sys.exit(app.exec_())

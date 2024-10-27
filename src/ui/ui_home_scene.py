@@ -21,9 +21,12 @@ class Ui_HomeScene(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.containerQwidget)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.label = QtWidgets.QLabel(self.containerQwidget)
-        self.label.setObjectName("label")
-        self.horizontalLayout_2.addWidget(self.label)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.grid = QtWidgets.QGridLayout()
+        self.grid.setObjectName("grid")
+        self.verticalLayout.addLayout(self.grid)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(HomeScene)
         QtCore.QMetaObject.connectSlotsByName(HomeScene)
@@ -31,7 +34,6 @@ class Ui_HomeScene(object):
     def retranslateUi(self, HomeScene):
         _translate = QtCore.QCoreApplication.translate
         HomeScene.setWindowTitle(_translate("HomeScene", "Hotel"))
-        self.label.setText(_translate("HomeScene", "This is home scene load from separate file ui"))
 
 
 if __name__ == "__main__":

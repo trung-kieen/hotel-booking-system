@@ -6,6 +6,7 @@ from typing import Any, Callable, List, Tuple, overload
 
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QAction, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QMessageBox, QPushButton, QToolButton, QVBoxLayout, QWidget
+from database.engine import EngineHolder
 from database.models import bed_room
 from database.models import bed_type
 from database.models.bed_room import BedRoom
@@ -115,6 +116,12 @@ class RoomService:
             elif bed.bed_type_id in updated_bed_type_id:
                 session.merge(bed)
 
+    def exist_booking_with_room(self, room_id):
+        # TODO
+        num_booking_relate= int(EngineHolder().scalar("SELECT COUNT(*) FROM bookings WHERE room_id = :room_id", room_id = room_id))
+        if num_booking_relate > 0:
+            return True
+        return False
 
     @handle_exception
     @transaction

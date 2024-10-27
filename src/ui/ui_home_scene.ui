@@ -24,11 +24,11 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>This is home scene load from separate file ui</string>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QGridLayout" name="grid"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
