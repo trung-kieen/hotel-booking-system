@@ -2,8 +2,10 @@ from typing import List, Iterable
 
 from database.models.service import Service
 from database.repositories.base_repository import Repository
+from utils.singleton import singleton
 
 
+@singleton
 class ServiceService:
     def __init__(self):
         self.service_repository = Repository[Service]()

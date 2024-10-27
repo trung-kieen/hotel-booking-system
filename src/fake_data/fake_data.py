@@ -130,7 +130,6 @@ def _fake_booking():
                 _session.add(BookingService(
                     service_id=service.id,
                     booking_id=b_id,
-                    quantity=random.randint(1, 5)  # Random quantity for each service
                 ))
             invoice = Invoice(
                 id=invoice_count,
@@ -140,6 +139,7 @@ def _fake_booking():
             _session.add(invoice)
             invoice_count += 1
             if not is_canceled:
+                invoice.completed_at = l_b[-1].checkout
                 invoice.status = PaymentStatus.Done
     # Lưu vào session và commit
     _session.add_all(l_b)
