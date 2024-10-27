@@ -8,16 +8,12 @@ class BookingService(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     service_id = Column(Integer, ForeignKey("services.id"))
     booking_id = Column(Integer, ForeignKey("bookings.id"))
-    quantity = Column(Integer, default=0, nullable=False)
 
-    # Quan hệ với bảng Service
-    service = relationship("Service", back_populates="services_invoices")
-
-    # Quan hệ với bảng Booking
-    booking = relationship("Booking", back_populates="services")
+    # Quan hệ với Service và Booking
+    service = relationship("Service", backref="booking_services")
+    booking = relationship("Booking", backref="booking_services")
 
     __table_args__ = (
-        CheckConstraint(quantity >= 0, name='CK_quantity_positive'),
         {}
     )
 

@@ -14,7 +14,7 @@ class Repository(IRepository[T]):
     def insert(self, item: T) -> None:
         self.session.add(item)
         self.session.commit()
-        self.session.close()
+        # self.session.close()
 
     def delete(self, item: T) -> None:
         self.session.delete(item)
