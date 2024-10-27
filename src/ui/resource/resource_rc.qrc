@@ -1,15 +1,18 @@
 <RCC>
   <qresource prefix="images">
-    <file>dropdown.png</file>
-    <file>dot vertical.png</file>
+    <file>invoice-icon.png</file>
     <file>search.png</file>
-    <file>home-icon.png</file>
-    <file>services-icon.png</file>
+    <file>dropdown.png</file>
+    <file>dot-vertical.png</file>
+    <file>resource_dir.py</file>
+    <file>angle-circle-icon.svg</file>
     <file>setting-icon.png</file>
+    <file>services-icon.png</file>
+    <file>icons8-home-30.png</file>
     <file>house-icon.png</file>
+    <file>hotel-logo.png</file>
+    <file>home-icon.png</file>
     <file>guest-icon.png</file>
     <file>daily-schedule-icon.png</file>
-    <file>hotel-logo.png</file>
-    <file>icons8-home-30.png</file>
   </qresource>
 </RCC>

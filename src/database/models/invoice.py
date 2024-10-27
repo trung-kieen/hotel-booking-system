@@ -16,7 +16,6 @@ class Invoice(Base, AuditCreation):
     __tablename__ = "invoices"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     total_price = Column(DECIMAL(), nullable=False, default=0)
-    quantity = Column(Integer)
     booking_id = Column(Integer, ForeignKey("bookings.id"))
     prepaid = Column(DECIMAL(), nullable=False, default=0)
 
@@ -33,5 +32,5 @@ class Invoice(Base, AuditCreation):
 
     def __repr__(self):
         return (f"<{self.__class__.__name__}(id={self.id}, "
-                f"total_price={self.total_price}, quantity={self.quantity}, "
+                f"total_price={self.total_price} "
                 f"booking_id={self.booking_id})>")

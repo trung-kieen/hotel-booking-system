@@ -19,6 +19,7 @@ from database.models.room import Room, RoomType
 from database.models.service import Service
 from database.models.booking_service import BookingService
 from database.repositories.base_repository import Repository
+from utils.bill_caculator import BillCalculator
 
 _session: Session
 _ID_HOTEL = 1
@@ -37,6 +38,7 @@ def fake(engine=EngineHolder().get_engine()):
     _fake_customer()
     _fake_services()
     _fake_booking()
+    _fake_invoice_for_booking()
 
 
 def _fake_booking():
@@ -120,29 +122,49 @@ def _fake_booking():
 
             # Create a single invoice for this booking
             services = random.sample(_session.query(Service).all(), random.randint(1, 3))  # Random services
-            total_price = sum(s.price for s in services) + Repository[Room]().get(_filters=[
-                (Room.id == l_b[-1].room_id)
-            ]).price if len(
-                l_b) > 0 else 0
-
             # Link services to the invoice
             for service in services:
                 _session.add(BookingService(
                     service_id=service.id,
                     booking_id=b_id,
                 ))
-            invoice = Invoice(
-                id=invoice_count,
-                total_price=total_price,
-                booking_id=b_id,  # Link the invoice to the booking
-            )
-            _session.add(invoice)
             invoice_count += 1
-            if not is_canceled:
-                invoice.completed_at = l_b[-1].checkout
-                invoice.status = PaymentStatus.Done
     # Lưu vào session và commit
     _session.add_all(l_b)
+    _session.commit()
+
+
+from database.models.booking import Booking
+from database.models.invoice import Invoice
+from decimal import Decimal
+
+
+def _fake_invoice_for_booking():
+    bookings = _session.query(Booking).all()
+    invoices = []
+    for booking in bookings:
+        # Calculate the invoice details based on whether the booking is completed or not
+        if booking.checkin and booking.checkout:  # Check if the booking is completed
+            bill_details = BillCalculator.calculate_bill_details(booking)
+        else:
+            bill_details = BillCalculator.calculate_pre_checkout_bill_details(booking)
+
+        # Create the invoice based on the calculated bill details
+        invoice = Invoice(
+            total_price=bill_details['total_price_lb'],
+            booking_id=booking.id,
+            prepaid=0,  # Adjust according to your logic for prepayments
+            status=  PaymentStatus.Done if booking.checkin and booking.checkout else PaymentStatus.Pending,
+        )
+
+        # Link the completed_at date if the booking is completed
+        if booking.checkin and booking.checkout:
+            invoice.completed_at = booking.checkout
+
+        invoices.append(invoice)
+
+    # Add to session and commit
+    _session.add_all(invoices)
     _session.commit()
 
 

@@ -40,9 +40,9 @@ background-color: rgb(255, 255, 255);</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-652</y>
+        <y>-784</y>
         <width>916</width>
-        <height>1509</height>
+        <height>1469</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_30">
@@ -210,19 +210,6 @@ QFrame#service_container
                  </widget>
                 </item>
                </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="message_personal_infor_lb">
-               <property name="styleSheet">
-                <string notr="true">color: red;</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
               </widget>
              </item>
             </layout>
@@ -433,19 +420,6 @@ QFrame#service_container
                     </widget>
                    </item>
                   </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="message_stay_infor_lb">
-                  <property name="styleSheet">
-                   <string notr="true">color: red;</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
                  </widget>
                 </item>
                </layout>
@@ -840,19 +814,6 @@ QFrame#service_container
                </layout>
               </widget>
              </item>
-             <item>
-              <widget class="QLabel" name="message_room_infor_lb_2">
-               <property name="styleSheet">
-                <string notr="true">color: red;</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
             </layout>
            </widget>
           </item>
@@ -883,7 +844,7 @@ QFrame#service_container
              </item>
              <item>
               <widget class="QWidget" name="widget_22" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_22" stretch="">
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
                 <property name="topMargin">
                  <number>0</number>
                 </property>
@@ -946,7 +907,7 @@ QFrame#service_container
              </item>
              <item>
               <widget class="QWidget" name="widget_33" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="">
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
                 <property name="topMargin">
                  <number>0</number>
                 </property>
@@ -958,7 +919,7 @@ QFrame#service_container
              </item>
              <item>
               <widget class="QWidget" name="widget_36" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="">
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
                 <property name="topMargin">
                  <number>0</number>
                 </property>
@@ -981,6 +942,16 @@ QFrame#service_container
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="message_lb">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
           <item>

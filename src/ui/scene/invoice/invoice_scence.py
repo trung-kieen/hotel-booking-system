@@ -3,8 +3,10 @@ from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtWidgets import QHeaderView, QMenu
 from qt_material import apply_stylesheet
 
+from database.models.invoice import Invoice
 from designer.style import STYLE
 from services.invoice_service import InvoiceService
+from ui.scene.invoice.dialog.detail_dialog import InvoiceDetailDialog
 from ui.scene.invoice.invoice_adapter import InvoiceAdapter
 from ui.ui_invoice_scene import Ui_InvoiceScene
 
@@ -46,8 +48,8 @@ class InvoiceScene(QtWidgets.QMainWindow):
         if model_index.isValid():  # Kiểm tra nếu vị trí nhấp là hợp lệ
             menu = QMenu(self)  # Tạo một menu
             menu.setStyleSheet(STYLE.MENU.value)
-            action_edit = menu.addAction("Edit")
-            action_delete = menu.addAction("Detail")
+            act_detail = menu.addAction("Detail")
+            act_detail.triggered.connect(lambda: self.act_detail(model_index.row()))
             # action_edit.triggered.connect(lambda: self.edit_service(model_index.row()))
             menu.exec_(self.ui.invoice_data_table.mapToGlobal(pos))  # Hiển thị menu
 
@@ -57,3 +59,8 @@ class InvoiceScene(QtWidgets.QMainWindow):
 
     def filter(self):
         pass
+
+    def act_detail(self, row_index):
+        invoice = self.adapter.get_item(row_index)
+        invoice_detail_dialog = InvoiceDetailDialog(invoice)
+        invoice_detail_dialog.exec_()

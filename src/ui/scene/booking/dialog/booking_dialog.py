@@ -49,7 +49,8 @@ class BookingDialog(QDialog):
         self.ui.rooms_cb.currentTextChanged.connect(self.show_room_information)
 
     def init_base_ui(self):
-        self.ui.message_personal_infor_lb.setVisible(False)
+        self.ui.message_lb.setVisible(False)
+        self.ui.message_lb.setStyleSheet("color: red")
 
         self.ui.type_booking_cb.addItem(BookingType.Daily.value)
         self.ui.type_booking_cb.addItem(BookingType.Hourly.value)
@@ -79,13 +80,13 @@ class BookingDialog(QDialog):
         cus = self.booking_service.get_infor_customer(self.ui.phone_et.text().strip())
         if cus is not None:
             self.current_user = cus
-            self.ui.message_personal_infor_lb.setVisible(False)
+            self.ui.message_lb.setVisible(False)
             self.ui.address_lb.setText(cus.address)
             self.ui.name_lb.setText(cus.lastname + " " + cus.firstname)
             self.ui.id_lb.setText(str(cus.id))
         else:
-            self.ui.message_personal_infor_lb.setVisible(True)
-            self.ui.message_personal_infor_lb.setText("User Not Found")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("User Not Found")
             self.ui.address_lb.setText("")
             self.ui.name_lb.setText("")
             self.ui.id_lb.setText(str(""))
@@ -119,8 +120,8 @@ class BookingDialog(QDialog):
 
     def create_booking_w_room(self, room):
         if int(self.ui.num_adult_et) + int(self.ui.num_child_et) <= sum([x.capacity for x in room.bed_types]):
-            self.ui.message_stay_infor_lb.setVisible(True)
-            self.ui.message_stay_infor_lb.setText("Number of guest must be greater than 0")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("Number of guest must be greater than 0")
             return
         if self.validate_base_data() and self.booking_service.check_room_available(room.id,
                                                                                    self.ui.start_date_picker.date().toPyDate(),
@@ -140,20 +141,20 @@ class BookingDialog(QDialog):
 
     def validate_base_data(self) -> bool:
         if self.ui.phone_et.text() == "":
-            self.ui.message_personal_infor_lb.setVisible(True)
-            self.ui.message_personal_infor_lb.setText("Please enter phone number")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("Please enter phone number")
             return False
         if not self.validate_sum(self.ui.num_adult_et.text(), self.ui.num_child_et.text()):
-            self.ui.message_stay_infor_lb.setVisible(True)
-            self.ui.message_stay_infor_lb.setText("Number of guest must be greater than 0")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("Number of guest must be greater than 0")
             return False
         if self.ui.start_date_picker.date() > self.ui.end_date_picker.date():
-            self.ui.message_stay_infor_lb.setVisible(True)
-            self.ui.message_stay_infor_lb.setText("End date must be greater than start date")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("End date must be greater than start date")
             return False
         if int(self.ui.price_min_et.text()) > int(self.ui.price_max_et.text()):
-            self.ui.message_stay_infor_lb.setVisible(True)
-            self.ui.message_stay_infor_lb.setText("Price max must be greater than price min")
+            self.ui.message_lb.setVisible(True)
+            self.ui.message_lb.setText("Price max must be greater than price min")
             return False
         return True
 
