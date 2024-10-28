@@ -89,7 +89,6 @@ class RoomScene( QtWidgets.QMainWindow ):
                                                 f"Are you sure you want to delete room ID {target_room_id}?",
                                                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         if reply:
-            # TODO: Check before delete
             self.room_service.delete_room_by_id(target_room_id)
             self.refresh_room_table()
 
