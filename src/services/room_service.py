@@ -71,20 +71,6 @@ class RoomService:
         It more complex to determine which bed_room is delete, add, update
         """
 
-        # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
-        final_bed_rooms_id = set([room.id for room in bed_rooms])
-        # list_add  = final_bed_rooms_id - persisted_bed_rooms_id
-        # list_delete  = persisted_bed_rooms_id - final_bed_rooms_id
-        # list_update = persisted_bed_rooms_id & final_bed_rooms_id
-        # for bed in bed_rooms:
-        #     # TODO
-        #     if bed.id in list_add:
-        #         self.bed_room_repo.insert(bed)
-        #     if bed.id in list_update:
-        #         self.bed_room_repo.update(bed)
-        #     if bed.id in list_delete:
-        #         self.bed_room_repo.delete_room_id(bed.id)
-
         for bed_room in bed_rooms:
             bed_room.room_id = room_id
         self.bed_room_repo.delete_by_room_id(room_id)
@@ -117,7 +103,6 @@ class RoomService:
                 session.merge(bed)
 
     def exist_booking_with_room(self, room_id):
-        # TODO
         num_booking_relate= int(EngineHolder().scalar("SELECT COUNT(*) FROM bookings WHERE room_id = :room_id", room_id = room_id))
         if num_booking_relate > 0:
             return True
