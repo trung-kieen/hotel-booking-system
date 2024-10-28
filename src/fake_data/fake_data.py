@@ -239,7 +239,7 @@ def _fake_room():
 
 
 def _fake_hotel():
-    h = Hotel(id=_ID_HOTEL, name="Khach san cua tui va iem", address=_faker.address(), phone=_faker.phone_number())
+    h = Hotel(id=_ID_HOTEL, name="Arx De Hotel", address=_faker.address(), phone=_faker.phone_number())
     _session.add(h)
     _session.commit()
 

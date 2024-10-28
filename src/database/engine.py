@@ -8,12 +8,13 @@ from sqlalchemy.engine import connection_memoize
 from sqlalchemy.engine.create import event
 
 from database.orm import Session
+from utils.constants import DEVELOPER_MODE
 from utils.settings import DATABASE_SQLITE_FILE
 from utils.singleton import singleton
 @singleton
 class EngineHolder:
     def __init__(self) -> None:
-        self._engine = create_engine(f"sqlite:///{DATABASE_SQLITE_FILE}", echo=True)
+        self._engine = create_engine(f"sqlite:///{DATABASE_SQLITE_FILE}", echo=DEVELOPER_MODE)
 
     def get_engine(self):
         return self._engine

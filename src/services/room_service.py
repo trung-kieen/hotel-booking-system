@@ -3,6 +3,7 @@ Author: Nguyen Khac Trung Kien
 """
 from collections.abc import Iterable
 from typing import Any, Callable, List, Tuple, overload
+from utils.logging import app_logger
 
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QAction, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QMessageBox, QPushButton, QToolButton, QVBoxLayout, QWidget
@@ -312,7 +313,6 @@ def query_condition_translator(*predicates) -> str :
 class ItemRow(QWidget):
     def __init__(self, bed_room: BedRoom, remove_callback : Callable, parent ):
         super().__init__(parent)
-        print("Add bed room " , bed_room.bed_type_id )
         self.bed_room = bed_room
 
 
@@ -424,7 +424,7 @@ class BedRoomManager(QWidget):
             if DEFAULT_BED_TYPE:
                 self.add_bed(DEFAULT_BED_TYPE)
             else:
-                print("Cound not found any bed type")
+                app_logger.warning("Cound not found any bed type")
 
 
 
@@ -466,7 +466,7 @@ class BedRoomManager(QWidget):
             add(bed_room)
         elif isinstance(bed_type_or_bed_room ,BedRoom):
             add(bed_type_or_bed_room)
-        else: print("Unable to add item of unknow")
+        else: app_logger.warning("Unable to add item of unknow")
     def remove_bed_room(self, item_widget : QWidget, bed_room:  BedRoom):
         # Ensure at least one item remains
         MINIMUM_BED_TYPE  = 1

@@ -2,6 +2,7 @@ from datetime import datetime
 
 from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog
 
+from utils.logging import app_logger
 from components.messagebox.popup import BasePopup
 from database.models.booking import Booking
 from designer.style import STYLE
@@ -102,7 +103,7 @@ class BookingScene(QtWidgets.QMainWindow):
 
     def edit_item(self, index):
         item = self.adapter.get_item(index.row())
-        print(item)
+        app_logger.info(item)
 
     def view_details(self, index):
         BookingDetailDialog(self.adapter.get_item(index)).exec()

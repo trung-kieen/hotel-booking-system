@@ -1,6 +1,7 @@
 from database.models.customer import Customer
 from database.repositories.base_repository import Repository
 from utils.singleton import singleton
+from utils.logging import app_logger
 
 from sqlalchemy import or_
 
@@ -9,7 +10,7 @@ from sqlalchemy import or_
 class CustomerController:
     def __init__(self):
         self.customers = []
-        
+
     def add_customer(self, customer):
         return Repository[Customer]().insert(customer)
 
@@ -22,7 +23,7 @@ class CustomerController:
             if customer:
                 repository.delete(customer)  # Call the delete method from the repository
             else:
-                print(f"Customer with ID {customer_id} not found.")
+                app_logger.info(f"Customer with ID {customer_id} not found.")
         finally:
             session.close()  # Always close the session
 
@@ -53,4 +54,3 @@ class CustomerController:
 
     def get_all_customers(self):
         return Repository[Customer]().get_all()
-        

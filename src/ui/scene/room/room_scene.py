@@ -1,6 +1,7 @@
 """
 Author: Nguyen Khac Trung Kien
 """
+from utils.logging import app_logger
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtSql import QSqlQueryModel
@@ -101,7 +102,7 @@ class RoomScene( QtWidgets.QMainWindow ):
         room_id = self._selected_room_id()
         if not self._selected_room_id():
             # TODO: use msg box or diable button
-            print("Please select room to edit")
+            app_logger.info("Please select room to edit")
         # Open to edit current room
         dialog = RoomDialog(room_id)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
