@@ -10,7 +10,7 @@ from services.home_service import HomeService
 from ui.ui_home_scene import Ui_HomeScene
 import matplotlib.pyplot as plt
 
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 class HomeScene( QtWidgets.QMainWindow ):
     def __init__(self):
@@ -33,9 +33,6 @@ class HomeScene( QtWidgets.QMainWindow ):
         # self.ui.group_income.addwidget(qlabel("total working rooms:"), 0, 0)
         # self.ui.containerQwidget.addWidget(QLabel(str(self.service.total_working_rooms())), 0, 1)
 
-        container = self.ui.scrollAreaWidgetContents
-        QLabel(parent = container, text= "Total Rooms:")
-        QLabel(parent = container, text= str(self.service.total_rooms()))
         # container.addWidget(QLabel(), 1, 1)
 
         # container.addWidget(QLabel("Total Customers:"), 2, 0)
@@ -54,8 +51,10 @@ class HomeScene( QtWidgets.QMainWindow ):
         # # period , group_income= zip(*income)
 
         # StaticGrid(parent=self.ui.horizontalLayout, label_text = "HI",value ="123")
-        income_canvas = IncomeCanvas(container)
-        current_booking_canvas = BookingCanvas(container)
+
+        income_canvas = IncomeCanvas(self.ui.revenueChart)
+        current_booking_canvas = BookingCanvas(self.ui.bookingChart)
+
 
 
 

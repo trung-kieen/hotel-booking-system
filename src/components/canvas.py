@@ -5,17 +5,16 @@ import matplotlib.pyplot as plt
 
 from services.home_service import HomeService, extract_result_set
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QLayout, QWidget
 
 class BaseCanvas(FigureCanvas):
-    def __init__(self, parent: QtWidgets.QWidget | None = None, width=3, height=4):
+    def __init__(self, parent_layout = QtWidgets.QGridLayout, width=3, height=5, dpi = 120):
         fig, self.ax = plt.subplots(figsize=(width, height))
         fig, self.ax = plt.subplots()
         plt.style.use('_mpl-gallery-nogrid')
         super().__init__(fig)
-        if parent:
-            parent.addWidget(self)
 
+        parent_layout.addWidget(self)
         self.labels = []
         self.values = []
 
@@ -31,10 +30,10 @@ class BaseCanvas(FigureCanvas):
 
 
 class IncomeCanvas(BaseCanvas):
-    def __init__(self, parent: QtWidgets.QGridLayout | None = None):
-        super().__init__(parent)
+    def __init__(self, parent_layout ):
+        super().__init__(parent_layout)
         self.service = HomeService()
-        self.by_day()
+        self.by_month()
         # self.period = custom_query.MONTH_PERIOD
 
     def _plot(self):
@@ -84,10 +83,10 @@ class IncomeCanvas(BaseCanvas):
 
 
 class BookingCanvas(BaseCanvas):
-    def __init__(self, parent: QtWidgets.QGridLayout | None = None):
-        super().__init__(parent, width =6 , height = 3)
+    def __init__(self, parent_layout):
+        super().__init__(parent_layout)
         self.service = HomeService()
-        status = ['CANCELED', 'INCOMING', 'IN TIME', 'OVERDUE']
+        # status = ['CANCELED', 'INCOMING', 'IN TIME', 'OVERDUE']
         status = None
         self._set_data(*extract_result_set(self.service.today_booking_by_status(), status))
         self._plot()
@@ -105,7 +104,7 @@ class BookingCanvas(BaseCanvas):
 
         # Display a summary to the right of the chart
         summary_text = "\n".join(f"{label}: {value}" for label, value in zip(self.labels, self.values))
-        self.ax.text(0.8, 0, summary_text,
+        self.ax.text(0.9, 0.4, summary_text,
                      ha='left',
                      horizontalalignment='center',
                      verticalalignment='center',
