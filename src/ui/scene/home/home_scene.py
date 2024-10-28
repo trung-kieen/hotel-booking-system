@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from typing import Optional, Union
 import typing
 from PyQt5 import QtWidgets, QtCore
@@ -19,46 +22,31 @@ class HomeScene( QtWidgets.QMainWindow ):
         self.ui.setupUi(self)
         self.service = HomeService()
         self.setCentralWidget(self.ui.containerQwidget )
-        # rs = EngineHolder().all("SELECT COUNT(*) FROM bookings WHERE room_id = :room_id", room_id = 1)
-        # print(type(rs))
-        # print(rs)
-        # layout = QtWidgets.QVBoxLayout(self)
-        # label = QtWidgets.QLabel("Home Scene")
-        # label.setAlignment(QtCore.Qt.AlignCenter)
-        # layout.addWidget(label)
+        self.income_canvas = IncomeCanvas(self.ui.revenueChart)
+        self.current_booking_canvas = BookingCanvas(self.ui.bookingChart)
         self.init_ui()
+        self.register_event()
+        self.load_statistic()
+    def register_event(self):
+        self.ui.rdMonth.toggled.connect(lambda: self.income_canvas.by_month())
+        self.ui.rdQuarter.toggled.connect(lambda: self.income_canvas.by_quarter())
+        self.ui.rdYear.toggled.connect(lambda: self.income_canvas.by_year())
+        self.ui.rdMonth.setChecked(True)
+
+
+
+    def load_statistic(self):
+        today_income = self.service.today_revenue()
+        total_customer = self.service.total_customers()
+        total_reservation = self.service.total_booking()
+        total_canceled_reservation = self.service.total_canceled_booking()
+        total_success_reservation = self.service.total_success_booking()
+        total_working_rooms = self.service.total_working_rooms()
+        total_rooms = self.service.total_rooms()
+        self.ui.lblTodayRevenue.setText(str(today_income))
+        self.ui.lblTotalCustomer.setText(str(total_customer))
+        self.ui.lblTotalReservation.setText(f"{total_success_reservation}/{total_canceled_reservation}/{total_reservation}")
+        self.ui.lblAvailableRoom.setText(f"{total_working_rooms}/{total_rooms}")
+
     def init_ui(self):
-
-        # Add labels for each metric
-        # self.ui.group_income.addwidget(qlabel("total working rooms:"), 0, 0)
-        # self.ui.containerQwidget.addWidget(QLabel(str(self.service.total_working_rooms())), 0, 1)
-
-        # container.addWidget(QLabel(), 1, 1)
-
-        # container.addWidget(QLabel("Total Customers:"), 2, 0)
-        # container.addWidget(QLabel(str(self.service.total_customers())), 2, 1)
-
-        # container.addWidget(QLabel("Total Bookings:"), 3, 0)
-        # container.addWidget(QLabel(str(self.service.total_booking())), 3, 1)
-
-        # container.addWidget(QLabel("Successful Bookings:"), 4, 0)
-        # container.addWidget(QLabel(str(self.service.total_success_booking())), 4, 1)
-
-        # container.addWidget(QLabel("Canceled Bookings:"), 5, 0)
-        # container.addWidget(QLabel(str(self.service.total_canceled_booking())), 5, 1)
-        # # income = self.service.income_by_month()
-
-        # # period , group_income= zip(*income)
-
-        # StaticGrid(parent=self.ui.horizontalLayout, label_text = "HI",value ="123")
-
-        income_canvas = IncomeCanvas(self.ui.revenueChart)
-        current_booking_canvas = BookingCanvas(self.ui.bookingChart)
-
-
-
-
-
-
-# if __name__ == '__main__':
-#     HomeScene()
+        pass

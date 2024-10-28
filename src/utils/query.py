@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 query_get_room_by_total_capacity  = """
 SELECT
   room_id AS 'room id',
@@ -81,6 +84,9 @@ WHERE
     (:period = 'm' AND strftime('%Y', created_at) = strftime('%Y', 'now')) -- Filter for this year
     OR
     (:period = 'q' AND strftime('%Y', created_at) = strftime('%Y', 'now')) -- Filter for this year
+    OR
+    (:period = 'y')
+
 )
 GROUP BY period
 ORDER BY period;

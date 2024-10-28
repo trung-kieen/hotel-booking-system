@@ -48,11 +48,12 @@ class HomeService:
         - 'q': quarter
         - 'y': year
         """
-        r = EngineHolder().all(custom_query.query_invoice_total_group_by_period , period = period  )
-        return extract_result_set(r)
+        return EngineHolder().all(custom_query.query_invoice_total_group_by_period , period = period  )
     def today_booking_by_status(self):
         return EngineHolder().all(custom_query.query_today_booking_status)
 
+    def today_revenue(self):
+        return int(EngineHolder().scalar(custom_query.query_today_income))
 
 
 def extract_result_set(rs, expect_labels: Iterable | None = None):
@@ -65,6 +66,8 @@ def extract_result_set(rs, expect_labels: Iterable | None = None):
     (Q1, Q2), (24, 32)
     """
 
+
+
     try:
         if expect_labels:
             """
@@ -72,13 +75,17 @@ def extract_result_set(rs, expect_labels: Iterable | None = None):
             For example we want to see all month static but some month have no value => set sum aggeration to 0
             """
             look_up = dict(rs)
-            period = []
-            aggregation = []
+
+            suppliment  = dict()
+            DEFAULT_SUM_FOR_NOT_FOUND = 0
             for v in expect_labels:
-                period.append(v)
-                DEFAULT_AGGREGATION = 0
-                aggregation.append(look_up.get(v, DEFAULT_AGGREGATION))
-            return period , aggregation
+                suppliment[v] = look_up.get(v, DEFAULT_SUM_FOR_NOT_FOUND)
+
+            look_up.update(suppliment)
+
+            # Sort by key (group like: Q2, Q1, Q3)
+            sorted_group = sorted(look_up.items(), key = lambda x: x[0])
+            return zip(* sorted_group)
 
 
         else:

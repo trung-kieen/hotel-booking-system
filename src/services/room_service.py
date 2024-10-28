@@ -8,7 +8,6 @@ from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QAction, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QMessageBox, QPushButton, QToolButton, QVBoxLayout, QWidget
 from database.engine import EngineHolder
 from database.models import bed_room
-from database.models import bed_type
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
 from database.models.floor import Floor

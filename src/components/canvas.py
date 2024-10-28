@@ -1,3 +1,7 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
+from datetime import datetime
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from utils import query as custom_query
 from matplotlib.backends.qt_compat import QtWidgets
@@ -25,7 +29,9 @@ class BaseCanvas(FigureCanvas):
 
 
     def _plot(self):
-        """Method to be overridden by subclasses for specific plotting."""
+        """
+        Method to be overridden by subclasses for specific plotting
+        """
         raise NotImplementedError("Subclasses must implement this method.")
 
 
@@ -37,7 +43,6 @@ class IncomeCanvas(BaseCanvas):
         # self.period = custom_query.MONTH_PERIOD
 
     def _plot(self):
-        """Plots the data on the income canvas."""
         self.ax.clear()
         bars = self.ax.bar(self.labels, self.values)
 
@@ -56,14 +61,34 @@ class IncomeCanvas(BaseCanvas):
         self.draw()
 
 
-    def by_day(self):
-        self.period = custom_query.DAY_PERIOD
-        self._set_data(*self.service.income_by_period(self.period))
-        self._plot()
-
     def by_month(self):
         self.period = custom_query.MONTH_PERIOD
-        self._set_data(*self.service.income_by_period(self.period))
+        current_month =int(datetime.today().strftime("%m"))
+        default_label = []
+        for i in range(current_month):
+            c = i + 1
+            if c < 10:
+                default_label.append('0' + str(c))
+            else:
+                default_label.append(str(c))
+        rs = self.service.income_by_period(self.period)
+        self._set_data(* extract_result_set(rs , default_label))
+        self._plot()
+    def by_quarter(self):
+        self.period = custom_query.QUARTER_PERIOD
+
+        current_month =int(datetime.today().strftime("%m"))
+        current_quarter = (current_month // 3) + 1
+        default_label = ['Q' + str(i + 1) for i in range(current_quarter)]
+        rs = self.service.income_by_period(self.period)
+        self._set_data(* extract_result_set(rs , default_label))
+        self._plot()
+    def by_year(self):
+        self.period = custom_query.YEAR_PERIOD
+        current_year=int(datetime.today().strftime("%Y"))
+        default_label = [str(i + 1) for i in range(current_year-5 , current_year)]
+        rs = self.service.income_by_period(self.period)
+        self._set_data(* extract_result_set(rs , default_label))
         self._plot()
 
     def _set_label_by_period(self, period):
@@ -73,7 +98,6 @@ class IncomeCanvas(BaseCanvas):
             "m": "Month",
             "y": "Year"
         }
-
         y_label = "Income"
         x_label = period_to_represent[period]
         # Add titles and labels
@@ -98,18 +122,19 @@ class BookingCanvas(BaseCanvas):
             self.values,
             labels=self.labels,
             autopct='%.1f%%',
-            # startangle=100,
+            startangle=100,
             radius=0.5
         )
 
         # Display a summary to the right of the chart
         summary_text = "\n".join(f"{label}: {value}" for label, value in zip(self.labels, self.values))
-        self.ax.text(0.9, 0.4, summary_text,
+        self.ax.text(0.8, 0.9, summary_text,
                      ha='left',
                      horizontalalignment='center',
                      verticalalignment='center',
+                     fontsize=8,
                      transform=self.ax.transAxes)
         self.ax.axis('equal')
 
-        self.ax.set_title(f"Current booking status", loc  = "left")
+        # self.ax.set_title(f"Current booking status", loc  = "left")
         self.draw()

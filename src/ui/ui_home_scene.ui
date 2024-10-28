@@ -33,6 +33,12 @@
         <layout class="QVBoxLayout" name="summaryContainer">
          <item>
           <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="font">
             <font>
              <pointsize>10</pointsize>
@@ -44,7 +50,7 @@
             <string>General</string>
            </property>
            <property name="margin">
-            <number>20</number>
+            <number>10</number>
            </property>
           </widget>
          </item>
@@ -60,12 +66,12 @@
                 </font>
                </property>
                <property name="text">
-                <string>Total customer</string>
+                <string>Total customer (up to now)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_4">
+              <widget class="QLabel" name="lblTotalCustomer">
                <property name="text">
                 <string>150</string>
                </property>
@@ -83,12 +89,12 @@
                 </font>
                </property>
                <property name="text">
-                <string>Available room</string>
+                <string>Total room (can be use/total)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="lblAvailableRoom">
                <property name="text">
                 <string>100/200</string>
                </property>
@@ -106,12 +112,12 @@
                 </font>
                </property>
                <property name="text">
-                <string>Total booking (all time)</string>
+                <string>Total reservation up to now (success/cancel/total)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_7">
+              <widget class="QLabel" name="lblTotalReservation">
                <property name="text">
                 <string>200</string>
                </property>
@@ -134,13 +140,181 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_8">
+              <widget class="QLabel" name="lblTodayRevenue">
                <property name="text">
                 <string>2000</string>
                </property>
               </widget>
              </item>
             </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,6">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>10</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Today reservation</string>
+             </property>
+             <property name="margin">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QGridLayout" name="bookingChart"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_11">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Revenue statistic</string>
+             </property>
+             <property name="margin">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>10</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <widget class="QRadioButton" name="rdMonth">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>10</y>
+                <width>95</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>1 month</string>
+              </property>
+             </widget>
+             <widget class="QRadioButton" name="rdQuarter">
+              <property name="geometry">
+               <rect>
+                <x>220</x>
+                <y>10</y>
+                <width>95</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>3 month</string>
+              </property>
+             </widget>
+             <widget class="QRadioButton" name="rdYear">
+              <property name="geometry">
+               <rect>
+                <x>330</x>
+                <y>10</y>
+                <width>95</width>
+                <height>26</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>year</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_12">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>10</y>
+                <width>71</width>
+                <height>17</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Group by</string>
+              </property>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <layout class="QGridLayout" name="revenueChart"/>
            </item>
           </layout>
          </item>
@@ -152,118 +326,6 @@
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_10">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Today reservation</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="bookingChart"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Revenue statistic</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>10</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="title">
-          <string/>
-         </property>
-         <widget class="QRadioButton" name="radioButton">
-          <property name="geometry">
-           <rect>
-            <x>110</x>
-            <y>10</y>
-            <width>95</width>
-            <height>26</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>1 month</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_2">
-          <property name="geometry">
-           <rect>
-            <x>220</x>
-            <y>10</y>
-            <width>95</width>
-            <height>26</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>3 month</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_3">
-          <property name="geometry">
-           <rect>
-            <x>330</x>
-            <y>10</y>
-            <width>95</width>
-            <height>26</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>year</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_12">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>71</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Group by</string>
-          </property>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="revenueChart"/>
        </item>
       </layout>
      </widget>
