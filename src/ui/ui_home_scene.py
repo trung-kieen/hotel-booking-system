@@ -15,18 +15,30 @@ class Ui_HomeScene(object):
     def setupUi(self, HomeScene):
         HomeScene.setObjectName("HomeScene")
         HomeScene.resize(800, 600)
-        self.containerQwidget = QtWidgets.QWidget(HomeScene)
-        self.containerQwidget.setGeometry(QtCore.QRect(0, 0, 791, 591))
+        self.gridLayout = QtWidgets.QGridLayout(HomeScene)
+        self.gridLayout.setObjectName("gridLayout")
+        self.containerQwidget = QtWidgets.QScrollArea(HomeScene)
+        self.containerQwidget.setWidgetResizable(True)
         self.containerQwidget.setObjectName("containerQwidget")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.containerQwidget)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 776, 576))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.grid = QtWidgets.QGridLayout()
-        self.grid.setObjectName("grid")
-        self.verticalLayout.addLayout(self.grid)
-        self.horizontalLayout_2.addLayout(self.verticalLayout)
+        self.summaryContainer = QtWidgets.QVBoxLayout()
+        self.summaryContainer.setObjectName("summaryContainer")
+        self.subdataContainer = QtWidgets.QGridLayout()
+        self.subdataContainer.setObjectName("subdataContainer")
+        self.summaryContainer.addLayout(self.subdataContainer)
+        self.verticalLayout.addLayout(self.summaryContainer)
+        self.chartContainer = QtWidgets.QGridLayout()
+        self.chartContainer.setObjectName("chartContainer")
+        self.pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.chartContainer.addWidget(self.pushButton_3, 0, 0, 1, 1)
+        self.verticalLayout.addLayout(self.chartContainer)
+        self.containerQwidget.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout.addWidget(self.containerQwidget, 0, 0, 1, 1)
 
         self.retranslateUi(HomeScene)
         QtCore.QMetaObject.connectSlotsByName(HomeScene)
@@ -34,6 +46,7 @@ class Ui_HomeScene(object):
     def retranslateUi(self, HomeScene):
         _translate = QtCore.QCoreApplication.translate
         HomeScene.setWindowTitle(_translate("HomeScene", "Hotel"))
+        self.pushButton_3.setText(_translate("HomeScene", "PushButton"))
 
 
 if __name__ == "__main__":

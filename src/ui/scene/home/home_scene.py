@@ -1,4 +1,7 @@
+from typing import Optional, Union
+import typing
 from PyQt5 import QtWidgets, QtCore
+from sqlalchemy import label
 
 from utils import query as custom_query
 from components.canvas import BookingCanvas, IncomeCanvas
@@ -7,7 +10,7 @@ from services.home_service import HomeService
 from ui.ui_home_scene import Ui_HomeScene
 import matplotlib.pyplot as plt
 
-from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 class HomeScene( QtWidgets.QMainWindow ):
     def __init__(self):
@@ -27,36 +30,33 @@ class HomeScene( QtWidgets.QMainWindow ):
     def init_ui(self):
 
         # Add labels for each metric
-        self.ui.grid.addWidget(QLabel("Total Working Rooms:"), 0, 0)
-        self.ui.grid.addWidget(QLabel(str(self.service.total_working_rooms())), 0, 1)
+        # self.ui.group_income.addwidget(qlabel("total working rooms:"), 0, 0)
+        # self.ui.containerQwidget.addWidget(QLabel(str(self.service.total_working_rooms())), 0, 1)
 
-        # self.ui.grid.addWidget(QLabel("Total Rooms:"), 1, 0)
-        # self.ui.grid.addWidget(QLabel(str(self.service.total_rooms())), 1, 1)
+        container = self.ui.scrollAreaWidgetContents
+        QLabel(parent = container, text= "Total Rooms:")
+        QLabel(parent = container, text= str(self.service.total_rooms()))
+        # container.addWidget(QLabel(), 1, 1)
 
-        # self.ui.grid.addWidget(QLabel("Total Customers:"), 2, 0)
-        # self.ui.grid.addWidget(QLabel(str(self.service.total_customers())), 2, 1)
+        # container.addWidget(QLabel("Total Customers:"), 2, 0)
+        # container.addWidget(QLabel(str(self.service.total_customers())), 2, 1)
 
-        # self.ui.grid.addWidget(QLabel("Total Bookings:"), 3, 0)
-        # self.ui.grid.addWidget(QLabel(str(self.service.total_booking())), 3, 1)
+        # container.addWidget(QLabel("Total Bookings:"), 3, 0)
+        # container.addWidget(QLabel(str(self.service.total_booking())), 3, 1)
 
-        # self.ui.grid.addWidget(QLabel("Successful Bookings:"), 4, 0)
-        # self.ui.grid.addWidget(QLabel(str(self.service.total_success_booking())), 4, 1)
+        # container.addWidget(QLabel("Successful Bookings:"), 4, 0)
+        # container.addWidget(QLabel(str(self.service.total_success_booking())), 4, 1)
 
-        # self.ui.grid.addWidget(QLabel("Canceled Bookings:"), 5, 0)
-        # self.ui.grid.addWidget(QLabel(str(self.service.total_canceled_booking())), 5, 1)
-        # income = self.service.income_by_month()
+        # container.addWidget(QLabel("Canceled Bookings:"), 5, 0)
+        # container.addWidget(QLabel(str(self.service.total_canceled_booking())), 5, 1)
+        # # income = self.service.income_by_month()
 
-        # period , group_income= zip(*income)
+        # # period , group_income= zip(*income)
 
-        income_canvas = IncomeCanvas(self.ui.grid)
-        income_canvas.by_month()
+        # StaticGrid(parent=self.ui.horizontalLayout, label_text = "HI",value ="123")
+        income_canvas = IncomeCanvas(container)
+        current_booking_canvas = BookingCanvas(container)
 
-        current_booking_canvas = BookingCanvas(self.ui.grid)
-
-        # sc._set_data(period, group_income)
-        # sc.axes.plot(period, group_income)
-        # self.ui.grid.addWidget(sc)
-        # self.setCentralWidget(sc)
 
 
 

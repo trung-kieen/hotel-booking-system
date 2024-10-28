@@ -53,6 +53,10 @@ GROUP BY status
 """
 
 
+DAY_PERIOD  = 'd'
+MONTH_PERIOD  = 'm'
+QUARTER_PERIOD  = 'q'
+YEAR_PERIOD  = 'y'
 query_invoice_total_group_by_period = """
 SELECT period , SUM(total_price)
 FROM (

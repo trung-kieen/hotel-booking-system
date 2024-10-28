@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/dxlaam/Projects/hotel-booking-system/src/ui/ui_invoice_scene.ui'
+# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_invoice_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -93,3 +93,13 @@ class Ui_InvoiceScene(object):
         InvoiceScene.setWindowTitle(_translate("InvoiceScene", "Hotel"))
         self.filter_btn.setText(_translate("InvoiceScene", "Filter"))
         self.refresh_btn.setText(_translate("InvoiceScene", "↻"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    InvoiceScene = QtWidgets.QWidget()
+    ui = Ui_InvoiceScene()
+    ui.setupUi(InvoiceScene)
+    InvoiceScene.show()
+    sys.exit(app.exec_())
