@@ -24,7 +24,7 @@ class InvoiceDetailDialog(QDialog):
         self.ui.name_lb.setText(customer.lastname + " " + customer.firstname)
 
     def init_service_info(self, booking: Booking):
-        data = [booking_service.service for booking_service in booking.booking_services]
+        data = [service for service in booking.services]
         if len(data):
             adapter = ServiceAdapter()
             adapter.set_items(data)

@@ -74,7 +74,7 @@ class BookingScene(QtWidgets.QMainWindow):
             msg_box.setWindowTitle("Booking Message")
             msg_box.setText("Booking successfully")
             msg_box.setIcon(QMessageBox.Information)
-    
+
             msg_box.setStandardButtons(QMessageBox.Ok)
             msg_box.exec_()
             self.refresh_data()
@@ -126,12 +126,10 @@ class BookingScene(QtWidgets.QMainWindow):
             d.exec()
             result = d.get_checkout_result()
             if result is not None:
-                MessageBox = BasePopup("Booking Message", "Payment successfully")
-                MessageBox.exec()
+                BasePopup("Booking Message", "Payment successfully")
                 self.refresh_data()
             else:
-                MessageBox = BasePopup("Booking Message", "You must payment before exit")
-                MessageBox.exec()
+                BasePopup("Booking Message", "You must payment before exit")
 
     def checkin(self):
         row_index = self.ui.booking_data_table.selectionModel().currentIndex().row()
