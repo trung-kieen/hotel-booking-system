@@ -156,6 +156,9 @@ def _fake_invoice_for_booking():
             prepaid=0,  # Adjust according to your logic for prepayments
             status=  PaymentStatus.Done if booking.checkin and booking.checkout else PaymentStatus.Pending,
         )
+        now = datetime.now()
+        five_years_ago = now - timedelta(days=5*365)  # Approximation for 5 years
+        invoice.created_at =  _faker.date_time_between(start_date=five_years_ago, end_date=now)
 
         # Link the completed_at date if the booking is completed
         if booking.checkin and booking.checkout:
@@ -255,7 +258,7 @@ def _fake_room():
 
 
 def _fake_hotel():
-    h = Hotel(id=_ID_HOTEL, name="Khach san cua tui va iem", address=_faker.address(), phone=_faker.phone_number())
+    h = Hotel(id=_ID_HOTEL, name="Arcx De Hotel", address=_faker.address(), phone=_faker.phone_number())
     _session.add(h)
     _session.commit()
 
