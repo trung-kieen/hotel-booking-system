@@ -3,11 +3,12 @@ Author: Nguyen Khac Trung Kien
 """
 from collections.abc import Iterable
 from typing import Any, Callable, List, Tuple, overload
+from utils.logging import app_logger
 
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QAction, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QMessageBox, QPushButton, QToolButton, QVBoxLayout, QWidget
+from database.engine import EngineHolder
 from database.models import bed_room
-from database.models import bed_type
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
 from database.models.floor import Floor
@@ -70,20 +71,6 @@ class RoomService:
         It more complex to determine which bed_room is delete, add, update
         """
 
-        # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
-        final_bed_rooms_id = set([room.id for room in bed_rooms])
-        # list_add  = final_bed_rooms_id - persisted_bed_rooms_id
-        # list_delete  = persisted_bed_rooms_id - final_bed_rooms_id
-        # list_update = persisted_bed_rooms_id & final_bed_rooms_id
-        # for bed in bed_rooms:
-        #     # TODO
-        #     if bed.id in list_add:
-        #         self.bed_room_repo.insert(bed)
-        #     if bed.id in list_update:
-        #         self.bed_room_repo.update(bed)
-        #     if bed.id in list_delete:
-        #         self.bed_room_repo.delete_room_id(bed.id)
-
         for bed_room in bed_rooms:
             bed_room.room_id = room_id
         self.bed_room_repo.delete_by_room_id(room_id)
@@ -115,6 +102,11 @@ class RoomService:
             elif bed.bed_type_id in updated_bed_type_id:
                 session.merge(bed)
 
+    def exist_booking_with_room(self, room_id):
+        num_booking_relate= int(EngineHolder().scalar("SELECT COUNT(*) FROM bookings WHERE room_id = :room_id", room_id = room_id))
+        if num_booking_relate > 0:
+            return True
+        return False
 
     @handle_exception
     @transaction
@@ -306,7 +298,6 @@ def query_condition_translator(*predicates) -> str :
 class ItemRow(QWidget):
     def __init__(self, bed_room: BedRoom, remove_callback : Callable, parent ):
         super().__init__(parent)
-        print("Add bed room " , bed_room.bed_type_id )
         self.bed_room = bed_room
 
 
@@ -418,7 +409,7 @@ class BedRoomManager(QWidget):
             if DEFAULT_BED_TYPE:
                 self.add_bed(DEFAULT_BED_TYPE)
             else:
-                print("Cound not found any bed type")
+                app_logger.warning("Cound not found any bed type")
 
 
 
@@ -460,7 +451,7 @@ class BedRoomManager(QWidget):
             add(bed_room)
         elif isinstance(bed_type_or_bed_room ,BedRoom):
             add(bed_type_or_bed_room)
-        else: print("Unable to add item of unknow")
+        else: app_logger.warning("Unable to add item of unknow")
     def remove_bed_room(self, item_widget : QWidget, bed_room:  BedRoom):
         # Ensure at least one item remains
         MINIMUM_BED_TYPE  = 1

@@ -1,5 +1,7 @@
 from typing import Iterable, Any
 
+from utils.logging import app_logger
+
 from sqlalchemy import and_
 
 from database.repositories.irepository import IRepository, T
@@ -30,7 +32,7 @@ class Repository(IRepository[T]):
             merged_item = self.session.merge(item)
             self.session.commit()
         else:
-            print(f"Item with primary key {primary_key_values} not found.")
+            app_logger.info(f"Item with primary key {primary_key_values} not found.")
 
 
     def get(self, _filters: list[Any] = []) -> T:

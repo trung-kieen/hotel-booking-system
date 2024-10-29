@@ -1,8 +1,9 @@
 
 
-from sqlalchemy import MetaData
+from sqlalchemy import Engine, MetaData
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.schema import DropConstraint
 
 
 # Require entity class inheritance Base class to make table mapping to a table
@@ -25,10 +26,11 @@ def bootstrap(engine):
 def bind_engine(engine):
     Base.metadata.bind = engine
     Session.configure(bind=engine)
+
 def recreate_metadata( engine):
     """
     Override DDL change in database or create new one.
     @See sqlalchemy.MetaData
     """
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
+    Base.metadata.drop_all(engine )
+    Base.metadata.create_all(engine, checkfirst = True)

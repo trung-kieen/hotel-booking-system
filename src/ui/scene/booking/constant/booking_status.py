@@ -1,6 +1,7 @@
 import datetime
 from enum import Enum
 
+from utils.logging import app_logger
 from database.models.booking import Booking
 
 
@@ -25,5 +26,5 @@ class BookingStatus(Enum):
         elif datetime.date.today() > booking.end_date.date() and booking.checkout is None:
             status = BookingStatus.Late
         else:
-            print("Error Handle Status")
+            app_logger.error("Error Handle Status")
         return status

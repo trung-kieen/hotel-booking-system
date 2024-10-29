@@ -1,11 +1,12 @@
 """
 Author: Nguyen Khac Trung Kien
 """
+from utils.logging import app_logger
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtSql import QSqlQueryModel
 from qt_material import apply_stylesheet
-from components.messagebox.popup import ErrorPopup
+from components.messagebox.popup import CriticalPopup, ErrorPopup
 from database.repositories.base_repository import Repository
 from designer.style import adjust_cmb, apply_theme, adjust_view_table, set_style_button
 from ui.scene.room.room_dialog import RoomDialog
@@ -43,6 +44,8 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _init_ui(self):
+        apply_stylesheet(self, theme='light_blue.xml', extra={'font_size': '15px'})
+        self.setStyleSheet("background-color: #FFFFFF")
         self.setCentralWidget(self.ui.containerQwidget )
 
         apply_theme(self.ui.tableView)
@@ -77,8 +80,15 @@ class RoomScene( QtWidgets.QMainWindow ):
     def _delete_current_room(self):
         # TODO: Use business error message
         target_room_id   = self._selected_room_id()
-        if target_room_id:
-            # TODO: Check before delete
+        if self.room_service.exist_booking_with_room(target_room_id):
+            CriticalPopup(title="Action not permited", message="Delete this room will losing other important data")
+            return
+
+        if not target_room_id: return
+        reply = QtWidgets.QMessageBox.question(self, 'Confirm Delete',
+                                                f"Are you sure you want to delete room ID {target_room_id}?",
+                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if reply:
             self.room_service.delete_room_by_id(target_room_id)
             self.refresh_room_table()
 
@@ -91,7 +101,7 @@ class RoomScene( QtWidgets.QMainWindow ):
         room_id = self._selected_room_id()
         if not self._selected_room_id():
             # TODO: use msg box or diable button
-            print("Please select room to edit")
+            app_logger.info("Please select room to edit")
         # Open to edit current room
         dialog = RoomDialog(room_id)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
