@@ -21,4 +21,3 @@ class Review(Base):
         return (f"<{self.__class__.__name__}(id={self.id}, "
                 f"booking_id={self.booking_id}, date={self.date}, "
                 f"rate={self.rate}, content='{self.content[:20]}...')>")
-

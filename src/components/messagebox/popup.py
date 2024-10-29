@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
+from sqlalchemy.sql.operators import op
 
 class BasePopup(QMessageBox):
     """Base popup object to display information.
@@ -44,6 +45,25 @@ class ErrorPopup(BasePopup):
     def __init__(
         self,
         title: str = "Error",
+        message: str = "",
+        buttons: QMessageBox.StandardButtons = QMessageBox.Ok,
+        *args,
+        **kwargs
+    ):
+        super().__init__(title, message, buttons, QMessageBox.Critical, *args, **kwargs)
+
+class CriticalPopup(BasePopup):
+    """Popup to display error messages.
+
+    Args:
+        title (str, optional): Text to show on the title bar. Defaults to "Error".
+        message (str, optional): Text to show in the main area. Defaults to an empty string.
+        buttons (QMessageBox.StandardButtons, optional): Buttons to show below the popup. Defaults to the Ok button.
+    """
+
+    def __init__(
+        self,
+        title: str = "Alert",
         message: str = "",
         buttons: QMessageBox.StandardButtons = QMessageBox.Ok,
         *args,
