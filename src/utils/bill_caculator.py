@@ -46,7 +46,7 @@ class BillCalculator:
             duration_text = f"{round(hours, 2)} hours"
         prepaid = round(booking.invoice.prepaid, 2) if booking.invoice else 0
         return {
-            'room_price_lb': f"{round(room_total, 2)}",  # Label for room price
+            'room_price_lb': f"{round(booking.room.price, 2)}",  # Label for room price
             'duration_lb': duration_text,  # Label for duration
             'service_total_price_lb': f"{round(service_total, 2)}",  # Label for service total
             'room_total_price_lb': f"{round(room_total, 2)}",  # Label for room total
@@ -76,7 +76,7 @@ class BillCalculator:
         prepaid = round(booking.invoice.prepaid, 2) if booking.invoice else 0
 
         return {
-            'room_price_lb': f"{round(room_total, 2)}",  # Label for room price
+            'room_price_lb': f"{round(booking.room.price, 2)}",  # Label for room price
             'duration_lb': duration_text,  # Label for duration
             'service_total_price_lb': f"{round(service_total, 2)}",  # Label for service total
             'room_total_price_lb': f"{round(room_total, 2)}",  # Label for room total

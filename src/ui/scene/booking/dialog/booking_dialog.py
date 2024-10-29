@@ -1,14 +1,16 @@
 from datetime import datetime
+from decimal import Decimal
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDateTime, QTime
 from PyQt5.QtGui import QIntValidator, QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QMenu, QAction
 from faker.utils.decorators import lowercase
 
-from database.models.booking import BookingType
+from database.models.booking import BookingType, Booking
 from services.booking_service import BookingService
 from services.service_service import ServiceService
 from ui.scene.booking.dialog.ui.ui_booking import Ui_Booking_Dialog
+from utils.bill_caculator import BillCalculator
 from utils.room_information import get_room_location, get_base_information
 
 
@@ -38,6 +40,7 @@ class BookingDialog(QDialog):
             self.init_ui_w_room_data(room_id)
         else:
             self.init_ui_w_out_room_data()
+        self.init_listener_bill()
 
     def init_ui_w_out_room_data(self):
         self.ui.room_information_container.setVisible(False)
@@ -140,6 +143,7 @@ class BookingDialog(QDialog):
             self.accept()
 
     def validate_base_data(self) -> bool:
+        self.ui.message_lb.setVisible(False)
         if self.ui.phone_et.text() == "":
             self.ui.message_lb.setVisible(True)
             self.ui.message_lb.setText("Please enter phone number")
@@ -174,6 +178,8 @@ class BookingDialog(QDialog):
 
     def show_room_information(self):
         room = self.ui.rooms_cb.currentData()
+        if room is None:
+            return
         self.ui.room_information_container.setVisible(True)
         self.ui.type_room_lb.setText(str(room.room_type))
         self.ui.price_lb.setText(str(round(room.price, 2)))
@@ -195,6 +201,19 @@ class BookingDialog(QDialog):
             lambda x: self.get_services_by_name(services, x) if x != "" else None)
         self.ui.add_service_btn.clicked.connect(self.add_service)
 
+        def show_context_menu(self, position):
+            menu = QMenu()
+
+            delete_action = QAction("Delete", self)
+            delete_action.triggered.connect(
+                lambda x: self.ui.service_lw.model().removeRow(self.ui.service_lw.currentIndex().row()))
+
+            menu.addAction(delete_action)
+            menu.exec_(self.ui.service_lw.viewport().mapToGlobal(position))
+
+        self.ui.service_lw.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.ui.service_lw.customContextMenuRequested.connect(lambda x: show_context_menu(self, x))
+
     def get_services_by_name(self, services, name):
         self.ui.services_cb.clear()
         for service in services:
@@ -204,10 +223,64 @@ class BookingDialog(QDialog):
     def add_service(self):
         service = self.ui.services_cb.currentData()
         item = QStandardItem()
-        item.setText(service.name)
+        item.setText(service.name + " - " + str(service.price))
         item.setData(service)
         item.setTextAlignment(Qt.AlignCenter)
         self.ui.service_lw.model().appendRow(item)
+
+    def init_listener_bill(self):
+        self.ui.prepaid_ld.setText("0")
+        self.ui.prepaid_ld.setValidator(QIntValidator(0, 1000000, self))
+        self.ui.phone_et.textChanged.connect(self.update_bill)
+        self.ui.prepaid_ld.textChanged.connect(
+            lambda: self.ui.num_adult_et.setText('0') if self.ui.num_adult_et.text().strip() == "" else None)
+        self.ui.start_date_picker.dateChanged.connect(self.update_bill)
+        self.ui.end_date_picker.dateChanged.connect(self.update_bill)
+        self.ui.service_lw.model().rowsInserted.connect(self.update_bill)
+        self.ui.service_lw.model().rowsRemoved.connect(self.update_bill)
+        self.ui.prepaid_ld.textChanged.connect(self.update_bill)
+        self.ui.rooms_cb.currentIndexChanged.connect(self.update_bill)
+
+    def update_bill(self):
+        # Clear any previous error messages
+        self.validate_base_data()
+        # try:
+        # Get the room data
+        room = self.ui.rooms_cb.currentData()
+
+        if room is None:
+            return
+
+        # Fetch selected booking type
+        booking_type = BookingType(self.ui.type_booking_cb.currentText())
+        start_datetime = QDateTime(self.ui.start_date_picker.date(), QTime(0, 0))
+        end_datetime = QDateTime(self.ui.end_date_picker.date(), QTime(0, 0))
+        # Create a temporary Booking object to calculate the bill
+        booking = Booking(
+            room=room,
+            booking_type=booking_type,
+            start_date=start_datetime.toPyDateTime(),
+            end_date=end_datetime.toPyDateTime(),
+            services=[self.ui.service_lw.model().item(i).data() for i in range(self.ui.service_lw.model().rowCount())]
+        )
+
+        bill_details = BillCalculator.calculate_pre_checkout_bill_details(booking)
+
+        # Update UI with the bill details
+        self.ui.room_price_lb.setText(bill_details['room_price_lb'])
+        self.ui.duration_lb.setText(bill_details['duration_lb'])
+        self.ui.room_total_price_lb.setText(bill_details['room_total_price_lb'])
+        self.ui.service_total_price_lb.setText(bill_details['service_total_price_lb'])
+        if Decimal(bill_details['total_price_lb']) - Decimal(
+                self.ui.prepaid_ld.text() if self.ui.prepaid_ld.text() != "" else 0) < 0:
+            self.ui.message_lb.setText("Prepaid must be less than total price")
+        else:
+            self.ui.total_price_lb.setText(str(Decimal(bill_details['total_price_lb']) - Decimal(
+                self.ui.prepaid_ld.text() if self.ui.prepaid_ld.text() != "" else 0)))
+
+        # except Exception as e:
+        #     self.ui.message_lb.setText(f"Error calculating bill: {str(e)}")
+        #     self.ui.message_lb.setVisible(True)
 
     @staticmethod
     def validate_sum(a: str, b: str) -> bool:

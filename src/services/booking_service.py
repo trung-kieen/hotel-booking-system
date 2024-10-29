@@ -85,12 +85,14 @@ class BookingService:
     def update_invoice(self, invoice):
         return self.invoice_repo.update(invoice)
 
-    def filter_bookings(self, room_id=None, phone=None, booking_type=None, start_date=None, end_date=None, checkin=None,
+    def filter_bookings(self, num_cus=0, room_id=None, phone=None, booking_type=None, start_date=None, end_date=None,
+                        checkin=None,
                         checkout=None, status=None):
         filters = []
 
         # Nếu có điều kiện lọc theo số điện thoại, thực hiện join với bảng Customer
-
+        if num_cus:
+            filters.append(Booking.num_adults + Booking.num_children >= num_cus)
         if phone:
             filters.append(Customer.phone == phone)  # Lọc theo số điện thoại của khách hàng
         if room_id:
@@ -113,20 +115,32 @@ class BookingService:
 
         if status:
             current_date = datetime.date.today()
+
             if status == BookingStatus.Completed.value:
+                # Booking has been checked out
                 filters.append(Booking.checkout.isnot(None))
+
             elif status == BookingStatus.Cancelled.value:
+                # Booking is canceled
                 filters.append(Booking.is_canceled.is_(True))
+
             elif status == BookingStatus.InActive.value:
+                # Booking is ongoing (start_date <= today, end_date >= today, not checked out)
                 filters.append(Booking.start_date <= current_date)
                 filters.append(Booking.end_date >= current_date)
                 filters.append(Booking.checkout.is_(None))
+                filters.append(Booking.is_canceled.is_(False))  # Ensure it's not canceled
+
             elif status == BookingStatus.InComing.value:
+                # Booking is upcoming (start_date > today, not canceled)
                 filters.append(Booking.start_date > current_date)
                 filters.append(Booking.is_canceled.is_(False))
+
             elif status == BookingStatus.Late.value:
+                # Booking is late (end_date < today, not checked out, not canceled)
                 filters.append(Booking.end_date < current_date)
                 filters.append(Booking.checkout.is_(None))
+                filters.append(Booking.is_canceled.is_(False))
 
         # Áp dụng tất cả các bộ lọc nếu có
         return self.booking_repo.filter_booking(filters)

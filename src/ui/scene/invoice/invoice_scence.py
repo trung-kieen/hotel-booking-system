@@ -7,6 +7,7 @@ from database.models.invoice import Invoice
 from designer.style import STYLE
 from services.invoice_service import InvoiceService
 from ui.scene.invoice.dialog.detail_dialog import InvoiceDetailDialog
+from ui.scene.invoice.dialog.filter_dialog import InvoiceFilterDialog
 from ui.scene.invoice.invoice_adapter import InvoiceAdapter
 from ui.ui_invoice_scene import Ui_InvoiceScene
 
@@ -58,7 +59,12 @@ class InvoiceScene(QtWidgets.QMainWindow):
         self.adapter.set_items(i)
 
     def filter(self):
-        pass
+        i = InvoiceFilterDialog()
+        i.exec_()
+        if i.result() == QtWidgets.QDialog.Accepted:
+            customer_phone, booking_status, pay_status, completed_date = i.get_filter_values()
+            i = self.service.filter_invoice(customer_phone, booking_status, pay_status, completed_date)
+            self.adapter.set_items(i)
 
     def act_detail(self, row_index):
         invoice = self.adapter.get_item(row_index)
