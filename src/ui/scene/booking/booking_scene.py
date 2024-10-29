@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog
+from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog, QMessageBox
 
 from utils.logging import app_logger
 from components.messagebox.popup import BasePopup
@@ -70,8 +70,13 @@ class BookingScene(QtWidgets.QMainWindow):
         b = BookingDialog()
         b.exec()
         if b.booking is not None:
-            MessageBox = BasePopup("Booking Message", "Booking successfully")
-            MessageBox.exec()
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Booking Message")
+            msg_box.setText("Booking successfully")
+            msg_box.setIcon(QMessageBox.Information)
+    
+            msg_box.setStandardButtons(QMessageBox.Ok)
+            msg_box.exec_()
             self.refresh_data()
 
     def show_context_menu(self, pos):
