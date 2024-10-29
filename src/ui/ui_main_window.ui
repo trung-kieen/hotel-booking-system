@@ -86,6 +86,13 @@
               <number>0</number>
              </property>
              <item>
+              <widget class="QPushButton" name="homeButton">
+               <property name="text">
+                <string>Home</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="customerButton">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">

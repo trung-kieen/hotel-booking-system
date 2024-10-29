@@ -3,11 +3,12 @@ Author: Nguyen Khac Trung Kien
 """
 from collections.abc import Iterable
 from typing import Any, Callable, List, Tuple, overload
+from utils.logging import app_logger
 
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QAction, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QMessageBox, QPushButton, QToolButton, QVBoxLayout, QWidget
+from database.engine import EngineHolder
 from database.models import bed_room
-from database.models import bed_type
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType
 from database.models.floor import Floor
@@ -33,17 +34,8 @@ class RoomService:
     #     pass
 
 
-    def update_room(self, room):
-        return self.room_repo.update(room)
-    def update_bed_room(self, bed_room):
-        return self.bed_room_repo.update(bed_room)
-    def add_bed_room(self , bed_room):
-        self.bed_room_repo.insert(bed_room)
-
     def delete_room_by_id(self , room_id ):
         self.room_repo.delete_by_id(room_id)
-    def get_all_rooms(self):
-        return self.room_repo.get_all()
 
     def get_room_by_id(self, room_id):
         return self.room_repo.get_by_id(room_id)
@@ -63,39 +55,12 @@ class RoomService:
     def delete_bed_room_by_room_id_and_bed_type(self , room_id , type_id ) -> None :
         self.bed_room_repo.delete_by_room_id_and_bed_type(room_id , type_id)
 
-    @transaction
-    def save_bed_room_by_room_id (self , room_id   , bed_rooms : Iterable[BedRoom] ):
-        """
-        Flush all old bed room then save new information
-        It more complex to determine which bed_room is delete, add, update
-        """
-
-        # persisted_bed_rooms_id = set(self.bed_room_repo.get_all_bed_id_by_room_id(room_id))
-        final_bed_rooms_id = set([room.id for room in bed_rooms])
-        # list_add  = final_bed_rooms_id - persisted_bed_rooms_id
-        # list_delete  = persisted_bed_rooms_id - final_bed_rooms_id
-        # list_update = persisted_bed_rooms_id & final_bed_rooms_id
-        # for bed in bed_rooms:
-        #     # TODO
-        #     if bed.id in list_add:
-        #         self.bed_room_repo.insert(bed)
-        #     if bed.id in list_update:
-        #         self.bed_room_repo.update(bed)
-        #     if bed.id in list_delete:
-        #         self.bed_room_repo.delete_room_id(bed.id)
-
-        for bed_room in bed_rooms:
-            bed_room.room_id = room_id
-        self.bed_room_repo.delete_by_room_id(room_id)
-        self.bed_room_repo.insert_all(bed_rooms)
 
     @handle_exception
     @transaction
     def update_room_and_bed (self,  updated_room : Room , bed_rooms : Iterable[BedRoom], session  = None  ):
-        # self.update_room(updated_room)
         session.merge(updated_room)
-        # Need to persistence room before to get new room id
-        # session.commit()
+        # After persistence with merge updated_room will have information about room id
 
         bed_rooms_from_database = self.get_all_bed_by_room_id(updated_room.id)
         bed_type_ids_before = set([bed_room.bed_type_id for bed_room in  bed_rooms_from_database])
@@ -115,12 +80,20 @@ class RoomService:
             elif bed.bed_type_id in updated_bed_type_id:
                 session.merge(bed)
 
+    def exist_booking_with_room(self, room_id):
+        """
+        Use to check if room have book/reservation by any customer
+        """
+        num_booking_relate= int(EngineHolder().scalar("SELECT COUNT(*) FROM bookings WHERE room_id = :room_id", room_id = room_id))
+        if num_booking_relate > 0:
+            return True
+        return False
 
     @handle_exception
     @transaction
     def add_room_and_bed (self , new_room  : Room , bed_rooms : Iterable [ BedRoom], session= Session()):
         session.add(new_room)
-            # Need to persistence room before to get new room id
+        # Need to persistence room before to get new room id
         session.commit()
 
         for bed in bed_rooms:
@@ -306,7 +279,6 @@ def query_condition_translator(*predicates) -> str :
 class ItemRow(QWidget):
     def __init__(self, bed_room: BedRoom, remove_callback : Callable, parent ):
         super().__init__(parent)
-        print("Add bed room " , bed_room.bed_type_id )
         self.bed_room = bed_room
 
 
@@ -418,7 +390,7 @@ class BedRoomManager(QWidget):
             if DEFAULT_BED_TYPE:
                 self.add_bed(DEFAULT_BED_TYPE)
             else:
-                print("Cound not found any bed type")
+                app_logger.warning("Cound not found any bed type")
 
 
 
@@ -460,7 +432,7 @@ class BedRoomManager(QWidget):
             add(bed_room)
         elif isinstance(bed_type_or_bed_room ,BedRoom):
             add(bed_type_or_bed_room)
-        else: print("Unable to add item of unknow")
+        else: app_logger.warning("Unable to add item of unknow")
     def remove_bed_room(self, item_widget : QWidget, bed_room:  BedRoom):
         # Ensure at least one item remains
         MINIMUM_BED_TYPE  = 1

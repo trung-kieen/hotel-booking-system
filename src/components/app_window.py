@@ -34,9 +34,11 @@ class AppWindow(QMainWindow):
         self.ui.stackedWidget.addWidget(BookingScene())
         self.ui.stackedWidget.addWidget(ServiceScene())
         self.ui.stackedWidget.addWidget(InvoiceScene())
+        self.ui.stackedWidget.addWidget(HomeScene())
 
     def _initUi(self):
         self.setCentralWidget(self.ui.qwidgetContainer)
+        self.ui.stackedWidget.setCurrentIndex(0)
         # set_style(self, STYLE.PRIMARY_CONTAINER.value)
         # set_style(self.ui.stackedWidget, STYLE.SECONDARY_CONTAINER.value)
         # set_style(self.ui.qwidgetContainer, STYLE.PRIMARY_CONTAINER.value)
@@ -60,6 +62,7 @@ class AppWindow(QMainWindow):
         self.ui.reservationButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
         self.ui.service_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
         self.ui.invoice_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
+        self.ui.homeButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(5))
 
 
 if __name__ == '__main__':

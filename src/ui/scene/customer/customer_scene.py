@@ -3,6 +3,7 @@ from database.models.customer import Customer
 from database.engine import EngineHolder
 from database.orm import  bootstrap
 
+from utils.logging import app_logger
 import sys
 import copy
 from fake_data import fake_data
@@ -126,7 +127,7 @@ class FilterCustomerDialog(QtWidgets.QDialog, Ui_FilterCustomerDialog):
         self.accept()
 
     def get_filtered_customers(self, customers):
-        print(f"Filter by gender {self.filtered_gender}")
+        app_logger.info(f"Filter by gender {self.filtered_gender}")
         if self.filtered_gender == 'None':
             return customers
         else:
@@ -215,7 +216,7 @@ class CustomerScene(QtWidgets.QMainWindow):
 
         # Insert each customer into the table
         for row, customer in enumerate(customers):
-            print(customer.id, " ", customer.firstname)
+            # print(customer.id, " ", customer.firstname)
             self.ui.model.setItem(row, 0, QStandardItem(str(customer.id)))
             self.ui.model.setItem(row, 1, QStandardItem(str(customer.firstname)))
             self.ui.model.setItem(row, 2, QStandardItem(str(customer.lastname)))
@@ -257,4 +258,3 @@ class CustomerScene(QtWidgets.QMainWindow):
             self.controller.delete_customer(customer_id)
             self.load_all_customers()
             QtWidgets.QMessageBox.information(self, "Delete Customer", "Customer deleted successfully.")
-
