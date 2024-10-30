@@ -5,12 +5,7 @@ Use to customize component style
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QMainWindow
 import sys
 import math
-
-from pipx.animate import animate
-
 from ui.scene.customer.customer_scene import CustomerScene
-from designer.style import STYLE
-from designer.style import set_style
 from ui.scene.booking.booking_scene import BookingScene
 from ui.scene.invoice.invoice_scence import InvoiceScene
 from ui.scene.room.room_scene import RoomScene
