@@ -11,7 +11,7 @@ from utils.singleton import singleton
 T = TypeVar('T')
 
 
-class RoomRepository(Repository[T]):
+class RoomRepository[T](Repository[T]):
     def __init__(self):
         super().__init__()
 

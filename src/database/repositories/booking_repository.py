@@ -13,7 +13,7 @@ from database.repositories.base_repository import Repository
 T = TypeVar('T')
 
 
-class BookingRepository(Repository[T]):
+class BookingRepository[T](Repository[T]):
     def __init__(self):
         super().__init__()
 
