@@ -14,10 +14,12 @@ from database.models.booking import Booking
 from database.models.customer import Customer, Gender
 from database.models.floor import Floor
 from database.models.hotel import Hotel
-from database.models.invoice import Invoice
+from database.models.invoice import Invoice, PaymentStatus
 from database.models.room import Room, RoomType
 from database.models.service import Service
-from database.models.service_invoice import ServiceInvoice
+from database.models.booking_service import BookingService
+from database.repositories.base_repository import Repository
+from utils.bill_caculator import BillCalculator
 
 _session: Session
 _ID_HOTEL = 1
@@ -26,7 +28,7 @@ gender = [Gender.FEMALE, Gender.MALE]
 _faker = Faker(["vi_VN"])
 
 
-def fake(engine = EngineHolder().get_engine()):
+def fake(engine=EngineHolder().get_engine()):
     global _session
     _session = create_session(bind=engine)
     _fake_hotel()
@@ -36,6 +38,7 @@ def fake(engine = EngineHolder().get_engine()):
     _fake_customer()
     _fake_services()
     _fake_booking()
+    _fake_invoice_for_booking()
 
 
 def _fake_booking():
@@ -117,29 +120,54 @@ def _fake_booking():
                 )
             )
 
-        if not is_canceled:
-
             # Create a single invoice for this booking
             services = random.sample(_session.query(Service).all(), random.randint(1, 3))  # Random services
-            total_price = sum(s.price for s in services)
-
-            invoice = Invoice(
-                id=invoice_count,
-                total_price=total_price,
-                booking_id=b_id,  # Link the invoice to the booking
-            )
-            _session.add(invoice)
-            invoice_count += 1
-
             # Link services to the invoice
             for service in services:
-                _session.add(ServiceInvoice(
+                _session.add(BookingService(
                     service_id=service.id,
-                    invoice_id=invoice.id,
-                    quantity=random.randint(1, 5)  # Random quantity for each service
+                    booking_id=b_id,
                 ))
+            invoice_count += 1
     # Lưu vào session và commit
     _session.add_all(l_b)
+    _session.commit()
+
+
+from database.models.booking import Booking
+from database.models.invoice import Invoice
+from decimal import Decimal
+
+
+def _fake_invoice_for_booking():
+    bookings = _session.query(Booking).all()
+    invoices = []
+    for booking in bookings:
+        # Calculate the invoice details based on whether the booking is completed or not
+        if booking.checkin and booking.checkout:  # Check if the booking is completed
+            bill_details = BillCalculator.calculate_bill_details(booking)
+        else:
+            bill_details = BillCalculator.calculate_pre_checkout_bill_details(booking)
+
+        # Create the invoice based on the calculated bill details
+        invoice = Invoice(
+            total_price=bill_details['total_price_lb'],
+            booking_id=booking.id,
+            prepaid=0,  # Adjust according to your logic for prepayments
+            status=  PaymentStatus.Done if booking.checkin and booking.checkout else PaymentStatus.Pending,
+        )
+        now = datetime.now()
+        five_years_ago = now - timedelta(days=5*365)  # Approximation for 5 years
+        invoice.created_at =  _faker.date_time_between(start_date=five_years_ago, end_date=now)
+
+        # Link the completed_at date if the booking is completed
+        if booking.checkin and booking.checkout:
+            invoice.completed_at = booking.checkout
+
+        invoices.append(invoice)
+
+    # Add to session and commit
+    _session.add_all(invoices)
     _session.commit()
 
 
@@ -230,7 +258,7 @@ def _fake_room():
 
 
 def _fake_hotel():
-    h = Hotel(id=_ID_HOTEL, name="Khach san cua tui va iem", address=_faker.address(), phone=_faker.phone_number())
+    h = Hotel(id=_ID_HOTEL, name="Arcx De Hotel", address=_faker.address(), phone=_faker.phone_number())
     _session.add(h)
     _session.commit()
 
@@ -270,7 +298,7 @@ def _fake_services():
     for _ in range(_NUM_SERVICES):
         service = Service(
             name=random.choice(_SERVICE_NAMES),
-            price=random.uniform(50, 500)
+            price=random.randint(50, 500)
         )
         services.append(service)
 

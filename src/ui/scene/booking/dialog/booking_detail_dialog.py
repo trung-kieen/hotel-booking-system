@@ -75,7 +75,6 @@ class BookingDetailDialog(QDialog):
         self.ui.booking_tb.setModel(self.ui.model)
 
         self.setMouseTracking(True)
-        
 
     def init_room_container(self, room):
         header = self.ui.room_tb.horizontalHeader()

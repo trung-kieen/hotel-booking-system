@@ -34,7 +34,7 @@ class Booking(Base, AuditCreation):
 
     room_id = Column(Integer, ForeignKey("rooms.id", ondelete='RESTRICT'))
 
-    room = relationship("Room", backref="rooms")
+    room = relationship("Room", back_populates="bookings")
 
     is_canceled = Column(Boolean, default=False, nullable=False)
 
@@ -42,6 +42,9 @@ class Booking(Base, AuditCreation):
 
     invoice = relationship("Invoice", uselist=False, back_populates="booking", foreign_keys="Invoice.booking_id")
 
+    # Quan hệ nhiều-nhiều với Service thông qua bảng trung gian BookingService
+    services = relationship("Service", secondary="booking_services", back_populates="bookings")
+        
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
         CheckConstraint(num_adults >= 0, name='CK_num_adults_positive'),

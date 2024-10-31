@@ -40,19 +40,20 @@ background-color: rgb(255, 255, 255);</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-611</y>
+        <y>-1156</y>
         <width>916</width>
-        <height>1296</height>
+        <height>1841</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
+      <layout class="QVBoxLayout" name="verticalLayout_30">
        <item>
         <widget class="QWidget" name="verticalWidget" native="true">
          <property name="styleSheet">
-          <string notr="true">QFrame#personal_information_container, QFrame#room_information_container,
+          <string notr="true">QFrame#personal_information_container,
 QFrame#booking_summary_container, 
 QFrame#bill_container, 
-QFrame#room_filter_container
+QFrame#room_filter_container,
+QFrame#service_container
 {
                             border: 2px solid black;
                             border-radius: 15px;
@@ -209,19 +210,6 @@ QFrame#room_filter_container
                  </widget>
                 </item>
                </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="message_personal_infor_lb">
-               <property name="styleSheet">
-                <string notr="true">color: red;</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
               </widget>
              </item>
             </layout>
@@ -434,225 +422,6 @@ QFrame#room_filter_container
                   </layout>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QLabel" name="message_stay_infor_lb">
-                  <property name="styleSheet">
-                   <string notr="true">color: red;</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QFrame" name="room_information_container">
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Panel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QWidget" name="horizontalWidget_13" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
-                <item>
-                 <widget class="QLabel" name="label_13">
-                  <property name="text">
-                   <string>Room Information</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_10" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="5,5">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QWidget" name="widget_6" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_9">
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="text">
-                      <string>Type Room</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="type_room_lb">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QWidget" name="widget_7" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_10">
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="text">
-                      <string>Type Bed</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="type_bed_lb">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_25" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="5,5">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QWidget" name="widget_8" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_18">
-                   <item>
-                    <widget class="QLabel" name="label_20">
-                     <property name="text">
-                      <string>Maximum People</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="maxinum_people_lb">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QWidget" name="widget_26" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_21">
-                   <item>
-                    <widget class="QLabel" name="label_21">
-                     <property name="text">
-                      <string>Price</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="price_lb">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_27" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="5">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QWidget" name="widget_21" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_19">
-                   <item>
-                    <widget class="QLabel" name="label_25">
-                     <property name="text">
-                      <string>Room</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="room_lb">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget_12" native="true">
-               <layout class="QHBoxLayout" name="horizontalLayout_14">
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
                </layout>
               </widget>
              </item>
@@ -840,23 +609,558 @@ QFrame#room_filter_container
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="message_room_infor_lb_2">
+              <widget class="QFrame" name="room_information_container">
                <property name="styleSheet">
-                <string notr="true">color: red;</string>
+                <string notr="true"/>
                </property>
-               <property name="text">
-                <string/>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
                </property>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <widget class="QWidget" name="horizontalWidget_13" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <item>
+                    <widget class="QLabel" name="label_13">
+                     <property name="text">
+                      <string>Room Information</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_10" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="5,5">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="widget_6" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_9">
+                      <item>
+                       <widget class="QLabel" name="label_9">
+                        <property name="text">
+                         <string>Type Room</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="type_room_lb">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_7" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_10">
+                      <item>
+                       <widget class="QLabel" name="label_10">
+                        <property name="text">
+                         <string>Type Bed</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="type_bed_lb">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_25" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="5,5">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="widget_8" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_18">
+                      <item>
+                       <widget class="QLabel" name="label_20">
+                        <property name="text">
+                         <string>Maximum People</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="maxinum_people_lb">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_26" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_21">
+                      <item>
+                       <widget class="QLabel" name="label_21">
+                        <property name="text">
+                         <string>Price</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="price_lb">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_27" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="5">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="widget_21" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_19">
+                      <item>
+                       <widget class="QLabel" name="label_25">
+                        <property name="text">
+                         <string>Room</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="room_lb">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_12" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="service_container" native="true">
+           <widget class="QFrame" name="service_container">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Panel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QWidget" name="horizontalWidget_15" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_21">
+                <item>
+                 <widget class="QLabel" name="label_22">
+                  <property name="text">
+                   <string>Service</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_22" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_28" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_26" stretch="3,3">
+                <item>
+                 <widget class="QWidget" name="widget_32" native="true">
+                  <layout class="QVBoxLayout" name="verticalLayout_22">
+                   <item>
+                    <widget class="QListView" name="service_lw"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_34" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_27">
+                   <item>
+                    <widget class="QWidget" name="widget_35" native="true">
+                     <layout class="QVBoxLayout" name="verticalLayout_26">
+                      <item>
+                       <widget class="QLineEdit" name="search_service">
+                        <property name="placeholderText">
+                         <string>Enter name of service to find</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QComboBox" name="services_cb">
+                        <property name="editable">
+                         <bool>false</bool>
+                        </property>
+                        <property name="frame">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="add_service_btn">
+                     <property name="text">
+                      <string>Add</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_33" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_36" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_38" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="bill_container">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Panel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_27">
+             <item>
+              <widget class="QWidget" name="horizontalWidget_16" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_28">
+                <item>
+                 <widget class="QLabel" name="label_23">
+                  <property name="text">
+                   <string>Bill</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_37" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_29">
+                <item>
+                 <widget class="QWidget" name="widget_39" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_28">
+                   <item>
+                    <widget class="QLabel" name="label_24">
+                     <property name="text">
+                      <string>Room Price</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="room_price_lb">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_40" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_29">
+                   <item>
+                    <widget class="QLabel" name="label_26">
+                     <property name="text">
+                      <string>Duration</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="duration_lb">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_41" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_30">
+                   <item>
+                    <widget class="QLabel" name="label_29">
+                     <property name="text">
+                      <string>Room Total Price</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="room_total_price_lb">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_42" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_31">
+                   <item>
+                    <widget class="QLabel" name="label_27">
+                     <property name="text">
+                      <string>Service Total Price</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="service_total_price_lb">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_43" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_32" stretch="5,5">
+                   <item>
+                    <widget class="QLabel" name="label_28">
+                     <property name="text">
+                      <string>Prepaid</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="prepaid_ld"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="frameShadow">
+                   <enum>QFrame::Plain</enum>
+                  </property>
+                  <property name="lineWidth">
+                   <number>1</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_44" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_33">
+                   <item>
+                    <widget class="QLabel" name="label_30">
+                     <property name="font">
+                      <font>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                       <underline>false</underline>
+                       <strikeout>false</strikeout>
+                       <kerning>true</kerning>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Total Price</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="total_price_lb">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="message_lb">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="btn_container" native="true">
             <property name="styleSheet">
              <string notr="true"/>
             </property>

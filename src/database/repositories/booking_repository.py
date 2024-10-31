@@ -38,28 +38,38 @@ class BookingRepository(Repository[T]):
             _filter.append(Room.price >= price_min)
         if price_max != 0:
             _filter.append(Room.price <= price_max)
-
-        query = (
-            self.session.query(Room)
-            .outerjoin(Booking, Booking.room_id == Room.id)
-            .filter(and_(
-                or_(
-                    Booking.id == None,
-                    Booking.is_canceled == True,
-                    and_(
-                        Booking.is_canceled == False,
-                        or_(
-                            Booking.start_date >= end_date,
-                            Booking.end_date <= start_date
+        with self.session.no_autoflush:
+            query = (
+                self.session.query(Room)
+                .outerjoin(Booking, Booking.room_id == Room.id)
+                .options(joinedload(Room.bed_types), joinedload(Room.bookings))
+                .filter(and_(
+                    or_(
+                        Booking.id == None,
+                        Booking.is_canceled == True,
+                        and_(
+                            Booking.is_canceled == False,
+                            or_(
+                                Booking.start_date >= end_date,
+                                Booking.end_date <= start_date
+                            )
                         )
-                    )
-                ),
-                *_filter
-            ))
-            .distinct()
-        )
+                    ),
+                    *_filter
+                ))
+                .distinct()
+            )
+            rooms = query.all()
 
-        return query.all()
+            # Manually add the queried rooms and bookings to the session if necessary
+            for room in rooms:
+                if room not in self.session:
+                    self.session.add(room)
+                for booking in room.bookings:
+                    if booking not in self.session:
+                        self.session.add(booking)
+
+        return rooms
 
     def create(self, booking):
         self.session.add(booking)

@@ -1,9 +1,11 @@
 from datetime import datetime
 
-from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog
+from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog, QMessageBox
 
+from utils.logging import app_logger
 from components.messagebox.popup import BasePopup
 from database.models.booking import Booking
+from designer.style import STYLE
 from services.booking_service import BookingService
 from ui.scene.booking.booking_adapter import BookingAdapter
 from qt_material import apply_stylesheet
@@ -34,7 +36,7 @@ class BookingScene(QtWidgets.QMainWindow):
         self.init_state()
 
         # Apply theme
-        apply_stylesheet(self, theme='light_blue.xml', extra={'font_size': '15px'})
+        apply_stylesheet(self.ui, theme='light_blue.xml', extra={'font_size': '15px'})
 
     def init_ui(self):
         # Đổ model từ Adapter vào QTableView
@@ -68,8 +70,13 @@ class BookingScene(QtWidgets.QMainWindow):
         b = BookingDialog()
         b.exec()
         if b.booking is not None:
-            MessageBox = BasePopup("Booking Message", "Booking successfully")
-            MessageBox.exec()
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Booking Message")
+            msg_box.setText("Booking successfully")
+            msg_box.setIcon(QMessageBox.Information)
+
+            msg_box.setStandardButtons(QMessageBox.Ok)
+            msg_box.exec_()
             self.refresh_data()
 
     def show_context_menu(self, pos):
@@ -77,6 +84,7 @@ class BookingScene(QtWidgets.QMainWindow):
 
         if model_index.isValid():  # Kiểm tra nếu vị trí nhấp là hợp lệ
             menu = QMenu(self)  # Tạo một menu
+            menu.setStyleSheet(STYLE.MENU.value)
             action_edit = menu.addAction("Edit")
             action_details = menu.addAction("View Details")
             item = self.adapter.get_item(model_index.row())
@@ -100,7 +108,7 @@ class BookingScene(QtWidgets.QMainWindow):
 
     def edit_item(self, index):
         item = self.adapter.get_item(index.row())
-        print(item)
+        app_logger.info(item)
 
     def view_details(self, index):
         BookingDetailDialog(self.adapter.get_item(index)).exec()
@@ -118,12 +126,10 @@ class BookingScene(QtWidgets.QMainWindow):
             d.exec()
             result = d.get_checkout_result()
             if result is not None:
-                MessageBox = BasePopup("Booking Message", "Payment successfully")
-                MessageBox.exec()
+                BasePopup("Booking Message", "Payment successfully")
                 self.refresh_data()
             else:
-                MessageBox = BasePopup("Booking Message", "You must payment before exit")
-                MessageBox.exec()
+                BasePopup("Booking Message", "You must payment before exit")
 
     def checkin(self):
         row_index = self.ui.booking_data_table.selectionModel().currentIndex().row()

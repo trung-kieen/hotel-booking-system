@@ -22,3 +22,10 @@ class RoomRepository(Repository[T]):
     def delete_by_id(self , room_id ) -> None:
         self.session.query(Room).filter_by(id = room_id).delete()
         self.session.commit()
+
+    def count_not_locked(self):
+        return self.session.query(Room).filter_by(is_locked  = False).count()
+
+
+    def count(self):
+        return self.session.query(Room).count()

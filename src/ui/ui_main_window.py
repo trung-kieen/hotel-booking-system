@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_main_window.ui'
+# Form implementation generated from reading ui file '/home/dxlaam/Projects/hotel-booking-system/src/ui/ui_main_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -43,34 +43,77 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.leftNavQwidget = QtWidgets.QWidget(self.widget_container)
         self.leftNavQwidget.setEnabled(True)
-        self.leftNavQwidget.setStyleSheet("background-color: rgb(248, 250, 252);")
+        self.leftNavQwidget.setStyleSheet("QWidget#leftNavQwidget {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton#homeButton, \n"
+"QPushButton#customerButton, \n"
+"QPushButton#reservationButton, \n"
+"QPushButton#roomButton, \n"
+"QPushButton#service_btn, \n"
+"QPushButton#invoice_btn {\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 5px;\n"
+"}\n"
+"QPushButton#homeButton:hover, \n"
+"QPushButton#customerButton:hover, \n"
+"QPushButton#reservationButton:hover, \n"
+"QPushButton#roomButton:hover, \n"
+"QPushButton#service_btn:hover, \n"
+"QPushButton#invoice_btn:hover {\n"
+"    background-color: rgb(220, 220, 220);\n"
+"}\n"
+"QPushButton#homeButton:pressed, \n"
+"QPushButton#customerButton:pressed, \n"
+"QPushButton#reservationButton:pressed, \n"
+"QPushButton#roomButton:pressed, \n"
+"QPushButton#service_btn:pressed, \n"
+"QPushButton#invoice_btn:pressed {\n"
+"    background-color: rgb(200, 200, 200);\n"
+"}")
         self.leftNavQwidget.setObjectName("leftNavQwidget")
-        self.leftNavigationBar = QtWidgets.QVBoxLayout(self.leftNavQwidget)
-        self.leftNavigationBar.setContentsMargins(0, 10, 0, 10)
-        self.leftNavigationBar.setSpacing(10)
-        self.leftNavigationBar.setObjectName("leftNavigationBar")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.leftNavQwidget)
+        self.verticalLayout_2.setContentsMargins(0, -1, 0, -1)
+        self.verticalLayout_2.setSpacing(15)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.homeButton = QtWidgets.QPushButton(self.leftNavQwidget)
+        self.homeButton.setMinimumSize(QtCore.QSize(0, 40))
+        self.homeButton.setStyleSheet("boder: none")
+        self.homeButton.setFlat(False)
+        self.homeButton.setObjectName("homeButton")
+        self.verticalLayout_2.addWidget(self.homeButton)
         self.customerButton = QtWidgets.QPushButton(self.leftNavQwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.customerButton.sizePolicy().hasHeightForWidth())
         self.customerButton.setSizePolicy(sizePolicy)
-        self.customerButton.setMinimumSize(QtCore.QSize(150, 40))
-        self.customerButton.setFlat(True)
+        self.customerButton.setMinimumSize(QtCore.QSize(0, 40))
+        self.customerButton.setFlat(False)
         self.customerButton.setObjectName("customerButton")
-        self.leftNavigationBar.addWidget(self.customerButton)
+        self.verticalLayout_2.addWidget(self.customerButton)
         self.reservationButton = QtWidgets.QPushButton(self.leftNavQwidget)
         self.reservationButton.setMinimumSize(QtCore.QSize(150, 40))
-        self.reservationButton.setFlat(True)
+        self.reservationButton.setFlat(False)
         self.reservationButton.setObjectName("reservationButton")
-        self.leftNavigationBar.addWidget(self.reservationButton)
+        self.verticalLayout_2.addWidget(self.reservationButton)
         self.roomButton = QtWidgets.QPushButton(self.leftNavQwidget)
         self.roomButton.setMinimumSize(QtCore.QSize(150, 40))
-        self.roomButton.setFlat(True)
+        self.roomButton.setFlat(False)
         self.roomButton.setObjectName("roomButton")
-        self.leftNavigationBar.addWidget(self.roomButton)
+        self.verticalLayout_2.addWidget(self.roomButton)
+        self.service_btn = QtWidgets.QPushButton(self.leftNavQwidget)
+        self.service_btn.setMinimumSize(QtCore.QSize(150, 40))
+        self.service_btn.setFlat(False)
+        self.service_btn.setObjectName("service_btn")
+        self.verticalLayout_2.addWidget(self.service_btn)
+        self.invoice_btn = QtWidgets.QPushButton(self.leftNavQwidget)
+        self.invoice_btn.setMinimumSize(QtCore.QSize(150, 40))
+        self.invoice_btn.setFlat(False)
+        self.invoice_btn.setObjectName("invoice_btn")
+        self.verticalLayout_2.addWidget(self.invoice_btn)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.leftNavigationBar.addItem(spacerItem)
+        self.verticalLayout_2.addItem(spacerItem)
         self.horizontalLayout_2.addWidget(self.leftNavQwidget)
         self.stackedWidget = QtWidgets.QStackedWidget(self.widget_container)
         self.stackedWidget.setStyleSheet("background-color: rgb(248, 250, 252);")
@@ -82,10 +125,6 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1080, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(-1)
@@ -93,17 +132,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Hotel Management"))
+        self.homeButton.setText(_translate("MainWindow", "Home"))
         self.customerButton.setText(_translate("MainWindow", "Customer"))
-        self.reservationButton.setText(_translate("MainWindow", "Reservation"))
+        self.reservationButton.setText(_translate("MainWindow", "Booking"))
         self.roomButton.setText(_translate("MainWindow", "Rooms"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+        self.service_btn.setText(_translate("MainWindow", "Service"))
+        self.invoice_btn.setText(_translate("MainWindow", "Invoice"))

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1080</width>
-    <height>720</height>
+    <height>718</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Hotel Management</string>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
@@ -73,24 +73,64 @@
              <bool>true</bool>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(248, 250, 252);</string>
+             <string notr="true">QWidget#leftNavQwidget {
+    background-color: rgb(255, 255, 255);
+}
+QPushButton#homeButton, 
+QPushButton#customerButton, 
+QPushButton#reservationButton, 
+QPushButton#roomButton, 
+QPushButton#service_btn, 
+QPushButton#invoice_btn {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+QPushButton#homeButton:hover, 
+QPushButton#customerButton:hover, 
+QPushButton#reservationButton:hover, 
+QPushButton#roomButton:hover, 
+QPushButton#service_btn:hover, 
+QPushButton#invoice_btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+QPushButton#homeButton:pressed, 
+QPushButton#customerButton:pressed, 
+QPushButton#reservationButton:pressed, 
+QPushButton#roomButton:pressed, 
+QPushButton#service_btn:pressed, 
+QPushButton#invoice_btn:pressed {
+    background-color: rgb(200, 200, 200);
+}</string>
             </property>
-            <layout class="QVBoxLayout" name="leftNavigationBar">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <property name="spacing">
-              <number>10</number>
+              <number>15</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
              </property>
-             <property name="topMargin">
-              <number>10</number>
-             </property>
              <property name="rightMargin">
               <number>0</number>
              </property>
-             <property name="bottomMargin">
-              <number>10</number>
-             </property>
+             <item>
+              <widget class="QPushButton" name="homeButton">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">boder: none</string>
+               </property>
+               <property name="text">
+                <string>Home</string>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="customerButton">
                <property name="sizePolicy">
@@ -101,7 +141,7 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>150</width>
+                 <width>0</width>
                  <height>40</height>
                 </size>
                </property>
@@ -109,7 +149,7 @@
                 <string>Customer</string>
                </property>
                <property name="flat">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -122,10 +162,10 @@
                 </size>
                </property>
                <property name="text">
-                <string>Reservation</string>
+                <string>Booking</string>
                </property>
                <property name="flat">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -141,7 +181,39 @@
                 <string>Rooms</string>
                </property>
                <property name="flat">
-                <bool>true</bool>
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="service_btn">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Service</string>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="invoice_btn">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Invoice</string>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -180,17 +252,9 @@
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1080</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource/resource_rc.qrc"/>
+ </resources>
  <connections/>
 </ui>
