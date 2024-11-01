@@ -12,7 +12,7 @@ from database.models.room import Room, RoomType
 from database.models.service import Service
 from database.repositories.base_repository import Repository
 from database.repositories.booking_repository import BookingRepository
-from ui.scene.booking.constant.booking_status import BookingStatus
+from components.scene.booking.constant.booking_status import BookingStatus
 from utils.singleton import singleton
 
 

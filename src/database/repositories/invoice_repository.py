@@ -8,7 +8,7 @@ from database.models.booking import Booking
 from database.models.customer import Customer
 from database.models.invoice import Invoice, PaymentStatus
 from database.repositories.base_repository import Repository
-from ui.scene.booking.constant.booking_status import BookingStatus
+from components.scene.booking.constant.booking_status import BookingStatus
 
 
 class InvoiceRepository[T](Repository[T]):

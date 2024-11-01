@@ -5,13 +5,13 @@ Use to customize component style
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QMainWindow
 import sys
 import math
-from ui.scene.customer.customer_scene import CustomerScene
-from ui.scene.booking.booking_scene import BookingScene
-from ui.scene.invoice.invoice_scence import InvoiceScene
-from ui.scene.room.room_scene import RoomScene
+from components.scene.customer.customer_scene import CustomerScene
+from components.scene.booking.booking_scene import BookingScene
+from components.scene.invoice.invoice_scence import InvoiceScene
+from components.scene.room.room_scene import RoomScene
 from ui.ui_main_window import Ui_MainWindow
-from ui.scene.home.home_scene import HomeScene
-from ui.scene.service.service_scene import ServiceScene
+from components.scene.home.home_scene import HomeScene
+from components.scene.service.service_scene import ServiceScene
 
 
 class AppWindow(QMainWindow):
