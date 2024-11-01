@@ -6,6 +6,7 @@ from database.models.booking import Booking
 from database.models.customer import Customer
 from database.models.invoice import Invoice
 from database.models.room import Room, RoomType
+from database.models.service import Service
 from database.repositories.base_repository import Repository
 from database.repositories.booking_repository import BookingRepository
 from ui.scene.booking.constant.booking_status import BookingStatus
@@ -53,10 +54,13 @@ class BookingService:
                                           end_date)
         return a
 
-    def create_booking(self, cus_id, type_booking, start_date, end_date, num_adult, num_child,
-                       room_id, services=None):
+    def create_booking(self, cus_id, type_booking, start_date, end_date, num_adult, num_child, room_id, services=None):
+        # Lấy room và chắc chắn nó đã ở trong session
+        room = self.booking_repo.session.query(Room).get(room_id)
+        if room is None:
+            raise ValueError("The specified room does not exist.")
 
-        # Tạo một đối tượng Booking mới
+        # Tạo Booking mới
         b = Booking(
             customer_id=cus_id,
             booking_type=type_booking,
@@ -64,19 +68,26 @@ class BookingService:
             end_date=end_date,
             num_adults=num_adult,
             num_children=num_child,
-            room_id=room_id,
+            room=room  # Gán room trực tiếp
         )
 
-        self.booking_repo.insert(b)
+        # Thêm Booking vào session
+        self.booking_repo.insert(b)  # Đảm bảo thêm Booking vào session
 
         if services:
             for service in services:
-                from database.models.booking_service import BookingService
-                booking_service = BookingService(booking_id=b.id, service_id=service.id)
-                b.booking_services.append(booking_service)
+                # Kiểm tra và thêm service vào session nếu chưa có
+                existing_service = self.booking_repo.session.query(Service).get(service.id)
+                if existing_service:
+                    # Nếu dịch vụ đã tồn tại, chỉ cần thêm vào booking
+                    b.services.append(existing_service)
+                else:
+                    # Nếu dịch vụ chưa có, thực hiện merge
+                    merged_service = self.booking_repo.session.merge(service)  # Merge dịch vụ
+                    b.services.append(merged_service)
 
+        # Commit sau khi đã thêm tất cả
         self.booking_repo.update(b)
-
         return b
 
     def check_room_available(self, room_id, start_date, end_date):

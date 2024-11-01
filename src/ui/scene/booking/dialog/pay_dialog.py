@@ -59,7 +59,7 @@ class PayDialog(QDialog):
         self.ui.room_type_lb.setText(booking.room.room_type.value)
 
     def init_service_info(self, booking: Booking):
-        data = [booking_service.service for booking_service in booking.booking_services]
+        data = [service for service in booking.services]
         if len(data):
             adapter = ServiceAdapter()
             adapter.set_items(data)
@@ -152,3 +152,4 @@ class PayDialog(QDialog):
         self._booking = booking
         booking.invoice.status = PaymentStatus.Done
         BookingService().update_invoice(booking.invoice)
+        self.accept()

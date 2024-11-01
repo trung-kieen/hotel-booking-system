@@ -34,7 +34,7 @@ class Booking(Base, AuditCreation):
 
     room_id = Column(Integer, ForeignKey("rooms.id", ondelete='RESTRICT'))
 
-    room = relationship("Room", backref="rooms")
+    room = relationship("Room", back_populates="bookings")
 
     is_canceled = Column(Boolean, default=False, nullable=False)
 

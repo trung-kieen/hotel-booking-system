@@ -9,9 +9,9 @@ class BookingService(Base):
     service_id = Column(Integer, ForeignKey("services.id"))
     booking_id = Column(Integer, ForeignKey("bookings.id"))
 
-    # Quan hệ với Service và Booking
-    service = relationship("Service", backref="booking_services")
-    booking = relationship("Booking", backref="booking_services")
+    # # Quan hệ với Service và Booking
+    # service = relationship("Service", backref="booking_services")
+    # booking = relationship("Booking", backref="booking_services")
 
     __table_args__ = (
         {}

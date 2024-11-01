@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="images">
     <file>invoice-icon.png</file>
+    <file>resource_rc.py</file>
     <file>search.png</file>
     <file>dropdown.png</file>
     <file>dot-vertical.png</file>
