@@ -13,7 +13,10 @@ from enum import Enum
 
 
 from database.models.room import Room
-from services.room_service import  FormComboboxAdapter, BedRoomManager, RoomService, bed_types, floor_members, room_type_members
+from services.room_service import  RoomService
+from ui.scene.room.bed_room_items import BedRoomManager
+from ui.scene.room.combobox_manager import FormComboboxAdapter
+from ui.scene.room.room_helpers import bed_types, floor_members, room_type_members
 from ui.ui_room_dialog import  Ui_Dialog
 from utils.decorator import handle_exception
 

@@ -1,6 +1,8 @@
 """
 Author: Nguyen Khac Trung Kien
 """
+from ui.scene.room.combobox_manager import ComboboxFilterAdapter
+from ui.scene.room.room_helpers import floor_members, lock_members, query_condition_translator, room_type_members
 from utils.logging import app_logger
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QModelIndex, Qt
@@ -13,7 +15,7 @@ from ui.scene.room.room_dialog import RoomDialog
 from utils.decorator import handle_exception
 from utils.query import query_get_room_by_total_capacity
 from database.table_model import adjust_size, fill_data
-from services.room_service import ComboboxFilterAdapter, RoomService, floor_members, lock_members,  query_condition_translator, room_type_members
+from services.room_service import RoomService
 from ui.ui_room_scene import Ui_RoomScene
 
 
