@@ -12,7 +12,6 @@ from designer.style import adjust_cmb, apply_theme, adjust_view_table, set_style
 from ui.scene.room.room_dialog import RoomDialog
 from utils.decorator import handle_exception
 from utils.query import query_get_room_by_total_capacity
-from database.repositories.floor_repository import FloorRepository
 from database.table_model import adjust_size, fill_data
 from services.room_service import ComboboxFilterAdapter, RoomService, floor_members, lock_members,  query_condition_translator, room_type_members
 from ui.ui_room_scene import Ui_RoomScene
@@ -44,8 +43,11 @@ class RoomScene( QtWidgets.QMainWindow ):
 
 
     def _init_ui(self):
-        apply_stylesheet(self, theme='light_blue.xml', extra={'font_size': '15px'})
+        apply_stylesheet(self.ui.tableView, theme='light_blue.xml')
         self.setStyleSheet("background-color: #FFFFFF")
+        self.ui.tableView.setStyleSheet("""
+        background-color: white;
+        """)
         self.setCentralWidget(self.ui.containerQwidget )
 
         apply_theme(self.ui.tableView)

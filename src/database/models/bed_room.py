@@ -1,11 +1,11 @@
+"""
+Author: Dang Xuan Lam
+"""
 from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey
 from sqlalchemy.orm import Relationship, backref, defaultload, relationship
 
 from database.models.audit import  AuditCreation
 from database.orm import Base
-"""
-Author: Dang Xuan Lam
-"""
 class BedRoom(Base):
     __tablename__ = "bed_rooms"
 

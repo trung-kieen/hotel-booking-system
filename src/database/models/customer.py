@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from sqlalchemy import DECIMAL, CheckConstraint, Column, Date, Enum, Integer, String, ForeignKey, func
 from sqlalchemy.orm import Relationship, backref, relationship
 from enum import Enum as enum

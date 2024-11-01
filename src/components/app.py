@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from utils.constants import APP_NAME
 import sys
 from components.app_window import AppWindow

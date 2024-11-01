@@ -1,13 +1,11 @@
-
-
+"""
+Author: Dang Xuan Lam
+"""
 from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey
 from sqlalchemy.orm import Relationship, backref, defaultload, relationship
 
 from database.models.audit import  AuditCreation
 from database.orm import Base
-"""
-Author: Dang Xuan Lam
-"""
 class BedType(Base):
     __tablename__ = "bed_types"
 
@@ -19,4 +17,3 @@ class BedType(Base):
     def __repr__(self):
         return (f"<{self.__class__.__name__}(id={self.id}, "
                 f"name='{self.name}', capacity={self.capacity})>")
-

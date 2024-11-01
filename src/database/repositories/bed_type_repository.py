@@ -1,3 +1,7 @@
+"""
+Author: Nguyen Khac Trung Kien
+Database interaction with model BedType
+"""
 
 from typing import TypeVar
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kai/project/hotel-management/src/ui/ui_room_scene.ui'
+# Form implementation generated from reading ui file '/home/trungkieen/project/hotel-booking-system/src/ui/ui_room_scene.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -17,6 +17,7 @@ class Ui_RoomScene(object):
         RoomScene.resize(800, 600)
         self.containerQwidget = QtWidgets.QWidget(RoomScene)
         self.containerQwidget.setGeometry(QtCore.QRect(0, 10, 791, 581))
+        self.containerQwidget.setStyleSheet("background-color: #FFFFFF")
         self.containerQwidget.setObjectName("containerQwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.containerQwidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -29,6 +30,11 @@ class Ui_RoomScene(object):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.label = QtWidgets.QLabel(self.containerQwidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.headerLayout = QtWidgets.QHBoxLayout()

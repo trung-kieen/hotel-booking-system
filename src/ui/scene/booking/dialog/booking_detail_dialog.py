@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QDialog, QHeaderView

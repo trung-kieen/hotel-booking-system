@@ -1,5 +1,5 @@
 """
-Author: Nguyen Khac Trung Kien
+Author: Dang Xuan Lam
 """
 import enum
 
@@ -9,9 +9,6 @@ from sqlalchemy import DECIMAL, Boolean, CheckConstraint, Column, DateTime, Inte
 from database.models.audit import AuditCreation
 from database.orm import Base
 
-"""
-Author: Dang Xuan Lam
-"""
 
 
 class RoomType(enum.Enum):

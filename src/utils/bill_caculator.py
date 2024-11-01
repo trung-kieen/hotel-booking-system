@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from database.models.booking import Booking, BookingType
 from utils.invoice_caculator import BookingPriceCalculator
 

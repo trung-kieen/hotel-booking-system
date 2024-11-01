@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 import abc
 from abc import abstractmethod
 from typing import TypeVar, Generic, Iterable, Any

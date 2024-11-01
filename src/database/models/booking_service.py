@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from sqlalchemy import Column, Integer, ForeignKey, CheckConstraint
 from sqlalchemy.orm import relationship
 from database.orm import Base

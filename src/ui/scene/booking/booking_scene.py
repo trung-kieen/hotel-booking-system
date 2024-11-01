@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from datetime import datetime
 
 from PyQt5.QtWidgets import QHeaderView, QMenu, QDialog, QMessageBox

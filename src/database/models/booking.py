@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 import enum
 
 from sqlalchemy import Boolean, CheckConstraint, Column, DateTime, Integer, String, ForeignKey, Enum
@@ -44,7 +47,7 @@ class Booking(Base, AuditCreation):
 
     # Quan hệ nhiều-nhiều với Service thông qua bảng trung gian BookingService
     services = relationship("Service", secondary="booking_services", back_populates="bookings")
-        
+
     __table_args__ = (
         CheckConstraint(num_children >= 0, name='CK_num_children_positive'),
         CheckConstraint(num_adults >= 0, name='CK_num_adults_positive'),

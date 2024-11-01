@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
                              QComboBox, QCheckBox, QDateEdit, QPushButton, QFormLayout)
 from PyQt5.QtCore import QDate, Qt

@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 import datetime
 
 from sqlalchemy import func

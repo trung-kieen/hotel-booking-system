@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFormLayout
 from database.models.service import Service
 

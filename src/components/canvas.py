@@ -1,5 +1,6 @@
 """
 Author: Nguyen Khac Trung Kien
+Graphic component to display statistic on home window using matplotlib
 """
 from datetime import datetime
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas

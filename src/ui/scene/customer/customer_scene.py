@@ -1,3 +1,6 @@
+"""
+Author: Hoang Le Thuy Hoa
+"""
 from PyQt5 import QtWidgets, QtCore
 from database.models.customer import Customer
 from database.engine import EngineHolder

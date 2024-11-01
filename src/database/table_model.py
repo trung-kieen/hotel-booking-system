@@ -1,5 +1,6 @@
 """
 Author: Nguyen Khac Trung Kien
+QT5 built-in method to load data to QTableView instead of mapping result set
 """
 import logging
 

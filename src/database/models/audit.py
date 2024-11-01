@@ -1,4 +1,6 @@
-
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, func
 from sqlalchemy.orm import Relationship

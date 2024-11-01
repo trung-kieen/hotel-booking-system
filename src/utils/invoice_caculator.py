@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from datetime import datetime, timedelta, time
 from decimal import Decimal
 

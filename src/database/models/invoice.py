@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 import enum
 from datetime import datetime
 

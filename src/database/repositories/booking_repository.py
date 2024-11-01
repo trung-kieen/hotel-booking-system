@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from typing import Iterable
 
 from sqlalchemy import select, func, and_, or_

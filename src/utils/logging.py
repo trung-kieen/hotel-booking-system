@@ -1,5 +1,6 @@
 """
 Author: Nguyen Khac Trung Kien
+Setup logging for console, file separate
 """
 import logging
 

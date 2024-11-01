@@ -1,3 +1,7 @@
+"""
+Author: Nguyen Khac Trung Kien
+Manager instance life cycle
+"""
 def singleton(class_):
     instances = {}
     def getinstance(*args, **kwargs):

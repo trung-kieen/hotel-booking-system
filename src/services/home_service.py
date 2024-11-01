@@ -1,5 +1,6 @@
 """
 Author: Nguyen Khac Trung Kien
+Wraping detail how to work with data in service layer
 """
 from collections.abc import Iterable
 

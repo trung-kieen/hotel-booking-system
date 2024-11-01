@@ -1,5 +1,6 @@
 """
 Author: Dang Xuan Lam
+Loading sample data to stimulate real working application
 """
 import random
 from datetime import datetime, timedelta

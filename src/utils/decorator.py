@@ -1,5 +1,6 @@
 """
 Author: Nguyen Khac Trung Kien
+Reduce boilterplate code with some magical 😆
 """
 
 
@@ -41,8 +42,9 @@ def transaction(f, business_error_message = "Something went wrong"):
     def f4(a, b, session=Session(), c=10)
     """
     def wrapper(* args ,** kwargs):
-        # Inject both args and kwargs
+        # Inject session instace to method aurgument
         session : SessionType  = kwargs.get("session", Session())
+        # TODO: Create custom exception class and handle for this exception
         try:
             session.begin()
             f(*args, session = session  ,  **kwargs)
@@ -62,3 +64,7 @@ def transaction(f, business_error_message = "Something went wrong"):
         finally:
             session.close()
     return wrapper
+
+
+
+# TODO: Loggin for application event base on method, function name

@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from datetime import datetime
 
 from PyQt5.QtCore import Qt

@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from database.models.invoice import Invoice
 from database.repositories.base_repository import Repository
 from database.repositories.invoice_repository import InvoiceRepository

@@ -1,5 +1,7 @@
 """
 Author: Nguyen Khac Trung Kien
+Common style using for component
+Application theme powered by qt_material library
 """
 from enum import Enum
 

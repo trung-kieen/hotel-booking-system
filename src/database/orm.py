@@ -1,4 +1,9 @@
-
+"""
+Author: Nguyen Khac Trung Kien
+Manager orm session
+Bootstrap database from entity model
+Handle circle import while bind engine
+"""
 
 from sqlalchemy import Engine, MetaData
 from sqlalchemy.orm import sessionmaker

@@ -1,3 +1,7 @@
+"""
+Author: Nguyen Khac Trung Kien
+Database interaction with model BedRoom
+"""
 
 from collections.abc import Iterable
 from typing import TypeVar

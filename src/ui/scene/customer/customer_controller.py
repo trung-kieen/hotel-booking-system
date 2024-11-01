@@ -1,3 +1,6 @@
+"""
+Author: Hoang Le Thuy Hoa
+"""
 from database.models.customer import Customer
 from database.repositories.base_repository import Repository
 from utils.singleton import singleton

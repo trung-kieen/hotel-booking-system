@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtWidgets import QHeaderView, QMenu

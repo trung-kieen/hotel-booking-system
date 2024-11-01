@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from sqlalchemy import DECIMAL, CheckConstraint, Column, Integer, String
 from sqlalchemy.orm import relationship
 
