@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from PyQt5.QtWidgets import QComboBox
 
 

@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from collections.abc import Iterable
 from database.models.bed_room import BedRoom
 from database.models.bed_type import BedType

@@ -1,3 +1,6 @@
+"""
+Author: Dang Xuan Lam
+"""
 from PyQt5 import QtWidgets, QtCore
 
 

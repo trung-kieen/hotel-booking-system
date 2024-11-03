@@ -1,3 +1,6 @@
+"""
+Author: Nguyen Khac Trung Kien
+"""
 from database.models.bed_room import BedRoom
 from collections.abc import Iterable
 from database.models.bed_type import BedType
@@ -77,4 +80,3 @@ def room_type_members() -> Iterable:
     Use to create `ComboboxFilter()`
     """
     return tuple((room.name , room.name) for room in RoomType)
-
