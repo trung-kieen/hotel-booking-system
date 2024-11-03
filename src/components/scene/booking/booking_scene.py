@@ -92,10 +92,10 @@ class BookingScene(QtWidgets.QMainWindow):
             item = self.adapter.get_item(model_index.row())
             if item is not None:
                 s = BookingStatus.get_status(item)
-                if s == BookingStatus.InActive or s == BookingStatus.Late:
+                if (s == BookingStatus.InActive and item.checkin is not None) or s == BookingStatus.Late:
                     action_checkout = menu.addAction("Checkout")
                     action_checkout.triggered.connect(self.checkout)
-                elif s == BookingStatus.InComing:
+                elif s == BookingStatus.InComing or (s == BookingStatus.InActive and item.checkin is None):
                     action_checkin = menu.addAction("Checkin")
                     action_checkin.triggered.connect(self.checkin)
                 if s == BookingStatus.InComing:
@@ -139,15 +139,15 @@ class BookingScene(QtWidgets.QMainWindow):
         if item is not None:
             s = BookingStatus.get_status(item)
             now = datetime.now()
-            if s == BookingStatus.InComing or s == BookingStatus.Late:
-                if item.start_date <= now:
+            if s == BookingStatus.InActive or s == BookingStatus.Late:
+                if item.start_date.date() <= now.date():
                     item.checkin = now
                     self.service.update_booking(item)
                     self.adapter.update_item(row_index, item)  # Cập nhật item trong adapter
                 else:
-                    BasePopup(f"Booking Message", "Cannot check in before the start time.").exec()
+                    BasePopup(f"Booking Message", "Cannot check in before the start time.")
             else:
-                BasePopup(f"Booking Message", f"Cannot check in due to status: {s}.").exec()
+                BasePopup(f"Booking Message", f"Cannot check in due to status: {s}.")
 
     def refresh_data(self):
         self.init_state()

@@ -155,11 +155,11 @@ def _fake_invoice_for_booking():
             total_price=bill_details['total_price_lb'],
             booking_id=booking.id,
             prepaid=0,  # Adjust according to your logic for prepayments
-            status=  PaymentStatus.Done if booking.checkin and booking.checkout else PaymentStatus.Pending,
+            status=PaymentStatus.Done if booking.checkin and booking.checkout else PaymentStatus.Pending,
         )
         now = datetime.now()
-        five_years_ago = now - timedelta(days=5*365)  # Approximation for 5 years
-        invoice.created_at =  _faker.date_time_between(start_date=five_years_ago, end_date=now)
+        five_years_ago = now - timedelta(days=5 * 365)  # Approximation for 5 years
+        invoice.created_at = _faker.date_time_between(start_date=five_years_ago, end_date=now)
 
         # Link the completed_at date if the booking is completed
         if booking.checkin and booking.checkout:
@@ -296,9 +296,9 @@ _NUM_SERVICES = 10
 def _fake_services():
     services = []
 
-    for _ in range(_NUM_SERVICES):
+    for name in _SERVICE_NAMES:
         service = Service(
-            name=random.choice(_SERVICE_NAMES),
+            name= name,
             price=random.randint(50, 500)
         )
         services.append(service)
