@@ -23,6 +23,7 @@ def main():
     bootstrap(engine)
     fake_data.fake()
 
+    # thuy hoa
     app = App(sys.argv)
     app.run()
 
