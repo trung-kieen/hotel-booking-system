@@ -17,3 +17,23 @@ pip install -Ur requirements.txt
 ```
 python3 main.py
 ```
+___ 
+
+<details><summary><b>Snapshots</b></summary>
+
+Statistic
+![home static](./assets/home_static.png)
+Booking
+![booking](./assets/booking.png)
+![create booking](./assets/create_booking.png)
+Customer
+![customer](./assets/customer.png)
+Room 
+![room edit](./assets/room_edit.png)
+Room service
+![room service](./assets/room_service.png)
+Invoice history
+![invoice history](./assets/invoice_history.png)
+
+</details>
+
